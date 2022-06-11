@@ -1,0 +1,38 @@
+alias vim='lvim'
+
+alias zsh-update-plugins="find "$ZDOTDIR/plugins" -type d -exec test -e '{}/.git' ';' -print0 | xargs -I {} -0 git -C {} pull -q"
+
+# Personal
+alias todo='vim ~/Nextcloud/USER-Emile/todo.md'
+
+alias cfzh='vim ~/.config/zsh/.zshrc'
+alias cfza='vim ~/.config/zsh/zsh-aliases'
+alias cfze='vim ~/.config/zsh/zsh-exports'
+alias cfzf='vim ~/.config/zsh/zsh-fuctions'
+alias cfzp='vim ~/.config/zsh/zsh-prompt'
+alias cfzr='source ~/.config/zsh/.zshrc'
+
+alias cfvim='vim ~/.config/nvim/init.vim'
+
+# Navigation
+alias nautilus='nohup nautilus . &'
+
+# Colorize grep output (good for log files)
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias ls='ls --color=auto'
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+
+# confirm before overwriting something
+alias cpi="cp -i"
+alias mvi='mv -i'
+alias rmi='rm -i'
+
