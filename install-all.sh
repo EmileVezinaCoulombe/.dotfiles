@@ -39,6 +39,29 @@ install_cmd fd-find
 install_cmd ripgrep
 install_cmd stow
 
+# NVM
+if [ ! cmd_exist nvm ]; then
+    wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+fi
+
+nvm install 18
+nvm use 18
+nvm alias default 18
+
+# git
+if [ ! cmd_exist git ]; then
+    install_cmd git-all
+fi
+npm install --location=global git-stats
+npm install --location=global git-stats-importer
+pip install --user git-fame
+
+if [ ! cmd_exist lazygit ]; then
+    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[0-9.]+')
+    curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+    sudo tar xf lazygit.tar.gz -C /usr/local/bin lazygit
+fi
+
 # fzf
 if [ ! cmd_exist fzf ]; then
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
@@ -69,11 +92,6 @@ gh extension install vilmibm/gh-screensaver
 gh extension install korosuke613/gh-user-stars
 gh extension install sheepla/gh-userfetch
 
-# NVM
-if [ ! cmd_exist nvm ]; then
-    wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
-fi
-
 # pyenv
 if [ ! cmd_exist pyenv ]; then
     curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
@@ -103,6 +121,10 @@ install_flatpack org.onlyoffice.desktopeditors
 install_flatpack org.qownnotes.QOwnNotes
 install_flatpack org.raspberrypi.rpi-imager
 install_flatpack org.signal.Signal
+
+# Python
+pip install --user magic-wormhole
+pip install --use debugpy
 
 . ~/.dotfiles/install.sh
 source ~/.config/zsh/.zshrc
