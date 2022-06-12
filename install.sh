@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-STOW_FOLDERS="nvim,zsh,fonts"
+STOW_FOLDERS="nvim,zsh,fonts,git"
 
 if [[ -z $DOTFILES ]]; then
     DOTFILES=$HOME/.dotfiles
