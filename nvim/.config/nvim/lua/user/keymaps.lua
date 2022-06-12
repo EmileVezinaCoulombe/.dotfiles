@@ -17,6 +17,10 @@ vim.g.maplocalleader = " "
 --   term_mode = "t",
 --   command_mode = "c",
 
+-- Warning --
+keymap("n", "<C-q>", ":qa<CR>", opts)
+keymap("n", "<leader>q", ":bd", opts)
+
 -- Normal --
 -- Better window navigation
 keymap("n", "<C-h>", "<C-w>h", opts)
@@ -52,7 +56,7 @@ keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
 keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
--- Multimode
+-- Multimode --
 -- Save
 keymap("n", "<C-s>", "<ESC>:w<CR>", opts)
 keymap("v", "<C-s>", "<ESC>:w<CR>", opts)
@@ -72,12 +76,18 @@ keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
 keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
-keymap("n", "<leader>f", "<cmd>Telescope find_files<cr>", opts)
+-- leader --
+-- f
+keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", opts)
 -- keymap("n", "<leader>f", "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>", opts)
-keymap("n", "<c-t>", "<cmd>Telescope live_grep<cr>", opts)
+keymap("n", "<leader>ft", "<cmd>Telescope live_grep<cr>", opts)
 
--- Nvimtree
+-- e
 keymap("n", "<leader>e", ":NvimTreeToggle<cr>", opts)
 
--- Null ls
+-- c
 keymap("n", "<leader>cf", ":Format<CR>", opts)
+
+-- t
+keymap("n", "<leader>tt", ":ToggleTerm<CR>", opts)
+keymap("n", "<leader>tg", ":lua _LAZYGIT_TOGGLE()<CR>", opts)
