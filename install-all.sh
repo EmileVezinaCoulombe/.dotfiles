@@ -38,6 +38,7 @@ install_cmd zsh
 install_cmd fd-find
 install_cmd ripgrep
 install_cmd stow
+install_cmd xsel
 
 # NVM
 if [ ! cmd_exist nvm ]; then
@@ -124,9 +125,12 @@ install_flatpack org.signal.Signal
 
 # Python
 pip install --user magic-wormhole
-pip install --use debugpy
+pip install --user debugpy
+pip install --user pynvim
 
+# npm
+npm i --location=global neovim
+
+# install config files and reload
 . ~/.dotfiles/install.sh
 source ~/.config/zsh/.zshrc
-
-
