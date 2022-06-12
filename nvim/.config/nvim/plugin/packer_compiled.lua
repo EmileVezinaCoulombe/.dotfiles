@@ -129,6 +129,11 @@ _G.packer_plugins = {
     path = "/home/emile/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
     url = "https://github.com/lewis6991/gitsigns.nvim"
   },
+  ["lazygit.nvim"] = {
+    loaded = true,
+    path = "/home/emile/.local/share/nvim/site/pack/packer/start/lazygit.nvim",
+    url = "https://github.com/kdheepak/lazygit.nvim"
+  },
   ["null-ls.nvim"] = {
     loaded = true,
     path = "/home/emile/.local/share/nvim/site/pack/packer/start/null-ls.nvim",

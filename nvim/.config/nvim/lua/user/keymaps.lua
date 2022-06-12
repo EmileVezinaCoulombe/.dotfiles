@@ -90,4 +90,4 @@ keymap("n", "<leader>cf", ":Format<CR>", opts)
 
 -- t
 keymap("n", "<leader>tt", ":ToggleTerm<CR>", opts)
-keymap("n", "<leader>tg", ":lua _LAZYGIT_TOGGLE()<CR>", opts)
+keymap("n", "<leader>tg", ":LazyGit<CR>", opts)

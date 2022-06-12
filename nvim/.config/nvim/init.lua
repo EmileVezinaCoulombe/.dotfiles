@@ -6,6 +6,7 @@ require "user.lsp"
 require "user.telescope"
 require "user.treesitter"
 require "user.git"
+require "user.lazygit"
 
 require "user.toggleterm"
 require "user.bufferline"
