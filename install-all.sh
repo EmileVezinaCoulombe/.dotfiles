@@ -125,9 +125,14 @@ install_flatpack org.signal.Signal
 
 # Python
 pip install --user magic-wormhole
-pip install --user debugpy
 pip install --user pynvim
 
+mkdir .virtualenvs
+cd .virtualenvs
+python -m venv debugpy
+debugpy/bin/python -m pip install debugpy
+cd ~
+n
 # npm
 npm i --location=global neovim
 

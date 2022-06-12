@@ -1,4 +1,4 @@
-alias vim='lvim'
+alias vim='nvim'
 
 alias zsh-update-plugins="find "$ZDOTDIR/plugins" -type d -exec test -e '{}/.git' ';' -print0 | xargs -I {} -0 git -C {} pull -q"
 
@@ -12,7 +12,7 @@ alias cfzf='vim ~/.config/zsh/zsh-fuctions'
 alias cfzp='vim ~/.config/zsh/zsh-prompt'
 alias cfzr='source ~/.config/zsh/.zshrc'
 
-alias cfvim='vim ~/.config/nvim/init.vim'
+alias cfvim='cd ~/.dotfiles/nvim/.config/nvim && vim'
 
 # Navigation
 alias nautilus='nohup nautilus . &'
