@@ -19,7 +19,7 @@ vim.g.maplocalleader = " "
 
 -- Warning --
 keymap("n", "<C-q>", ":qa<CR>", opts)
-keymap("n", "<leader>q", ":bd", opts)
+keymap("n", "<leader>q", ":bd<CR>", opts)
 
 -- Normal --
 -- Better window navigation
