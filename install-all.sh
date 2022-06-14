@@ -1,4 +1,7 @@
 #!/bin/bash
+sudo apt update
+sudo apt upgrade
+
 PACKAGER_INSTALL="sudo apt install"
 INSTALL_OPTIONS=()
 SECOND_PACKAGER_INSTALL="sudo apt-get install"
@@ -61,9 +64,9 @@ install_cmd () {
 
 }
 
-install_flatpack () {
-    if ! [ flatpak list | grep -q $1 ]; then
-        INSTALL_CMD="flatpack instal $1"
+install_flatpak () {
+    if [[ ! $(flatpak list | grep -q $1) ]]; then
+        INSTALL_CMD="flatpak install $1"
         echo -e "\n${FONT_YELLOW}Installing $1${COLOR_END} with $INSTALL_CMD\n"
         eval $INSTALL_CMD
     fi
@@ -75,14 +78,15 @@ cd ~
 install_cmd zsh
 install_cmd stow
 install_cmd xsel
+install_cmd direnv
 second_install ripgrep
 second_install fd-find
 second_install fonts-powerline
 
 # NVM
-cmd_exist nvim
+cmd_exist nvm
 is_cmd_exist=$?
-if [ is_cmd_exist != 0 ]; then
+if [ $is_cmd_exist != 0 ]; then
     echo -e "\n${FONT_YELLOW}Installing nvm${COLOR_END}\n"
     wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
 fi
@@ -94,7 +98,7 @@ nvm alias default 18
 # git
 cmd_exist git
 is_cmd_exist=$?
-if [ is_cmd_exist != 0 ]; then
+if [ $is_cmd_exist != 0 ]; then
     echo -e "\n${FONT_YELLOW}Installing git${COLOR_END}\n"
     install_cmd git-all
 fi
@@ -105,7 +109,7 @@ npm install --location=global spaceship-prompt
 
 cmd_exist lazygit
 is_cmd_exist=$?
-if [ is_cmd_exist != 0 ]; then
+if [ $is_cmd_exist != 0 ]; then
     echo -e "\n${FONT_YELLOW}Installing lazygit${COLOR_END}\n"
     LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[0-9.]+')
     curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
@@ -115,7 +119,7 @@ fi
 # fzf
 cmd_exist fzf
 is_cmd_exist=$?
-if [ is_cmd_exist != 0 ]; then
+if [ $is_cmd_exist != 0 ]; then
     echo -e "\n${FONT_YELLOW}Installing fzf${COLOR_END}\n"
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     ~/.fzf/install
@@ -125,7 +129,7 @@ fi
 # Nvim
 cmd_exist nvim
 is_cmd_exist=$?
-if [ is_cmd_exist != 0 ]; then
+if [ $is_cmd_exist != 0 ]; then
     echo -e "\n${FONT_YELLOW}Installing nvim${COLOR_END}\n"
     wget https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.deb
     default_install ./nvim-linux64.deb
@@ -135,7 +139,7 @@ fi
 # gh
 cmd_exist gh
 is_cmd_exist=$?
-if [ is_cmd_exist != 0 ]; then
+if [ $is_cmd_exist != 0 ]; then
     echo -e "\n${FONT_YELLOW}Installing gh${COLOR_END}\n"
     curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
@@ -155,35 +159,35 @@ gh extension install sheepla/gh-userfetch
 # pyenv
 cmd_exist pyenv
 is_cmd_exist=$?
-if [ is_cmd_exist != 0 ]; then
+if [ $is_cmd_exist != 0 ]; then
     echo -e "\n${FONT_YELLOW}Installing pyenv${COLOR_END}\n"
     curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 fi
 
-# Flatpack
-install_cmd flatpack
-install_flatpack com.getpostman.Postman
-install_flatpack com.github.IsmaelMartinez.teams_for_linux
-install_flatpack com.github.jeromerobert.pdfarranger
-install_flatpack com.github.maoschanz.drawing
-install_flatpack com.nextcloud.desktopclient.nextcloud
-install_flatpack com.slack.Slack
-install_flatpack com.spotify.Client
-install_flatpack com.uploadedlobster.peek
-install_flatpack com.github.xournalpp.xournalpp
-install_flatpack io.dbeaver.DBeaverCommunity
-install_flatpack io.gitlab.librewolf-community
-install_flatpack md.obsidian.Obsidian
-install_flatpack net.ankiweb.Anki
-install_flatpack org.gnome.Boxes
-install_flatpack org.gnome.Devhelp
-install_flatpack org.kde.okular
-install_flatpack org.kicad.KiCad
-install_flatpack org.mozilla.Thunderbird
-install_flatpack org.onlyoffice.desktopeditors
-install_flatpack org.qownnotes.QOwnNotes
-install_flatpack org.raspberrypi.rpi-imager
-install_flatpack org.signal.Signal
+# Flatpak
+install_cmd flatpak
+install_flatpak com.getpostman.Postman
+install_flatpak com.github.IsmaelMartinez.teams_for_linux
+install_flatpak com.github.jeromerobert.pdfarranger
+install_flatpak com.github.maoschanz.drawing
+install_flatpak com.nextcloud.desktopclient.nextcloud
+install_flatpak com.slack.Slack
+install_flatpak com.spotify.Client
+install_flatpak com.uploadedlobster.peek
+install_flatpak com.github.xournalpp.xournalpp
+install_flatpak io.dbeaver.DBeaverCommunity
+install_flatpak io.gitlab.librewolf-community
+install_flatpak md.obsidian.Obsidian
+install_flatpak net.ankiweb.Anki
+install_flatpak org.gnome.Boxes
+install_flatpak org.gnome.Devhelp
+install_flatpak org.kde.okular
+install_flatpak org.kicad.KiCad
+install_flatpak org.mozilla.Thunderbird
+install_flatpak org.onlyoffice.desktopeditors
+install_flatpak org.qownnotes.QOwnNotes
+install_flatpak org.raspberrypi.rpi-imager
+install_flatpak org.signal.Signal
 
 # Python
 pip install --user magic-wormhole
