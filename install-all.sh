@@ -79,6 +79,7 @@ install_cmd zsh
 install_cmd stow
 install_cmd xsel
 install_cmd direnv
+install_cmd tmux
 second_install ripgrep
 second_install fd-find
 second_install fonts-powerline

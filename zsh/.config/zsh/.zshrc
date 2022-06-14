@@ -126,3 +126,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fpath=($fpath "/home/evc/.config/zsh/.zfunctions")
 fpath=($fpath "/home/evc/.config/zsh/.zfunctions")
 fpath=($fpath "/home/evc/.config/zsh/.zfunctions")
+fpath=($fpath "/home/evc/.config/zsh/.zfunctions")
+fpath=($fpath "/home/evc/.config/zsh/.zfunctions")
+fpath=($fpath "/home/evc/.config/zsh/.zfunctions")
+fpath=($fpath "/home/evc/.config/zsh/.zfunctions")
