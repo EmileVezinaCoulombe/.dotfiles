@@ -132,9 +132,11 @@ cmd_exist nvim
 is_cmd_exist=$?
 if [ $is_cmd_exist != 0 ]; then
     echo -e "\n${FONT_YELLOW}Installing nvim${COLOR_END}\n"
-    wget https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.deb
-    default_install ./nvim-linux64.deb
-    rm nvim-linux64.deb
+    pip install --user cmake
+    sudo apt-get install ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen
+    gh repo clone neovim/neovim
+    cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo
+    sudo make install
 fi
 
 # gh
