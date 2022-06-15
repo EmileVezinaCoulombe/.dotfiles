@@ -12,7 +12,6 @@ HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.cache/zsh/history
 export PATH="/.local/bin/lvim:$PATH"
-compinit -d ~/.cache/zsh/zcompdump-$ZSH_VERSION
 
 # Load aliases and shortcuts if existent.
 source "$ZDOTDIR/zsh-functions"
@@ -23,15 +22,13 @@ zsh_add_file "zsh-prompt"
 # Plugins
 ## completions
 autoload -Uz compinit
+compinit -d ~/.cache/zsh/zcompdump-$ZSH_VERSION
 zstyle ':completion:*' menu select
 zsh_add_plugin "zsh-users/zsh-autosuggestions"
 
 # Apps
 
 ## NVM and NPM
-## Spaceship-propt
-SPACESHIP_VI_MODE_SHOW=false
-
 ## direnv
 eval "$(direnv hook zsh)"
 
@@ -57,7 +54,7 @@ fi
 unset __conda_setup
 
 # Basic auto/tab complete:
-autoload -U compinit
+autoload -Uz compinit
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 compinit
@@ -114,19 +111,14 @@ bindkey '^e' edit-command-line
 # Load zsh-syntax-highlighting; should be last.
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 
-## Set Spaceship ZSH as a prompt
-autoload -U promptinit; promptinit
-prompt spaceship
-
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_OPS="--extended"
 export FZF_DEFAULT_COMMAND="fd --type f --type d --type s -H -E .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-fpath=($fpath "/home/evc/.config/zsh/.zfunctions")
-fpath=($fpath "/home/evc/.config/zsh/.zfunctions")
-fpath=($fpath "/home/evc/.config/zsh/.zfunctions")
-fpath=($fpath "/home/evc/.config/zsh/.zfunctions")
-fpath=($fpath "/home/evc/.config/zsh/.zfunctions")
-fpath=($fpath "/home/evc/.config/zsh/.zfunctions")
-fpath=($fpath "/home/evc/.config/zsh/.zfunctions")
+fpath=($fpath "$HOME/.config/zsh/.zfunctions")
+
+
+## Spaceship-propt
+SPACESHIP_VI_MODE_SHOW=false
+autoload -U promptinit; promptinit
+prompt spaceship
