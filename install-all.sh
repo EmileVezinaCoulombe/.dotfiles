@@ -135,7 +135,9 @@ if [ $is_cmd_exist != 0 ]; then
     pip install --user cmake
     sudo apt-get install ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen
     gh repo clone neovim/neovim
-    cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo
+    cd neovim
+    git checkout master
+    make CMAKE_BUILD_TYPE=Release
     sudo make install
 fi
 
