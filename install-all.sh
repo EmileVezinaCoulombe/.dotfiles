@@ -11,7 +11,6 @@ FONT_RED="\033[1;31m"
 FONT_GREEN="\033[0;32m"
 FONT_YELLOW="\033[1;33m"
 COLOR_END="\033[0m"
-FONT_NORMAL=$(tput sgr0)
 
 # Functions
 default_install() {
@@ -22,7 +21,7 @@ default_install() {
     if [ "$IS_INSTALLING" = "y" ] || [ "$IS_INSTALLING" = "Y" ]; then
     	INSTALL_CMD="$PACKAGER_INSTALL ${INSTALL_OPTIONS[@]} $1"
         echo -e "${FONT_YELLOW}Installing $1${COLOR_END} with $INSTALL_CMD\n"
-        eval $INSTALL_CMD
+        eval "$INSTALL_CMD"
     fi
 }
 
@@ -31,13 +30,13 @@ second_install() {
     DEFAULT_INSTALL_OPTIONS=$INSTALL_CMD
     PACKAGER_INSTALL=$SECOND_PACKAGER_INSTALL
     INSTALL_OPTIONS=$SECOND_INSTALL_OPTIONS
-    default_install $1
+    default_install "$1"
     PACKAGER_INSTALL=$DEFAULT_INSTALL_CMD
     INSTALL_OPTIONS=$DEFAULT_INSTALL_OPTIONS
 }
 
 cmd_exist () {
-    if type $1 &> /dev/null; then
+    if type "$1" &> /dev/null; then
         return 0
     else
         return 1
@@ -45,17 +44,17 @@ cmd_exist () {
 }
 
 install_cmd () {
-    cmd_exist $1
+    cmd_exist "$1"
     is_cmd_exist=$?
     if [ $is_cmd_exist != 0 ]; then
-        default_install $1
+        default_install "$1"
     fi
-    cmd_exist $1
+    cmd_exist "$1"
     is_cmd_exist=$?
     if [ $is_cmd_exist != 0 ]; then
-        second_install $1
+        second_install "$1"
     fi
-    cmd_exist $1
+    cmd_exist "$1"
     is_cmd_exist=$?
     if [ $is_cmd_exist != 0 ]; then
         echo -e "${FONT_RED}Cant install $1${COLOR_END}"
@@ -65,10 +64,10 @@ install_cmd () {
 }
 
 install_flatpak () {
-    if [[ ! $(flatpak list | grep -q $1) ]]; then
+    if [[ ! $(flatpak list | grep -q "$1") ]]; then
         INSTALL_CMD="flatpak install $1"
         echo -e "\n${FONT_YELLOW}Installing $1${COLOR_END} with $INSTALL_CMD\n"
-        eval $INSTALL_CMD
+        eval "$INSTALL_CMD"
     fi
 }
 
@@ -80,6 +79,7 @@ install_cmd stow
 install_cmd xsel
 install_cmd direnv
 install_cmd tmux
+install_cmd graphviz
 second_install ripgrep
 second_install fd-find
 second_install fonts-powerline
