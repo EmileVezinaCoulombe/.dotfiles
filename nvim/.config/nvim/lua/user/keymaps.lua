@@ -64,9 +64,9 @@ keymap("i", "<C-s>", "<ESC>:w<CR>", opts)
 keymap("n", "<C-a>", "<ESC>G<S-v>gg", opts)
 keymap("v", "<C-a>", "<ESC>G<S-v>gg", opts)
 keymap("i", "<C-a>", "<ESC>G<S-v>gg", opts)
--- Paste
-keymap("n", "p", '"_dP', opts)
-keymap("v", "p", '"_dP', opts)
+-- Delete
+keymap("n", "d", '"_dd', opts)
+keymap("v", "d", '"_dd', opts)
 
 -- Terminal --
 -- Better terminal navigation

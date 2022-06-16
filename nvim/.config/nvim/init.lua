@@ -8,7 +8,7 @@ require "user.treesitter"
 require "user.git"
 require "user.lazygit"
 require "user.whichkey"
-
+require "user.refactoring"
 require "user.toggleterm"
 require "user.bufferline"
 require "user.nvim-tree"

@@ -40,29 +40,29 @@ packer.init {
 
 -- Install your plugins here
 return packer.startup(function(use)
-    use {"wbthomason/packer.nvim", commit="00ec5ad"}
-    use {"nvim-lua/popup.nvim", commit="b7404d3"}
-    use {"nvim-lua/plenary.nvim", commit="968a4b9"}
-    use {"windwp/nvim-autopairs", commit="fa6876f"}
-    use {"numToStr/Comment.nvim", commit="2c26a00"}
-    use {'kyazdani42/nvim-web-devicons', commit="8d2c533"}
-    use {'kyazdani42/nvim-tree.lua', commit="bdb6d4a"}
-    use {"akinsho/bufferline.nvim", commit="c78b3ec"}
-    use {"moll/vim-bbye", commit="25ef93a"}
-    use {"akinsho/toggleterm.nvim", commit="aaeed9e"}
-    use {"ahmedkhalf/project.nvim", commit="541115e"}
-    use {"lewis6991/impatient.nvim", commit="969f2c5"}
-    use {"lukas-reineke/indent-blankline.nvim", commit="6177a59"}
-    use {"goolord/alpha-nvim", commit="ef27a59"}
-    use {"antoinemadec/FixCursorHold.nvim", commit="1bfb32e"} -- This is needed to fix lsp doc highlight
-    use {"folke/which-key.nvim", commit="bd4411a"}
+    use { "wbthomason/packer.nvim", commit = "00ec5ad" }
+    use { "nvim-lua/popup.nvim", commit = "b7404d3" }
+    use { "nvim-lua/plenary.nvim", commit = "968a4b9" }
+    use { "windwp/nvim-autopairs", commit = "fa6876f" }
+    use { "numToStr/Comment.nvim", commit = "2c26a00" }
+    use { 'kyazdani42/nvim-web-devicons', commit = "8d2c533" }
+    use { 'kyazdani42/nvim-tree.lua', commit = "bdb6d4a" }
+    use { "akinsho/bufferline.nvim", commit = "c78b3ec" }
+    use { "moll/vim-bbye", commit = "25ef93a" }
+    use { "akinsho/toggleterm.nvim", commit = "aaeed9e" }
+    use { "ahmedkhalf/project.nvim", commit = "541115e" }
+    use { "lewis6991/impatient.nvim", commit = "969f2c5" }
+    use { "lukas-reineke/indent-blankline.nvim", commit = "6177a59" }
+    use { "goolord/alpha-nvim", commit = "ef27a59" }
+    use { "antoinemadec/FixCursorHold.nvim", commit = "1bfb32e" } -- This is needed to fix lsp doc highlight
+    use { "folke/which-key.nvim", commit = "bd4411a" }
     -- Colorschemes
     -- use "lunarvim/colorschemes" -- A bunch of colorschemes you can try out
-    use { "catppuccin/nvim", as = "catppuccin", commit="773d339"}
-    use {"lunarvim/darkplus.nvim"}
+    use { "catppuccin/nvim", as = "catppuccin", commit = "773d339" }
+    use { "lunarvim/darkplus.nvim" }
 
     -- cmp plugins
-    use {"hrsh7th/nvim-cmp"} -- The completion plugin
+    use { "hrsh7th/nvim-cmp" } -- The completion plugin
     use "hrsh7th/cmp-buffer" -- buffer completions
     use "hrsh7th/cmp-path" -- path completions
     use "hrsh7th/cmp-cmdline" -- cmdline completions
@@ -79,6 +79,14 @@ return packer.startup(function(use)
     use "neovim/nvim-lspconfig" -- enable LSP
     use "williamboman/nvim-lsp-installer" -- simple to use language server installer
     use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
+    use {
+        "ThePrimeagen/refactoring.nvim",
+        requires = {
+            { "nvim-lua/plenary.nvim" },
+            { "nvim-treesitter/nvim-treesitter" }
+        },
+        commit = "802667c"
+    }
 
     -- Telescope
     use "nvim-telescope/telescope.nvim"
