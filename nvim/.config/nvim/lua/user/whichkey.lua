@@ -129,15 +129,20 @@ local mappings = {
 
     l = {
         name = "LSP",
+        g = {
+            name = "goto",
+            i = { "<cmd>Telescope lsp_implementations<cr>", "Implementations", },
+            d = { "<cmd>Telescope lsp_definitions<cr>", "Definitions", },
+            r = { "<cmd>Telescope lsp_references<cr>", "References" },
+            s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
+            w = {
+                "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
+                "Workspace Symbols",
+            },
+        },
         a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
-        d = {
-            "<cmd>Telescope diagnostics<cr>",
-            "Document Diagnostics",
-        },
-        w = {
-            "<cmd>Telescope diagnostics<cr>",
-            "Workspace Diagnostics",
-        },
+        d = { "<cmd>Telescope diagnostics<cr>", "Document Diagnostics", },
+        w = { "<cmd>Telescope diagnostics<cr>", "Workspace Diagnostics", },
         f = { "<cmd>lua vim.lsp.buf.format()<cr>", "Format" },
         i = { "<cmd>LspInfo<cr>", "Info" },
         I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
@@ -156,11 +161,6 @@ local mappings = {
         L = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
         q = { "<cmd>lua vim.diagnostic.setloclist()<cr>", "Quickfix" },
         r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
-        s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
-        S = {
-            "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
-            "Workspace Symbols",
-        },
     },
     d = {
         name = "Debugging",
