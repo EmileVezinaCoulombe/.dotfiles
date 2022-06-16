@@ -7,7 +7,7 @@ require "user.telescope"
 require "user.treesitter"
 require "user.git"
 require "user.lazygit"
-require "user.wichkey"
+require "user.whichkey"
 
 require "user.toggleterm"
 require "user.bufferline"
