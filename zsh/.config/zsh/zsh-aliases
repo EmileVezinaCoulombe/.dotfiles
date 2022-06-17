@@ -27,7 +27,7 @@ alias cfvim='cd ~/.dotfiles/nvim/.config/nvim && vim'
 alias nautilus='nohup nautilus . &'
 
 # Colorize
-aliase lcat='lolcat'
+alias lcat='lolcat'
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'

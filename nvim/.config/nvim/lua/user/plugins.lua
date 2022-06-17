@@ -56,6 +56,7 @@ return packer.startup(function(use)
     use { "goolord/alpha-nvim", commit = "ef27a59" }
     use { "antoinemadec/FixCursorHold.nvim", commit = "1bfb32e" } -- This is needed to fix lsp doc highlight
     use { "folke/which-key.nvim", commit = "bd4411a" }
+    use { "nvim-lualine/lualine.nvim", commit = "3362b28" }
     -- Colorschemes
     -- use "lunarvim/colorschemes" -- A bunch of colorschemes you can try out
     use { "catppuccin/nvim", as = "catppuccin", commit = "773d339" }
