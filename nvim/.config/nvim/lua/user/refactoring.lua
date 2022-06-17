@@ -1,15 +1,9 @@
-require('refactoring').setup({})
+local status_ok, refactoring = pcall(require, 'refactoring')
+if not status_ok then
+    return
+end
 
--- load refactoring Telescope extension
-require("telescope").load_extension("refactoring")
-
--- remap to open the Telescope refactoring menu in visual mode
-vim.api.nvim_set_keymap(
-	"v",
-	"<leader>rr",
-	"<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
-	{ noremap = true }
-)
+refactoring.setup({})
 
 -- Remaps for the refactoring operations currently offered by the plugin
 vim.api.nvim_set_keymap("v", "<leader>re", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]], {noremap = true, silent = true, expr = false})
