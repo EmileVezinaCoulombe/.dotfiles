@@ -81,6 +81,7 @@ install_cmd direnv
 install_cmd tmux
 install_cmd graphviz
 install_cmd sshfs
+install_cmd lolcat
 second_install ripgrep
 second_install fd-find
 second_install fonts-powerline

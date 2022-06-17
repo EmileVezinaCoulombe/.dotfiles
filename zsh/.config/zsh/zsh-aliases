@@ -13,7 +13,7 @@ alias cddf='cd ~/.dotfiles'
 alias cdcfv='cd ~/.config/nvim/'
 alias cdcfz='cd ~/.config/zsh/'
 
-alias cfi= 'vim ~/.dotfiles/install-all.sh'
+alias cfia= 'vim ~/.dotfiles/install-all.sh'
 alias cfzh='vim ~/.config/zsh/.zshrc'
 alias cfza='vim ~/.config/zsh/zsh-aliases'
 alias cfze='vim ~/.config/zsh/zsh-exports'
@@ -26,7 +26,8 @@ alias cfvim='cd ~/.dotfiles/nvim/.config/nvim && vim'
 # Navigation
 alias nautilus='nohup nautilus . &'
 
-# Colorize grep output (good for log files)
+# Colorize
+aliase lcat='lolcat'
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
