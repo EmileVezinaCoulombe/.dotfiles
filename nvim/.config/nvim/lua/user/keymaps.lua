@@ -65,8 +65,13 @@ keymap("n", "<C-a>", "<ESC>G<S-v>gg", opts)
 keymap("v", "<C-a>", "<ESC>G<S-v>gg", opts)
 keymap("i", "<C-a>", "<ESC>G<S-v>gg", opts)
 -- Delete
-keymap("n", "d", '"_dd', opts)
-keymap("v", "d", '"_dd', opts)
+keymap("n", "d", '"_d', opts)
+keymap("v", "d", '"_d', opts)
+keymap("n", "D", '"_D', opts)
+keymap("v", "D", '"_D', opts)
+keymap("n", "x", '"_x', opts)
+keymap("v", "x", '"_x', opts)
+keymap("v", "p", '"_dp', opts)
 
 -- Terminal --
 -- Better terminal navigation

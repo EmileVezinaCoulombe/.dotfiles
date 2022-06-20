@@ -71,6 +71,7 @@ return packer.startup(function(use)
     use "hrsh7th/cmp-nvim-lsp"
     use "hrsh7th/cmp-nvim-lua"
     use "kdheepak/lazygit.nvim"
+    use { "ray-x/lsp_signature.nvim", commit = "3694c1f" }
 
     -- snippets
     use "L3MON4D3/LuaSnip"
@@ -107,11 +108,11 @@ return packer.startup(function(use)
     use "lewis6991/gitsigns.nvim"
 
     -- Debugging
-    use "mfussenegger/nvim-dap"
-    use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
+    use { "mfussenegger/nvim-dap", commit = "014ebd5" }
+    use { "rcarriga/nvim-dap-ui", commit = "52f4840" }
+    use { "ravenxrz/DAPInstall.nvim", commit = "8798b4c" }
     use "theHamsta/nvim-dap-virtual-text"
     use "nvim-telescope/telescope-dap.nvim"
-    use "mfussenegger/nvim-dap-python"
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
