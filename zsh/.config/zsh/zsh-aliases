@@ -9,7 +9,7 @@ alias zsh-update-plugins="find "$ZDOTDIR/plugins" -type d -exec test -e '{}/.git
 # Personal
 alias todo='vim ~/Nextcloud/USER-Emile/todo.md'
 
-alias cfi= 'vim ~/.dotfiles/install-all.sh'
+alias cfi='vim ~/.dotfiles/install-all.sh'
 alias cfzh='vim ~/.config/zsh/.zshrc'
 alias cfza='vim ~/.config/zsh/zsh-aliases'
 alias cfze='vim ~/.config/zsh/zsh-exports'
@@ -34,6 +34,7 @@ alias vdir='vdir --color=auto'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias ld='ls -1 -d */'
 
 
 # confirm before overwriting something

@@ -80,6 +80,8 @@ install_cmd xsel
 install_cmd direnv
 install_cmd tmux
 install_cmd graphviz
+install_cmd xsel
+install_cmd wl-clipboard
 second_install ripgrep
 second_install fd-find
 second_install fonts-powerline
@@ -169,6 +171,14 @@ if [ $is_cmd_exist != 0 ]; then
     curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 fi
 
+# shfmt
+cmd_exist shfmt
+is_cmd_exist=$?
+if [ $is_cmd_exist != 0  ]; then
+    echo -e "\n${FONT_YELLOW}Installing shfmt${COLOR_END}\n"
+    curl -sS https://webinstall.dev/shfmt | bash
+fi
+
 # Flatpak
 install_cmd flatpak
 install_flatpak com.getpostman.Postman
@@ -205,6 +215,8 @@ debugpy/bin/python -m pip install debugpy
 cd ~
 n
 # npm
+npm install --save-dev --save-exact prettier
+npm install eslint --save-dev
 npm i --location=global neovim
 
 # install config files and reload
