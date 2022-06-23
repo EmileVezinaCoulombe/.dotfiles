@@ -69,6 +69,11 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["AutoSave.nvim"] = {
+    loaded = true,
+    path = "/home/emile/.local/share/nvim/site/pack/packer/start/AutoSave.nvim",
+    url = "https://github.com/Pocco81/AutoSave.nvim"
+  },
   ["Comment.nvim"] = {
     loaded = true,
     path = "/home/emile/.local/share/nvim/site/pack/packer/start/Comment.nvim",
@@ -104,6 +109,11 @@ _G.packer_plugins = {
     path = "/home/emile/.local/share/nvim/site/pack/packer/start/catppuccin",
     url = "https://github.com/catppuccin/nvim"
   },
+  ["centerpad.nvim"] = {
+    loaded = true,
+    path = "/home/emile/.local/share/nvim/site/pack/packer/start/centerpad.nvim",
+    url = "https://github.com/smithbm2316/centerpad.nvim"
+  },
   ["cmp-buffer"] = {
     loaded = true,
     path = "/home/emile/.local/share/nvim/site/pack/packer/start/cmp-buffer",
@@ -138,11 +148,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/emile/.local/share/nvim/site/pack/packer/start/darkplus.nvim",
     url = "https://github.com/lunarvim/darkplus.nvim"
-  },
-  ["dashboard-nvim"] = {
-    loaded = true,
-    path = "/home/emile/.local/share/nvim/site/pack/packer/start/dashboard-nvim",
-    url = "https://github.com/glepnir/dashboard-nvim"
   },
   ["friendly-snippets"] = {
     loaded = true,
@@ -244,6 +249,11 @@ _G.packer_plugins = {
     path = "/home/emile/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/kyazdani42/nvim-web-devicons"
   },
+  ["nvim-yati"] = {
+    loaded = true,
+    path = "/home/emile/.local/share/nvim/site/pack/packer/start/nvim-yati",
+    url = "https://github.com/yioneko/nvim-yati"
+  },
   ["packer.nvim"] = {
     loaded = true,
     path = "/home/emile/.local/share/nvim/site/pack/packer/start/packer.nvim",
@@ -274,6 +284,11 @@ _G.packer_plugins = {
     path = "/home/emile/.local/share/nvim/site/pack/packer/start/refactoring.nvim",
     url = "https://github.com/ThePrimeagen/refactoring.nvim"
   },
+  ropevim = {
+    loaded = true,
+    path = "/home/emile/.local/share/nvim/site/pack/packer/start/ropevim",
+    url = "https://github.com/python-rope/ropevim"
+  },
   ["telescope-dap.nvim"] = {
     loaded = true,
     path = "/home/emile/.local/share/nvim/site/pack/packer/start/telescope-dap.nvim",
@@ -293,6 +308,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/emile/.local/share/nvim/site/pack/packer/start/toggleterm.nvim",
     url = "https://github.com/akinsho/toggleterm.nvim"
+  },
+  ["trouble.nvim"] = {
+    loaded = true,
+    path = "/home/emile/.local/share/nvim/site/pack/packer/start/trouble.nvim",
+    url = "https://github.com/folke/trouble.nvim"
   },
   ["vim-bbye"] = {
     loaded = true,

@@ -35,3 +35,4 @@ fi
 
 eval "$(pyenv init --path)"
 
+. "$HOME/.cargo/env"

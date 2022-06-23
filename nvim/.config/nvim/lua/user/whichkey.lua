@@ -86,6 +86,7 @@ local mappings = {
         "Buffers",
     },
     ["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
+    ["E"] = { "<cmd>NvimTreeFindFile<cr>", "Explorer current file" },
     ["w"] = { "<cmd>w!<CR>", "Save" },
     ["Q"] = { "<cmd>qa!<CR>", "Quit" },
     ["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
@@ -95,6 +96,10 @@ local mappings = {
         "Find files",
     },
     ["P"] = { "<cmd>Telescope projects<cr>", "Projects" },
+    v = {
+        name = "View",
+        c = {"<cmd>lua require'centerpad'.toggle{ leftpad = 80, rightpad = 80 }<cr>", "Center toggle"}
+    },
     p = {
         name = "Plugin",
         c = { "<cmd>PackerCompile<cr>", "Compile" },
@@ -126,7 +131,15 @@ local mappings = {
             "Diff",
         },
     },
-
+    t = {
+        name = "Trouble",
+        t = {"<cmd>TroubleToggle<cr>", "Togle"},
+        w = {"<cmd>Trouble workspace_diagnostics<cr>", "Workspace"},
+        d = {"<cmd>Trouble document_diagnostics<cr>", "Document"},
+        l = {"<cmd>Trouble loclist<cr>", "Local"},
+        q = {"<cmd>Trouble quickfix<cr>", "Quickfix"},
+        r = {"<cmd>Trouble lsp_references<cr>", "References"},
+    },
     l = {
         name = "LSP",
         g = {
@@ -194,7 +207,7 @@ local mappings = {
         C = { "<cmd>Telescope commands<cr>", "Commands" },
     },
 
-    t = {
+    T = {
         name = "Terminal",
         t = { "<cmd>ToggleTerm<cr>", "Terminal" },
         n = { "<cmd>lua _NODE_TOGGLE()<cr>", "Node" },
@@ -208,9 +221,9 @@ local mappings = {
     r = {
         name = "Run",
         p = {
-            f = {"<cmd>TermExec cmd='python expand(\'%:p\')'<cr>", "File"},
-            p = {"<cmd>TermExec cmd='python -m cProfile -o program.prof expand(\'%:p\')'<cr>", "Profile"},
-            v = {"<cmd>TermExec cmd='snakeviz program.prof'<cr>", "View profile"},
+            f = { "<cmd>TermExec cmd='python expand(\'%:p\')'<cr>", "File" },
+            p = { "<cmd>TermExec cmd='python -m cProfile -o program.prof expand(\'%:p\')'<cr>", "Profile" },
+            v = { "<cmd>TermExec cmd='snakeviz program.prof'<cr>", "View profile" },
         },
     },
 }
@@ -225,6 +238,20 @@ local vopts = {
 }
 local vmappings = {
     ["/"] = { "<ESC><CMD>lua require(\"Comment.api\").toggle_linewise_op(vim.fn.visualmode())<CR>", "Comment" },
+    ["a"] = {":'<,'>lua vim.lsp.buf.range_code_action()<CR>", "List code actions"},
+    r = {
+        name = "Refactor",
+        e = { "<Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>", "Extract Function" },
+        f = {
+            "<Esc><Cmd>lua require('refactoring').refactor('Extract Function to File')<CR>",
+            "Extract Function to File",
+        },
+        v = { "<Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>", "Extract Variable" },
+        i = { "<Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>", "Inline Variable" },
+        r = { "<Esc><Cmd>lua require('telescope').extensions.refactoring.refactors()<CR>", "Refactor" },
+        V = { "<Esc><Cmd>lua require('refactoring').debug.print_var({})<CR>", "Debug Print Var" },
+    },
+
 }
 
 which_key.setup(setup)

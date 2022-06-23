@@ -13,13 +13,13 @@ alias cddf='cd ~/.dotfiles'
 alias cdcfv='cd ~/.config/nvim/'
 alias cdcfz='cd ~/.config/zsh/'
 
-alias cfia= 'vim ~/.dotfiles/install-all.sh'
+alias cfia='vim ~/.dotfiles/install-all.sh'
 alias cfzh='vim ~/.config/zsh/.zshrc'
 alias cfza='vim ~/.config/zsh/zsh-aliases'
 alias cfze='vim ~/.config/zsh/zsh-exports'
 alias cfzf='vim ~/.config/zsh/zsh-fuctions'
 alias cfzp='vim ~/.config/zsh/zsh-prompt'
-alias cfzr='source ~/.config/zsh/.zshrc'
+alias cfzr='source ~/.config/zsh/.zshrc && source ~/.profile'
 
 alias cfvim='cd ~/.dotfiles/nvim/.config/nvim && vim'
 

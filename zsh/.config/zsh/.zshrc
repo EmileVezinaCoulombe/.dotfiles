@@ -32,6 +32,9 @@ zsh_add_plugin "zsh-users/zsh-autosuggestions"
 ## direnv
 eval "$(direnv hook zsh)"
 
+## luaver
+[ -s ~/.luaver/luaver ] && . ~/.luaver/luaver
+
 ## Pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"

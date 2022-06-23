@@ -207,6 +207,8 @@ install_flatpak org.signal.Signal
 # Python
 pip install --user magic-wormhole
 pip install --user pynvim
+pip install --user rope
+pip install --user ropevim
 
 mkdir .virtualenvs
 cd .virtualenvs
@@ -218,6 +220,29 @@ n
 npm install --save-dev --save-exact prettier
 npm install eslint --save-dev
 npm i --location=global neovim
+
+# Rust
+cmd_exist rustup
+is_cmd_exist=$?
+if [ $is_cmd_exist != 0 ]; then
+	echo -e "\n${FONT_YELLOW}Installing rustup${COLOR_END}\n"
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	rustup component add rustfmt            # For code formatting
+	rustup component add rls                # lsp
+	rustup component add clippy             # linting
+	rustup component add llvm-tools-preview # Preview
+fi
+
+# Lua
+
+cmd_exist luaver
+is_cmd_exist=$?
+if [ $is_cmd_exist != 0 ]; then
+	echo -e "\n${FONT_YELLOW}Installing luaver${COLOR_END}\n"
+	install_cmd libreadline-dev
+	curl -fsSL https://raw.githubusercontent.com/dhavalkapil/luaver/master/install.sh | sh -s - -r v1.1.0
+	cargo install stylua
+fi
 
 # install config files and reload
 . ~/.dotfiles/install.sh
