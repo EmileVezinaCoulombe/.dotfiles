@@ -8,6 +8,7 @@ alias zsh-update-plugins="find "$ZDOTDIR/plugins" -type d -exec test -e '{}/.git
 
 # Personal
 alias todo='vim ~/Nextcloud/USER-Emile/todo.md'
+alias tmp='vim ~/tmp.txt'
 
 alias cddf='cd ~/.dotfiles'
 alias cdcfv='cd ~/.config/nvim/'
@@ -22,6 +23,9 @@ alias cfzp='vim ~/.config/zsh/zsh-prompt'
 alias cfzr='source ~/.config/zsh/.zshrc && source ~/.profile'
 
 alias cfvim='cd ~/.dotfiles/nvim/.config/nvim && vim'
+
+# Tui's
+alias rh='rich'
 
 # Navigation
 alias nautilus='nohup nautilus . &'

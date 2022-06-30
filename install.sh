@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
-STOW_FOLDERS="nvim,zsh,fonts,git"
+STOW_FOLDERS="nvim,zsh,fonts,git,tmux"
+
+rm .config/zsh/.zcompdump
 
 if [[ -z $DOTFILES ]]; then
     DOTFILES=$HOME/.dotfiles

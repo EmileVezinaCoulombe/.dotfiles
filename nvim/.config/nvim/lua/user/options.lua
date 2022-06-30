@@ -1,5 +1,8 @@
 -- :help options
 local options = {
+    foldenable=false,
+    foldmethod="indent",
+    foldlevel=99,
     backup = false, -- creates a backup file
     clipboard = "unnamedplus", -- allows neovim to access the system clipboard
     cmdheight = 2, -- more space in the neovim command line for displaying messages
@@ -36,9 +39,18 @@ local options = {
     guifont = "monospace:h17", -- the font used in graphical neovim applications
 }
 
+local local_options = {
+    foldenable=true,
+}
+
 for k, v in pairs(options) do
     vim.opt[k] = v
 end
+
+for k, v in pairs(local_options) do
+    vim.opt_local[k] = v
+end
+
 
 vim.opt.shortmess:append "c"
 vim.cmd "set whichwrap+=<,>,[,],h,l"

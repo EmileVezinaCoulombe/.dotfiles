@@ -13,3 +13,26 @@
 [init]
 	templatedir = /home/emile/.git-templates
 	defaultBranch = main
+[color]
+    ui = true
+[core]
+    editor = nvim
+    pager = diff-so-fancy | less --tabs=4 -RFX
+    excludesfile = ~/.config/git/ignore
+[color "diff-highlight"]
+    oldNormal = red bold
+    oldHighlight = yellow bold 52
+    newNormal = green bold
+    newHighlight = cyan bold 22
+[color "diff"]
+    meta = 11
+    frag = magenta bold
+    func = 146 bold
+    commit = cyan bold
+    old = red bold
+    new = green bold
+    whitespace = red reverse
+[diff]
+	submodule = log
+[merge]
+    tool = nvim

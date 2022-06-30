@@ -209,14 +209,17 @@ pip install --user magic-wormhole
 pip install --user pynvim
 pip install --user rope
 pip install --user ropevim
+pip install --user pipx
+pipx install rich-cli
 
 mkdir .virtualenvs
 cd .virtualenvs
 python -m venv debugpy
 debugpy/bin/python -m pip install debugpy
 cd ~
-n
+
 # npm
+npm install --location=global diff-so-fancy
 npm install --save-dev --save-exact prettier
 npm install eslint --save-dev
 npm i --location=global neovim
