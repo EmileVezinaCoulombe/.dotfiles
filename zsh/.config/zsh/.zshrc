@@ -125,3 +125,4 @@ fpath=($fpath "$HOME/.config/zsh/.zfunctions")
 SPACESHIP_VI_MODE_SHOW=false
 autoload -U promptinit; promptinit
 prompt spaceship
+fpath=($fpath "~/.config/zsh/.zfunctions")
