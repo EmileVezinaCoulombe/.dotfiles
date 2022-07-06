@@ -51,3 +51,5 @@ alias cpi="cp -i"
 alias mvi='mv -i'
 alias rmi='rm -i'
 
+# Recursive
+alias rmr="rm -rf"

@@ -4,6 +4,14 @@
 [alias]
 	fame = !python -m gitfame
 	fza = !git ls-files -m -o --exclude-standard | fzf --print0 -m | xargs -0 -t -o git add
+    plog = plog1
+    plog1 = plog1-b --all
+    plog2 = plog2-b --all
+    plog3 = plog3-b --all
+
+    plog1-b = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+    plog2-b = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
+    plog3-b = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
 [credential "https://github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
