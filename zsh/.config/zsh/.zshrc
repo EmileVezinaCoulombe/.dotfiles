@@ -8,10 +8,10 @@ export XDG_DATA_HOME=$HOME/.local/share
 autoload -U colors && colors
 
 # History in cache directory:
-HISTSIZE=10000
-SAVEHIST=10000
-HISTFILE=~/.cache/zsh/history
-export PATH="/.local/bin/lvim:$PATH"
+export HISTSIZE=10000
+export SAVEHIST=10000
+export HISTFILE=~/.cache/zsh/history
+export export PATH="/.local/bin/lvim:$PATH"
 
 # Load aliases and shortcuts if existent.
 source "$ZDOTDIR/zsh-functions"
