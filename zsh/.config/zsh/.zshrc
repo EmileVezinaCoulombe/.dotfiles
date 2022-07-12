@@ -7,11 +7,16 @@ export XDG_DATA_HOME=$HOME/.local/share
 # Enable colors and change prompt:
 autoload -U colors && colors
 
-# History in cache directory:
-HISTSIZE=10000
-SAVEHIST=10000
-HISTFILE=~/.cache/zsh/history
-export PATH="/.local/bin/lvim:$PATH"
+# History
+export HISTSIZE=10000
+export SAVEHIST=10000
+export HISTFILE=~/.cache/zsh/history
+setopt INC_APPEND_HISTORY # Incrementaly append history
+export HISTTIMEFORMAT="[%F %T] "
+setopt EXTENDED_HISTORY # Add Timestamp to history
+setopt HIST_FIND_NO_DUPS # Don't view duplicate when searching <C-R>
+setopt HIST_IGNORE_ALL_DUPS # Don't add duplicate in history
+export export PATH="/.local/bin/lvim:$PATH"
 
 # Load aliases and shortcuts if existent.
 source "$ZDOTDIR/zsh-functions"

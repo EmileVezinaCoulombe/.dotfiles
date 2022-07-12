@@ -10,25 +10,26 @@ alias zsh-update-plugins="find "$ZDOTDIR/plugins" -type d -exec test -e '{}/.git
 alias todo='vim ~/Nextcloud/USER-Emile/todo.md'
 alias tmp='vim ~/tmp.txt'
 
-alias cddf='cd ~/.dotfiles'
-alias cdcfv='cd ~/.config/nvim/'
-alias cdcfz='cd ~/.config/zsh/'
-
+# Config
 alias cfia='vim ~/.dotfiles/install-all.sh'
 alias cfzh='vim ~/.config/zsh/.zshrc'
 alias cfza='vim ~/.config/zsh/zsh-aliases'
 alias cfze='vim ~/.config/zsh/zsh-exports'
 alias cfzf='vim ~/.config/zsh/zsh-fuctions'
 alias cfzp='vim ~/.config/zsh/zsh-prompt'
-alias cfzr='source ~/.config/zsh/.zshrc && source ~/.profile'
+alias cfzr='source ~/.config/zsh/.zshrc && source ~/.profile' # Reload
 
-alias cfvim='cd ~/.dotfiles/nvim/.config/nvim && vim'
+alias cfvim='cdvim && vim'
+alias cfdf='cddf && vim'
 
 # Tui's
 alias rh='rich'
 
 # Navigation
-alias nautilus='nohup nautilus . &'
+alias nautilus='nohup nautilus . & > /dev/null'
+alias cddf='cd ~/.dotfiles' # cd dot files
+alias cdvim='cd ~/.config/nvim/'
+alias cdzsh='cd ~/.config/zsh/'
 
 # Colorize
 alias lcat='lolcat'
@@ -43,7 +44,9 @@ alias vdir='vdir --color=auto'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias ld='ls -1 -d */'
+alias ld='ls -1 -d */' # list directory
+alias lda='ls -1 -d */ && ls -1 -d .*/' # list directory and dot directory
+alias ldd='ls -1 -d .*/' # list dot directory
 
 
 # confirm before overwriting something
