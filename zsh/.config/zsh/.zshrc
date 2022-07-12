@@ -116,7 +116,7 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_OPS="--extended"
-export FZF_DEFAULT_COMMAND="fd --type f --type d --type s -H -E .git"
+export FZF_DEFAULT_COMMAND="fdfind --type f --type d --type s -H -E .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fpath=($fpath "$HOME/.config/zsh/.zfunctions")
 
