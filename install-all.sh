@@ -207,6 +207,7 @@ install_flatpak org.signal.Signal
 # Python
 pip install --user magic-wormhole
 pip install --user pynvim
+pip install --user pipenv
 pip install --user rope
 pip install --user ropevim
 pip install --user pipx
