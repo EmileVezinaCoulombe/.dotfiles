@@ -5,23 +5,23 @@ end
 
 configs.setup {
     ensure_installed = "all",
-    yati = { enable = true },
-    sync_install = false,
+    auto_install = true,
+    sync_install = false, -- Install languages synchronously (only applied to `ensure_installed`)
     ignore_install = { "" }, -- List of parsers to ignore installing
     autopairs = {
         enable = true,
-    },
-    context_commentstring = {
-        enable = true,
-        enable_autocmd = false,
     },
     highlight = {
         enable = true, -- false will disable the whole extension
         disable = { "" }, -- list of language that will be disabled
         additional_vim_regex_highlighting = true,
-
     },
-    indent = { enable = true, disable = { "yaml" } },
+
+    -- indent
+    indent = { enable = true, disable = { "python", "yaml" } },
+    yati = { enable = true },
+
+    -- indent ruler
     rainbow = {
         enable = true,
         -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
@@ -29,5 +29,11 @@ configs.setup {
         max_file_lines = nil, -- Do not enable for files with more than n lines, int
         -- colors = {}, -- table of hex strings
         -- termcolors = {} -- table of colour name strings
-    }
+    },
+
+    -- commentstring
+    context_commentstring = {
+        enable = true,
+        enable_autocmd = false,
+    },
 }
