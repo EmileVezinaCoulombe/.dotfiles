@@ -2,12 +2,15 @@
 alias vim='nvim'
 alias fd='fdfind'
 alias lgit='lazygit'
+alias nyxt='nohup ~/usr/local/bin/nyxt >/dev/null 2>&1 &'
 
 # Functions
 alias zsh-update-plugins="find "$ZDOTDIR/plugins" -type d -exec test -e '{}/.git' ';' -print0 | xargs -I {} -0 git -C {} pull -q"
 
 # Personal
-alias todo='vim ~/Nextcloud/USER-Emile/todo.md'
+alias wrt='vim ~/Nextcloud/USER-Emile/note/todo.md'
+alias wrw='vim ~/Nextcloud/USER-Emile/note/work-buffer.md'
+alias wrp='vim ~/Nextcloud/USER-Emile/note/projects-buffer.md'
 alias tmp='vim ~/tmp.txt'
 
 # Config
@@ -26,7 +29,7 @@ alias cfdf='cddf && vim'
 alias rh='rich'
 
 # Navigation
-alias nautilus='nohup nautilus . & > /dev/null'
+alias nautilus='nohup nautilus . >/dev/null 2>&1 &'
 alias cddf='cd ~/.dotfiles' # cd dot files
 alias cdvim='cd ~/.config/nvim/'
 alias cdzsh='cd ~/.config/zsh/'
