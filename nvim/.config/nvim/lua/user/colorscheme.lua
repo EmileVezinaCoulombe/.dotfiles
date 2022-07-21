@@ -1,4 +1,16 @@
 require "user.palettes"
+
+-- tokyonight
+vim.g.tokyonight_style = "night" -- storm, night, day
+
+-- kanagawa
+local kanagawa_status_ok, kanagawa = pcall( require, "kanagawa")
+if not kanagawa_status_ok then
+    return
+end
+
+kanagawa.setup({})
+
 local colorscheme = "catppuccin"
 
 local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
