@@ -33,6 +33,9 @@ alias nautilus='nohup nautilus . >/dev/null 2>&1 &'
 alias cddf='cd ~/.dotfiles' # cd dot files
 alias cdvim='cd ~/.config/nvim/'
 alias cdzsh='cd ~/.config/zsh/'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
 
 # Colorize
 alias lcat='lolcat'
