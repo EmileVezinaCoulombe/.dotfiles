@@ -248,6 +248,20 @@ if [ $is_cmd_exist != 0 ]; then
 	cargo install stylua
 fi
 
+# Ricing
+
+install_cmd cava
+install_cmd tty-clock
+
+cmd_exist pipes
+is_cmd_exist=$?
+if [ $is_cmd_exist != 0 ]; then
+	echo -e "\n${FONT_YELLOW}Installing pipes${COLOR_END}\n"
+    cd ~/Applications || return
+    gh repo clone pipeseroni/pipes.sh
+    cd pipes.sh || return
+    sudo make install
+fi
 # install config files and reload
 . ~/.dotfiles/install.sh
 source ~/.config/zsh/.zshrc

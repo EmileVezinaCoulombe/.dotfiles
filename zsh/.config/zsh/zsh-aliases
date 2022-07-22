@@ -7,6 +7,12 @@ alias nyxt='nohup ~/usr/local/bin/nyxt >/dev/null 2>&1 &'
 # Functions
 alias zsh-update-plugins="find "$ZDOTDIR/plugins" -type d -exec test -e '{}/.git' ';' -print0 | xargs -I {} -0 git -C {} pull -q"
 
+# Ricing
+alias cava='cava'
+alias pipes='pipe.sh'
+alias clock='tty-clock -cDC 3'
+alias matrix='cmatrix -su 9'
+
 # Personal
 alias wrt='vim ~/Nextcloud/USER-Emile/note/todo.md'
 alias wrw='vim ~/Nextcloud/USER-Emile/note/work-buffer.md'
