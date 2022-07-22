@@ -1,9 +1,9 @@
 -- :help options
 local options = {
-    cmdheight=0, -- More screen!!
-    foldenable=false,
-    foldmethod="indent",
-    foldlevel=99,
+    cmdheight = 1, -- 0 bug ? Want more screen!!
+    foldenable = false,
+    foldmethod = "indent",
+    foldlevel = 99,
     backup = false, -- creates a backup file
     clipboard = "unnamedplus", -- allows neovim to access the system clipboard
     completeopt = { "menuone", "noselect" }, -- mostly just for cmp
@@ -40,7 +40,7 @@ local options = {
 }
 
 local local_options = {
-    foldenable=true,
+    foldenable = true,
 }
 
 for k, v in pairs(options) do
