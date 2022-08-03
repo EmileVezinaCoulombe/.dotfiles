@@ -130,17 +130,33 @@ if [ $is_cmd_exist != 0 ]; then
 fi
 
 # Nvim
-cmd_exist nvim
+cmd_exist neovim
 is_cmd_exist=$?
 if [ $is_cmd_exist != 0 ]; then
 	echo -e "\n${FONT_YELLOW}Installing nvim${COLOR_END}\n"
 	pip install --user cmake
 	sudo apt-get install ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen
+    cd ~/Applications || return
 	gh repo clone neovim/neovim
-	cd neovim
+	cd neovim || return
 	git checkout master
 	make CMAKE_BUILD_TYPE=Release
 	sudo make install
+    cd ~ || return
+fi
+
+# Micro
+
+cmd_exist micro
+is_cmd_exist=$?
+if [ $is_cmd_exist != 0 ]; then
+	echo -e "\n${FONT_YELLOW}Installing micro${COLOR_END}\n"
+    cd ~/Applications || return
+    gh clone https://github.com/zyedidia/micro
+    cd micro  || return
+    make build
+    sudo mv micro /usr/local/bin
+    cd ~ || return
 fi
 
 # gh
@@ -236,6 +252,8 @@ if [ $is_cmd_exist != 0 ]; then
 	rustup component add clippy             # linting
 	rustup component add llvm-tools-preview # Preview
 fi
+
+cargo install onefetch
 
 # Lua
 

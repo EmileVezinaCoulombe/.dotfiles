@@ -1,8 +1,6 @@
+local import_plugin = require("user.util").import_plugin
 
-local status_ok, bufferline = pcall(require, "bufferline")
-if not status_ok then
-  return
-end
+local bufferline = import_plugin("bufferline")
 
 bufferline.setup {
   options = {

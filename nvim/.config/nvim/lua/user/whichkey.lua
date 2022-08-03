@@ -98,7 +98,7 @@ local mappings = {
     ["P"] = { "<cmd>Telescope projects<cr>", "Projects" },
     v = {
         name = "View",
-        c = {"<cmd>lua require'centerpad'.toggle{ leftpad = 80, rightpad = 80 }<cr>", "Center toggle"}
+        -- c = {"<cmd>lua require'centerpad'.toggle{ leftpad = 80, rightpad = 80 }<cr>", "Center toggle"}
     },
     p = {
         name = "Plugin",
@@ -108,10 +108,8 @@ local mappings = {
         S = { "<cmd>PackerStatus<cr>", "Status" },
         u = { "<cmd>PackerUpdate<cr>", "Update" },
     },
-
     g = {
         name = "Git",
-        t = { "<cmd>lua require'lazygit'.lazygit()<CR>", "Lazygit" },
         j = { "<cmd>lua require 'gitsigns'.next_hunk()<cr>", "Next Hunk" },
         k = { "<cmd>lua require 'gitsigns'.prev_hunk()<cr>", "Prev Hunk" },
         l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
@@ -128,16 +126,16 @@ local mappings = {
         c = { "<cmd>Telescope git_commits<cr>", "Checkout commit" },
         d = { "<cmd>DiffviewOpen<cr>", "Diff open" },
         D = { "<cmd>DiffviewClose<cr>", "Diff close", },
-        h = { "<cmd>DiffviewFileHistory<cr>", "Diff history"},
+        h = { "<cmd>DiffviewFileHistory<cr>", "Diff history" },
     },
     t = {
         name = "Trouble",
-        t = {"<cmd>TroubleToggle<cr>", "Togle"},
-        w = {"<cmd>Trouble workspace_diagnostics<cr>", "Workspace"},
-        d = {"<cmd>Trouble document_diagnostics<cr>", "Document"},
-        l = {"<cmd>Trouble loclist<cr>", "Local"},
-        q = {"<cmd>Trouble quickfix<cr>", "Quickfix"},
-        r = {"<cmd>Trouble lsp_references<cr>", "References"},
+        t = { "<cmd>TroubleToggle<cr>", "Togle" },
+        w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace" },
+        d = { "<cmd>Trouble document_diagnostics<cr>", "Document" },
+        l = { "<cmd>Trouble loclist<cr>", "Local" },
+        q = { "<cmd>Trouble quickfix<cr>", "Quickfix" },
+        r = { "<cmd>Trouble lsp_references<cr>", "References" },
     },
     n = {
         name = "Navigate",
@@ -231,6 +229,15 @@ local mappings = {
             v = { "<cmd>TermExec cmd='snakeviz program.prof'<cr>", "View profile" },
         },
     },
+    i = {
+        name = "Icon Picker",
+        a = { "<cmd>PickEverything<cr>", "All"},
+        i = { "<cmd>PickIcons<cr>", "Icons and Emojis"},
+        e = { "<cmd>PickEmoji<cr>", "Emojis"},
+        n = { "<cmd>PickNerd<cr>", "Nerd Font"},
+        s = { "<cmd>PickSymbols<cr>", "Symbols"},
+        f = { "<cmd>PickAltFontAndSymbols<cr>", "Alt Font and Symbols"},
+    }
 }
 
 local vopts = {
@@ -243,7 +250,7 @@ local vopts = {
 }
 local vmappings = {
     ["/"] = { "<ESC><CMD>lua require(\"Comment.api\").toggle_linewise_op(vim.fn.visualmode())<CR>", "Comment" },
-    ["a"] = {":'<,'>lua vim.lsp.buf.range_code_action()<CR>", "List code actions"},
+    ["a"] = { ":'<,'>lua vim.lsp.buf.range_code_action()<CR>", "List code actions" },
     r = {
         name = "Refactor",
         e = { "<Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>", "Extract Function" },

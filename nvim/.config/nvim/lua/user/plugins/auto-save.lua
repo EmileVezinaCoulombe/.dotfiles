@@ -1,8 +1,6 @@
-local status_ok, auto_save = pcall(require, "autosave")
+local import_plugin = require("user.util").import_plugin
 
-if not status_ok then
-    return
-end
+local auto_save = import_plugin("autosave")
 
 auto_save.setup({ execution_message = "",
     events = { "InsertLeave", "TextChanged" },

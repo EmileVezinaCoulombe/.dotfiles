@@ -31,71 +31,71 @@ end
 
 -- Have packer use a popup window
 packer.init({
+    snapshot = "first",
+    snapshot_path = fn.stdpath "config" .. "/snapshots",
+    max_jobs = 50,
     display = {
         open_fn = function()
             return require("packer.util").float({ border = "rounded" })
         end,
+        prompt_border = "rounded",
     },
 })
 
 -- Install your plugins here
 return packer.startup(function(use)
-    use({ "wbthomason/packer.nvim", commit = "00ec5ad" })
-    use({ "nvim-lua/popup.nvim", commit = "b7404d3" })
-    use({ "nvim-lua/plenary.nvim", commit = "968a4b9" })
-    use({ "windwp/nvim-autopairs", commit = "fa6876f" })
-    use({ "numToStr/Comment.nvim", commit = "2c26a00" })
-    use({ "kyazdani42/nvim-web-devicons", commit = "8d2c533" })
-    use({ "kyazdani42/nvim-tree.lua", commit = "bdb6d4a" })
-    use({ "akinsho/bufferline.nvim", commit = "c78b3ec" })
-    use({ "moll/vim-bbye", commit = "25ef93a" })
-    use({ "akinsho/toggleterm.nvim", commit = "aaeed9e" })
-    use({ "ahmedkhalf/project.nvim", commit = "541115e" })
-    use({ "lewis6991/impatient.nvim", commit = "969f2c5" })
-    use({ "lukas-reineke/indent-blankline.nvim", commit = "6177a59" })
-    use({ "antoinemadec/FixCursorHold.nvim", commit = "1bfb32e" }) -- This is needed to fix lsp doc highlight
-    use({ "folke/which-key.nvim", commit = "bd4411a" })
-    use({ "nvim-lualine/lualine.nvim", commit = "3362b28" })
-    use({ "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons", commit = "da61737" })
-    use({ 'smithbm2316/centerpad.nvim', commit = "666641d" })
-    use({ "Pocco81/AutoSave.nvim", commit = "3d342d6" })
+    use({ "wbthomason/packer.nvim" })
+    use({ "nvim-lua/popup.nvim" })
+    use({ "nvim-lua/plenary.nvim" })
+    use({ "windwp/nvim-autopairs" })
+    use({ "numToStr/Comment.nvim" })
+    use({ "kyazdani42/nvim-tree.lua" })
+    use({ "akinsho/bufferline.nvim" })
+    use({ "moll/vim-bbye" })
+    use({ "akinsho/toggleterm.nvim" })
+    use({ "ahmedkhalf/project.nvim" })
+    use({ "lewis6991/impatient.nvim" })
+    use({ "lukas-reineke/indent-blankline.nvim" })
+    use({ "antoinemadec/FixCursorHold.nvim" }) -- This is needed to fix lsp doc highlight
+    use({ "folke/which-key.nvim" })
+    use({ "nvim-lualine/lualine.nvim" })
+    use({ "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons" })
 
     --------------------------------------------------------------------------
 
     -- Plugin Manager
 
     -- LSP
-    use({ "neovim/nvim-lspconfig", commit = "41a8269" })
-    use({ "williamboman/nvim-lsp-installer", commit = "d6d564b" })
-    use({ "jose-elias-alvarez/null-ls.nvim", commit = "c9348b4" })
-    use({ "ray-x/lsp_signature.nvim", commit = "3694c1f" })
+    use({ "neovim/nvim-lspconfig" })
+    use({ "williamboman/nvim-lsp-installer" })
+    use({ "jose-elias-alvarez/null-ls.nvim" })
+    use({ "ray-x/lsp_signature.nvim" })
 
     -- Completion
-    use({ "hrsh7th/nvim-cmp", commit = "9897465" })
-    use({ "hrsh7th/cmp-buffer", commit = "62fc67a" })
-    use({ "hrsh7th/cmp-path", commit = "981baf9" })
-    use({ "hrsh7th/cmp-cmdline", commit = "c36ca4b" })
-    use({ "saadparwaiz1/cmp_luasnip", commit = "a9de941" })
-    use({ "hrsh7th/cmp-nvim-lsp", commit = "affe808" })
-    use({ "hrsh7th/cmp-nvim-lua", commit = "d276254" })
+    use({ "hrsh7th/nvim-cmp" })
+    use({ "hrsh7th/cmp-buffer" })
+    use({ "hrsh7th/cmp-path" })
+    use({ "hrsh7th/cmp-cmdline" })
+    use({ "saadparwaiz1/cmp_luasnip" })
+    use({ "hrsh7th/cmp-nvim-lsp" })
+    use({ "hrsh7th/cmp-nvim-lua" })
 
     -- Markdown
 
     -- Syntax
     use({
         "nvim-treesitter/nvim-treesitter",
-        run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
-        commit = "91725df"
+        run = function() require('nvim-treesitter.install').update({ with_sync = true }) end
     })
-    use({"nvim-treesitter/playground", commit = "ce7e4b7"})
-    use({ "yioneko/nvim-yati", requires = "nvim-treesitter/nvim-treesitter", commit = "d3a898e" })
-    use({ "kylechui/nvim-surround", commit = "beea0fd" })
+    use({ "nvim-treesitter/playground" })
+    use({ "yioneko/nvim-yati", requires = "nvim-treesitter/nvim-treesitter" })
+    use({ "kylechui/nvim-surround" })
 
     -- Terminal integration
 
     -- Snippet
-    use({ "rafamadriz/friendly-snippets", commit = "0e516c9" })
-    use({ "L3MON4D3/LuaSnip", commit = "7d78278" })
+    use({ "rafamadriz/friendly-snippets" })
+    use({ "L3MON4D3/LuaSnip" })
 
     -- Register
 
@@ -111,20 +111,22 @@ return packer.startup(function(use)
     -- Colorscheme Creation
 
     -- Colorscheme
-    use({ "catppuccin/nvim", as = "catppuccin", commit = "773d339" })
-    use({ "folke/tokyonight.nvim", commit = "8223c97" })
-    use({ "rebelot/kanagawa.nvim", commit = "a423ff3" })
+    use({ "catppuccin/nvim", as = "catppuccin" })
+    use({ "folke/tokyonight.nvim" })
+    use({ "rebelot/kanagawa.nvim" })
 
     -- Utility
+    use({ "stevearc/dressing.nvim" })
 
     -- Icon
-
+    use({ "kyazdani42/nvim-web-devicons" })
+    use({ "ziontee113/icon-picker.nvim", config = function() require("icon-picker") end })
     -- Debugging
-    use({ "mfussenegger/nvim-dap", commit = "014ebd5" })
-    use({ "rcarriga/nvim-dap-ui", commit = "52f4840" })
-    use({ "ravenxrz/DAPInstall.nvim", commit = "8798b4c" })
-    use({ "theHamsta/nvim-dap-virtual-text", commit = "a369822"})
-    use({ "nvim-telescope/telescope-dap.nvim", commit = "b4134ff" })
+    use({ "mfussenegger/nvim-dap" })
+    use({ "rcarriga/nvim-dap-ui" })
+    use({ "ravenxrz/DAPInstall.nvim" })
+    use({ "theHamsta/nvim-dap-virtual-text" })
+    use({ "nvim-telescope/telescope-dap.nvim" })
 
     -- Spellcheck
 
@@ -141,7 +143,7 @@ return packer.startup(function(use)
     -- Cursorline
 
     -- Startup
-    use({ "goolord/alpha-nvim", commit = "ef27a59" })
+    use({ "goolord/alpha-nvim" })
 
     -- Indent
 
@@ -152,8 +154,7 @@ return packer.startup(function(use)
     -- Dependency management
 
     -- Git
-    use({ "kdheepak/lazygit.nvim", commit = "9c73fd6" })
-    use({"lewis6991/gitsigns.nvim", commit = "bb6c3bf"})
+    use({ "lewis6991/gitsigns.nvim" })
 
     -- Programming languages support
 
@@ -182,24 +183,24 @@ return packer.startup(function(use)
     -- Browser integration
 
     -- Editing support
-    use({ "JoosepAlviste/nvim-ts-context-commentstring", commit = "8834375" })
-    use({ "p00f/nvim-ts-rainbow", commit = "6c0b3b6" })
+    use({ "JoosepAlviste/nvim-ts-context-commentstring" })
+    use({ "p00f/nvim-ts-rainbow" })
     use({
         "ThePrimeagen/refactoring.nvim",
         requires = {
             { "nvim-lua/plenary.nvim" },
             { "nvim-treesitter/nvim-treesitter" }
-        },
-        commit = "7328413"
+        }
     })
-    use({ "python-rope/ropevim", run = "pip install ropevim", disable = false, commit = "230f0ed" })
+    use({ "Pocco81/AutoSave.nvim" })
+    use({ "python-rope/ropevim", run = "pip install ropevim", disable = false })
 
     -- Formatting
 
     -- Web development
 
     -- Media
-    use("nvim-telescope/telescope-media-files.nvim")
+    use({ "nvim-telescope/telescope-media-files.nvim" })
 
     -- Command Line
 

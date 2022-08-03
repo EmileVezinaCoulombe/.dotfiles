@@ -26,6 +26,8 @@ alias cfza='vim ~/.config/zsh/zsh-aliases'
 alias cfze='vim ~/.config/zsh/zsh-exports'
 alias cfzf='vim ~/.config/zsh/zsh-fuctions'
 alias cfzp='vim ~/.config/zsh/zsh-prompt'
+alias cfgit='vim ~/.gitconfig'
+alias cftmux='vim ~/.config/tmux/tmux.conf'
 alias cfzr='source ~/.config/zsh/.zshrc && source ~/.profile' # Reload
 
 alias cfvim='cdvim && vim'
