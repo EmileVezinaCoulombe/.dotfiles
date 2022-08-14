@@ -36,6 +36,9 @@ keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 -- Navigate buffers
 keymap("n", "<S-l>", ":bnext<CR>", opts)
 keymap("n", "<S-h>", ":bprevious<CR>", opts)
+-- Navigate tabs
+keymap("n", "<M-l>", ":tabnext<CR>", opts)
+keymap("n", "<M-h>", ":tabprevious<CR>", opts)
 
 -- Insert --
 

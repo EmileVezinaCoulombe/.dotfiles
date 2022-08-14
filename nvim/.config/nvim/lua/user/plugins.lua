@@ -31,7 +31,7 @@ end
 
 -- Have packer use a popup window
 packer.init({
-    snapshot = "first",
+    snapshot = "ice",
     snapshot_path = fn.stdpath "config" .. "/snapshots",
     max_jobs = 50,
     display = {
@@ -102,7 +102,11 @@ return packer.startup(function(use)
     -- Marks
 
     -- Fuzzy Finder
-    use("nvim-telescope/telescope.nvim")
+    use({ "nvim-telescope/telescope.nvim" })
+    use({
+        'nvim-telescope/telescope-fzf-native.nvim',
+        run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
+    })
 
     -- Note Taking
 
@@ -155,6 +159,7 @@ return packer.startup(function(use)
 
     -- Git
     use({ "lewis6991/gitsigns.nvim" })
+    use({ "sindrets/diffview.nvim" })
 
     -- Programming languages support
 
@@ -192,7 +197,7 @@ return packer.startup(function(use)
             { "nvim-treesitter/nvim-treesitter" }
         }
     })
-    use({ "Pocco81/AutoSave.nvim" })
+    use({ "Pocco81/auto-save.nvim", branch = "dev" })
     use({ "python-rope/ropevim", run = "pip install ropevim", disable = false })
 
     -- Formatting

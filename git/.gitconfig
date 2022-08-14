@@ -43,4 +43,10 @@
 [diff]
 	submodule = log
 [merge]
-    tool = nvim
+	tool = nvimdiff
+    conflictstyle = diff3
+[mergetool "nvimdiff"]
+	cmd = nvim -d \"$LOCAL\" \"$MERGED\" \"$BASE\" \"$REMOTE\" -c \"wincmd w\" -c \"wincmd J\"
+[mergetool]
+	keepBackup = false
+	prompt = false

@@ -17,12 +17,13 @@ null_ls.setup {
         formatting.prettier.with { extra_filetypes = { "toml", "solidity", "markdown" },
         },
         formatting.black,
+        formatting.isort,
         formatting.stylua.with { extra_args = {"--indent_type Space"}},
         formatting.shfmt,
         formatting.google_java_format,
 
         -- diagnostics
-        diagnostics.flake8,
+        -- diagnostics.flake8,
         diagnostics.eslint,
         diagnostics.shellcheck,
 
