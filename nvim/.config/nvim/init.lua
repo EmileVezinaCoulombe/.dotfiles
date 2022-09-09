@@ -7,6 +7,7 @@ require "user.whichkey"
 -- plugins
 require "user.lsp"
 
+require "user.plugins.aerial"
 require "user.plugins.alpha"
 require "user.plugins.auto-save"
 require "user.plugins.autopairs"

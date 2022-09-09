@@ -30,6 +30,7 @@ if not status_ok then
 end
 
 -- Have packer use a popup window
+-- PackerSnapshot ice
 packer.init({
     snapshot = "ice",
     snapshot_path = fn.stdpath "config" .. "/snapshots",
@@ -70,6 +71,7 @@ return packer.startup(function(use)
     use({ "williamboman/nvim-lsp-installer" })
     use({ "jose-elias-alvarez/null-ls.nvim" })
     use({ "ray-x/lsp_signature.nvim" })
+    use({ "stevearc/aerial.nvim", config = function() require('aerial').setup() end})
 
     -- Completion
     use({ "hrsh7th/nvim-cmp" })

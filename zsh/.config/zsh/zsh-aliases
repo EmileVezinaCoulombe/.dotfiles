@@ -4,6 +4,8 @@ alias fd='fdfind'
 alias lgit='lazygit'
 alias nyxt='nohup ~/usr/local/bin/nyxt >/dev/null 2>&1 &'
 alias json='jsonxf'
+alias nnn='nnn'
+# alias n='n -e'
 
 # Functions
 alias zsh-update-plugins="find "$ZDOTDIR/plugins" -type d -exec test -e '{}/.git' ';' -print0 | xargs -I {} -0 git -C {} pull -q"
@@ -23,6 +25,7 @@ alias tmp='vim ~/tmp.txt'
 # Config
 alias cfia='vim ~/.dotfiles/install-all.sh'
 alias cfzh='vim ~/.config/zsh/.zshrc'
+alias cft='vim ~/.config/kitty/kitty.conf'
 alias cfza='vim ~/.config/zsh/zsh-aliases'
 alias cfze='vim ~/.config/zsh/zsh-exports'
 alias cfzf='vim ~/.config/zsh/zsh-fuctions'
@@ -39,6 +42,7 @@ alias rh='rich'
 
 # Navigation
 alias nautilus='nohup nautilus . >/dev/null 2>&1 &'
+alias oh='vim ~/.cache/zsh/history'
 alias cddf='cd ~/.dotfiles' # cd dot files
 alias cdvim='cd ~/.config/nvim/'
 alias cdzsh='cd ~/.config/zsh/'

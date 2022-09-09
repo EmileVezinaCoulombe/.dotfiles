@@ -79,7 +79,7 @@ local opts = {
 }
 
 local mappings = {
-    ["/"] = { "<cmd>lua require(\"Comment.api\").toggle_current_linewise()<CR>", "Comment" },
+    ["/"] = { "<cmd>lua require('Comment.api').toggle.linewise.current('g@$')<CR>", "Comment" },
     ["a"] = { "<cmd>Alpha<cr>", "Alpha" },
     ["b"] = {
         "<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false})<cr>",
@@ -140,6 +140,9 @@ local mappings = {
     },
     n = {
         name = "Navigate",
+        a = { "<cmd>AerialToggle!<cr>", "Code outline", },
+        j = { "<cmd>AerialNext<cr>", "Code outline down", },
+        k = { "<cmd>AerialNextUp<cr>", "Code outline up", },
         i = { "<cmd>Telescope lsp_implementations<cr>", "Implementations", },
         d = { "<cmd>Telescope lsp_definitions<cr>", "Definitions", },
         r = { "<cmd>Telescope lsp_references<cr>", "References" },
@@ -241,7 +244,7 @@ local vopts = {
     nowait = true, -- use `nowait` when creating keymaps
 }
 local vmappings = {
-    ["/"] = { "<ESC><CMD>lua require(\"Comment.api\").toggle_linewise_op(vim.fn.visualmode())<CR>", "Comment" },
+    ["/"] = { "<ESC><CMD>lua require(\"Comment.api\").toggle.linewise(vim.fn.visualmode())<CR>", "Comment" },
     ["a"] = { ":'<,'>lua vim.lsp.buf.range_code_action()<CR>", "List code actions" },
     r = {
         name = "Refactor",

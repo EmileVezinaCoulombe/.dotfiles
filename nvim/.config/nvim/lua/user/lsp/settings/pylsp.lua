@@ -6,6 +6,7 @@ return {
                     include_params = true,
                 },
                 pycodestyle = { enabled = false },
+                pyflakes = { enabled = false },
             },
         },
     },

@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-STOW_FOLDERS="nvim,zsh,fonts,git,tmux"
+STOW_FOLDERS="nvim,zsh,kitty,fonts,git,tmux"
 
 rm "~/.config/zsh/.zcompdump"
 

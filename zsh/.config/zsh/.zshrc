@@ -20,9 +20,9 @@ export export PATH="/.local/bin/lvim:$PATH"
 
 # Load aliases and shortcuts if existent.
 source "$ZDOTDIR/zsh-functions"
-zsh_add_file "zsh-exports"
-zsh_add_file "zsh-aliases"
-zsh_add_file "zsh-prompt"
+source "$ZDOTDIR/zsh-exports"
+source "$ZDOTDIR/zsh-aliases"
+source "$ZDOTDIR/zsh-prompt"
 
 # Plugins
 ## completions
@@ -38,7 +38,7 @@ zsh_add_plugin "zsh-users/zsh-autosuggestions"
 eval "$(direnv hook zsh)"
 
 ## luaver
-[ -s ~/.luaver/luaver ] && . ~/.luaver/luaver
+# [ -s ~/.luaver/luaver ] && . ~/.luaver/luaver
 
 ## Pyenv
 export PYENV_ROOT="$HOME/.pyenv"
@@ -124,59 +124,3 @@ export FZF_DEFAULT_OPS="--extended"
 export FZF_DEFAULT_COMMAND="fdfind --type f --type d --type s -H -E .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fpath=($fpath "$HOME/.config/zsh/.zfunctions")
-
-
-## Spaceship-propt
-# https://starship.rs/
-# https://github.com/spaceship-prompt/spaceship-prompt/blob/master/docs/options.md 
-### Order
-SPACESHIP_PROMPT_ORDER=(
-  time          # Time stamps section
-  user          # Username section
-  dir           # Current directory section
-  host          # Hostname section
-  git           # Git section (git_branch + git_status)
-  hg            # Mercurial section (hg_branch  + hg_status)
-  package       # Package version
-  gradle        # Gradle section
-  maven         # Maven section
-  node          # Node.js section
-  ruby          # Ruby section
-  elixir        # Elixir section
-  xcode         # Xcode section
-  swift         # Swift section
-  golang        # Go section
-  php           # PHP section
-  rust          # Rust section
-  haskell       # Haskell Stack section
-  julia         # Julia section
-  docker        # Docker section
-  aws           # Amazon Web Services section
-  gcloud        # Google Cloud Platform section
-  venv          # virtualenv section
-  conda         # conda virtualenv section
-  # pyenv         # Pyenv section
-  dotnet        # .NET section
-  ember         # Ember.js section
-  kubectl       # Kubectl context section
-  terraform     # Terraform workspace section
-  ibmcloud      # IBM Cloud section
-  exec_time     # Execution time
-  line_sep      # Line break
-  battery       # Battery level and status
-  vi_mode       # Vi-mode indicator
-  jobs          # Background jobs indicator
-  exit_code     # Exit code section
-  char          # Prompt character
-)
-### Python
-SPACESHIP_VENV_SYMBOL=🐍
-SPACESHIP_VENV_COLOR=yellow
-### Directory
-SPACESHIP_DIR_TRUNC=2
-SPACESHIP_DIR_TRUNC_REPO=false
-### VI-mode
-SPACESHIP_VI_MODE_SHOW=false
-autoload -U promptinit; promptinit
-prompt spaceship
-fpath=($fpath "~/.config/zsh/.zfunctions")

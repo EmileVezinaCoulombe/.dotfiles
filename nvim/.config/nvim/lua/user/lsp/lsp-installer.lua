@@ -1,7 +1,8 @@
-local status_ok, lsp_installer = pcall(require, "nvim-lsp-installer")
-if not status_ok then
-    return
-end
+local import_plugin = require("user.util").import_plugin
+
+local lsp_installer = import_plugin( "nvim-lsp-installer")
+
+lsp_installer.setup()
 
 local servers = {
     "sumneko_lua",
@@ -17,18 +18,20 @@ local servers = {
     "yamlls",
 }
 
-lsp_installer.setup()
+local lspconfig = import_plugin( "lspconfig")
 
-local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
-if not lspconfig_status_ok then
-    return
+local on_attach = function(client, bufnr)
+    require("user.lsp.handlers").on_attach(client, bufnr)
+    require("aerial").on_attach(client, bufnr)
 end
+
+
 
 local opts = {}
 
 for _, server in pairs(servers) do
     opts = {
-        on_attach = require("user.lsp.handlers").on_attach,
+        on_attach = on_attach,
         capabilities = require("user.lsp.handlers").capabilities,
     }
 

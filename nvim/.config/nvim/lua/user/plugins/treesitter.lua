@@ -1,9 +1,9 @@
-local status_ok, configs = pcall(require, "nvim-treesitter.configs")
-if not status_ok then
-    return
-end
+local import_plugin = require("user.util").import_plugin
 
-configs.setup {
+local ts_config = import_plugin("nvim-treesitter.configs")
+
+
+ts_config.setup {
     ensure_installed = "all",
     auto_install = true,
     sync_install = false, -- Install languages synchronously (only applied to `ensure_installed`)
@@ -37,3 +37,12 @@ configs.setup {
         enable_autocmd = false,
     },
 }
+
+-- https://github.com/nvim-treesitter/nvim-treesitter/wiki/Installation
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufAdd', 'BufNew', 'BufNewFile', 'BufWinEnter' }, {
+    group = vim.api.nvim_create_augroup('TS_FOLD_WORKAROUND', {}),
+    callback = function()
+        vim.opt.foldmethod = 'expr'
+        vim.opt.foldexpr   = 'nvim_treesitter#foldexpr()'
+    end
+})

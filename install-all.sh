@@ -195,6 +195,24 @@ if [ $is_cmd_exist != 0 ]; then
 	curl -sS https://webinstall.dev/shfmt | bash
 fi
 
+# nnn
+cmd_exist nnn
+is_cmd_exist=$?
+if [ $is_cmd_exist != 0 ]; then
+    touch "install.sh"
+	echo -e "\n${FONT_YELLOW}Installing nnn${COLOR_END}\n"
+    {
+        echo "#\!/bin/bash"
+        printf "\n"
+        echo "sudo make O_NERD=1"
+        echo "sudo cp nnn /bin/"
+        echo "mkdir -p ~/.config/nnn/plugins"
+        echo "cd ~/.config/nnn/plugins"
+        echo "curl -Ls https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs | sh"
+    } >> install.sh
+    . ./install.sh
+fi
+
 # Flatpak
 install_cmd flatpak
 install_flatpak com.getpostman.Postman

@@ -50,6 +50,8 @@ local progress = {
     "progress",
 }
 
+local breadcrump_sep = " ⟩ "
+
 local spaces = function()
     return "spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
 end
@@ -67,7 +69,19 @@ lualine.setup {
     sections = {
         lualine_a = { mode },
         lualine_b = { diff, branch },
-        lualine_c = {},
+        lualine_c = {
+            {
+                -- https://github.com/ikalnytskyi/dotfiles/blob/2bf3482b7b5d4d87b331739e66340953d8c9966a/nvim/.config/nvim/init.lua#L588-L598
+                "filename",
+                path = 1,
+                separator = vim.trim(breadcrump_sep),
+                fmt = function(str)
+                    local path_separator = package.config:sub(1, 1)
+                    return str:gsub(path_separator, breadcrump_sep)
+                end
+            },
+            { "aerial", sep = breadcrump_sep },
+        },
         lualine_x = {},
         lualine_y = { filetype, diagnostics, progress },
         lualine_z = { location },
