@@ -80,7 +80,7 @@ local opts = {
 
 local mappings = {
     ["/"] = { "<cmd>lua require('Comment.api').toggle.linewise.current('g@$')<CR>", "Comment" },
-    ["a"] = { "<cmd>Alpha<cr>", "Alpha" },
+    ["A"] = { "<cmd>Alpha<cr>", "Alpha" },
     ["b"] = {
         "<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false})<cr>",
         "Buffers",
@@ -94,14 +94,25 @@ local mappings = {
         "Find files",
     },
     ["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
-    ["o"] = {"<cmd>tabnew<cr>", "Open Tab"},
-    ["P"] = { "<cmd>Telescope projects<cr>", "Projects" },
+    ["o"] = { "<cmd>tabnew<cr>", "Open Tab" },
+    -- ["P"] = { "<cmd>Telescope projects<cr>", "Projects" },
     ["q"] = { "<cmd>qa!<CR>", "Quit" },
     ["w"] = { "<cmd>w!<CR>", "Save" },
     v = {
         name = "View",
+        z = { "<cmd>ZenMode<cr>", "Zen Mode" },
     },
     p = {
+        name = "Productivity",
+        n = { "<cmd>Neorg<cr>", "Neorg" },
+        s = { "<cmd>NeorgStart<cr>", "Start Neorg" },
+        v = { "<cmd>Neorg gtd views<cr>", "View tasks" },
+        c = { "<cmd>Neorg gtd capture<cr>", "Capture task" },
+        e = { "<cmd>Neorg gtd edit<cr>", "Edit task" },
+        g = { "<cmd>Neorg gtd<cr>", "Get things done" },
+        w = { "<cmd>Neorg workspace<cr>", "Workspaces" },
+    },
+    P = {
         name = "Plugin",
         c = { "<cmd>PackerCompile<cr>", "Compile" },
         i = { "<cmd>PackerInstall<cr>", "Install" },
@@ -154,7 +165,7 @@ local mappings = {
         a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
         d = { "<cmd>Telescope diagnostics<cr>", "Document Diagnostics", },
         f = { "<cmd>lua vim.lsp.buf.format()<cr>", "Format" },
-        h = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover"},
+        h = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover" },
         i = { "<cmd>LspInfo<cr>", "Info" },
         I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
         j = { "<cmd>lua vim.diagnostic.goto_next()<CR>", "Next Diagnostic" },

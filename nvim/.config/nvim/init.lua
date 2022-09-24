@@ -6,6 +6,7 @@ require "user.whichkey"
 
 -- plugins
 require "user.lsp"
+require "user.plugins.nvim-tree"
 
 require "user.plugins.aerial"
 require "user.plugins.alpha"
@@ -17,8 +18,9 @@ require "user.plugins.completion"
 require "user.plugins.diffview"
 require "user.plugins.dressing"
 require "user.plugins.git"
+-- require "user.plugins.hologram"
 require "user.plugins.lualine"
-require "user.plugins.nvim-tree"
+require "user.plugins.neorg"
 require "user.plugins.refactoring"
 require "user.plugins.surround"
 require "user.plugins.telescope"

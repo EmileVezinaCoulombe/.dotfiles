@@ -7,6 +7,10 @@ local hide_in_width = function()
     return vim.fn.winwidth(0) > 80
 end
 
+local breadcrump_sep = " ⟩ "
+local left_sep = ""
+local right_sep = ""
+
 local diagnostics = {
     "diagnostics",
     sources = { "nvim_diagnostic" },
@@ -37,20 +41,18 @@ local branch = {
 
 local location = {
     "location",
-    separator = { right = "" },
+    separator = { right = right_sep },
     left_padding = 3,
 }
 
 local mode = {
     'mode',
-    separator = { left = '' },
+    separator = { left = left_sep },
     right_padding = 3,
 }
 local progress = {
     "progress",
 }
-
-local breadcrump_sep = " ⟩ "
 
 local spaces = function()
     return "spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
@@ -62,7 +64,7 @@ lualine.setup {
         icons_enabled = true,
         theme = "auto",
         component_separators = { left = '|', right = '|' },
-        section_separators = { left = '', right = '' },
+        section_separators = { left = right_sep, right = left_sep },
         disabled_filetypes = { "alpha", "dashboard" },
         always_divide_middle = true,
     },

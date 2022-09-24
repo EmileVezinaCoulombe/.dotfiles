@@ -31,6 +31,7 @@ end
 
 -- Have packer use a popup window
 -- PackerSnapshot ice
+-- jsonxf -i snapshot/ice -o snapshot/ice
 packer.init({
     snapshot = "ice",
     snapshot_path = fn.stdpath "config" .. "/snapshots",
@@ -71,7 +72,7 @@ return packer.startup(function(use)
     use({ "williamboman/nvim-lsp-installer" })
     use({ "jose-elias-alvarez/null-ls.nvim" })
     use({ "ray-x/lsp_signature.nvim" })
-    use({ "stevearc/aerial.nvim", config = function() require('aerial').setup() end})
+    use({ "stevearc/aerial.nvim", config = function() require('aerial').setup() end })
 
     -- Completion
     use({ "hrsh7th/nvim-cmp" })
@@ -111,7 +112,26 @@ return packer.startup(function(use)
     })
 
     -- Note Taking
-
+    use {
+        "nvim-neorg/neorg",
+        config = function()
+            require('neorg').setup {
+                load = {
+                    ["core.norg.dirman"] = {
+                        config = {
+                            workspaces = {
+                                note = "~/Nextcloud/USER-Emile/note",
+                            }
+                        }
+                    },
+                    ["core.norg.concealer"] = { config = {} },
+                }
+            }
+        end,
+        requires = {
+            "nvim-lua/plenary.nvim",
+        }
+    }
     -- Color
 
     -- Colorscheme Creation
@@ -199,7 +219,10 @@ return packer.startup(function(use)
             { "nvim-treesitter/nvim-treesitter" }
         }
     })
-    use({ "Pocco81/auto-save.nvim", branch = "dev" })
+    -- use({ "Pocco81/true-zen.nvim"})
+    -- use({ "loqusion/true-zen.nvim", branch="some-fixes"})
+    use({ "folke/zen-mode.nvim" })
+    use({ "Pocco81/auto-save.nvim" })
     use({ "python-rope/ropevim", run = "pip install ropevim", disable = false })
 
     -- Formatting
@@ -208,6 +231,7 @@ return packer.startup(function(use)
 
     -- Media
     use({ "nvim-telescope/telescope-media-files.nvim" })
+    use({ "edluffy/hologram.nvim" })
 
     -- Command Line
 
