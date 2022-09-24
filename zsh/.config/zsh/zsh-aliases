@@ -1,4 +1,10 @@
 # Rename
+alias nano='micro'
+alias cat='bat'
+alias grep='ripgrep'
+alias ls='exa'
+alias du='dust'
+alias top='btm'
 alias vim='nvim'
 alias fd='fdfind'
 alias lgit='lazygit'
@@ -17,6 +23,8 @@ alias clock='tty-clock -cDC 3'
 alias matrix='cmatrix -su 9'
 
 # Personal
+alias gcd='cd ~/Nextcloud/USER-Emile/gcd && vim'
+alias wa='cd ~/Nextcloud/USER-Emile/note && vim'
 alias wrt='vim ~/Nextcloud/USER-Emile/note/todo.md'
 alias wrw='vim ~/Nextcloud/USER-Emile/note/work-buffer.md'
 alias wrp='vim ~/Nextcloud/USER-Emile/note/projects-buffer.md'
@@ -49,6 +57,7 @@ alias cdzsh='cd ~/.config/zsh/'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
+alias cdl='cd -P "$symlinkdir"'
 
 # Git
 alias g='git'
@@ -90,3 +99,6 @@ alias rmi='rm -i'
 
 # Recursive
 alias rmr="rm -rf"
+
+# To make kitty work
+alias sshk="kitty +kitten ssh"

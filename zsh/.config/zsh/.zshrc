@@ -16,7 +16,7 @@ export HISTTIMEFORMAT="[%F %T] "
 setopt EXTENDED_HISTORY # Add Timestamp to history
 setopt HIST_FIND_NO_DUPS # Don't view duplicate when searching <C-R>
 setopt HIST_IGNORE_ALL_DUPS # Don't add duplicate in history
-export export PATH="/.local/bin/lvim:$PATH"
+export PATH="/.local/bin/nvim:$PATH"
 
 # Load aliases and shortcuts if existent.
 source "$ZDOTDIR/zsh-functions"
@@ -38,7 +38,7 @@ zsh_add_plugin "zsh-users/zsh-autosuggestions"
 eval "$(direnv hook zsh)"
 
 ## luaver
-# [ -s ~/.luaver/luaver ] && . ~/.luaver/luaver
+. ~/.luaver/luaver
 
 ## Pyenv
 export PYENV_ROOT="$HOME/.pyenv"
