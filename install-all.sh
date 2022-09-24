@@ -1,4 +1,5 @@
 #!/bin/bash
+# Guide for calendar with icloud https://ar.al/2018/08/05/using-icloud-calendars-on-gnu-linux/
 sudo apt update
 sudo apt upgrade
 
@@ -83,6 +84,7 @@ install_cmd xsel
 install_cmd wl-clipboard
 install_cmd sshfs
 install_cmd lolcat
+install_cmd exa
 second_install ripgrep
 second_install fd-find
 second_install fonts-powerline
@@ -139,8 +141,8 @@ if [ $is_cmd_exist != 0 ]; then
     cd ~/Applications || return
 	gh repo clone neovim/neovim
 	cd neovim || return
-	git checkout master
-	make CMAKE_BUILD_TYPE=Release
+	git checkout nightly
+    make CMAKE_BUILD_TYPE=RelWithDebInfo
 	sudo make install
     cd ~ || return
 fi
@@ -271,7 +273,11 @@ if [ $is_cmd_exist != 0 ]; then
 	rustup component add llvm-tools-preview # Preview
 fi
 
+cargo install gitui
 cargo install onefetch
+cargo install --locked bat
+cargo install bottom
+cargo install du-dust
 
 # Lua
 
@@ -283,6 +289,9 @@ if [ $is_cmd_exist != 0 ]; then
 	curl -fsSL https://raw.githubusercontent.com/dhavalkapil/luaver/master/install.sh | sh -s - -r v1.1.0
 	cargo install stylua
 fi
+
+luaver install 5.4.4
+luaver set-default 5.4.4
 
 # Ricing
 
