@@ -1,3 +1,5 @@
+# Fig pre block. Keep at the top of this file.
+[[ -f "$HOME/.fig/shell/profile.pre.bash" ]] && builtin source "$HOME/.fig/shell/profile.pre.bash"
 # Profile file. Set Environment variables.
 # Add `~/.local/bin` to $PATH
 export PATH="$PATH:$HOME/.local/bin/:$HOME/.local/bin/personal"
@@ -36,3 +38,6 @@ fi
 eval "$(pyenv init --path)"
 
 . "$HOME/.cargo/env"
+
+# Fig post block. Keep at the bottom of this file.
+[[ -f "$HOME/.fig/shell/profile.post.bash" ]] && builtin source "$HOME/.fig/shell/profile.post.bash"
