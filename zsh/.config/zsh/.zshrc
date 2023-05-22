@@ -1,8 +1,13 @@
+# Fig pre block. Keep at the top of this file.
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 export ZDOTDIR=$HOME/.config/zsh
 # XDG Paths
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CACHE_HOME=$HOME/.cache
 export XDG_DATA_HOME=$HOME/.local/share
+
+# User variable
+export GITHUB_USERNAME=EmileVezinaCoulombe
 
 # Enable colors and change prompt:
 autoload -U colors && colors
@@ -17,6 +22,7 @@ setopt EXTENDED_HISTORY # Add Timestamp to history
 setopt HIST_FIND_NO_DUPS # Don't view duplicate when searching <C-R>
 setopt HIST_IGNORE_ALL_DUPS # Don't add duplicate in history
 export PATH="/.local/bin/nvim:$PATH"
+export PATH="$HOME/.emacs.d/bin:$PATH"
 
 # Load aliases and shortcuts if existent.
 source "$ZDOTDIR/zsh-functions"
@@ -26,6 +32,8 @@ source "$ZDOTDIR/zsh-prompt"
 
 # Plugins
 ## completions
+fpath+="$ZDOTDIR/.zfunctions"
+autoload -Uz compinit
 autoload -Uz compinit
 compinit -d ~/.cache/zsh/zcompdump-$ZSH_VERSION
 zstyle ':completion:*' menu select
@@ -123,4 +131,6 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 export FZF_DEFAULT_OPS="--extended"
 export FZF_DEFAULT_COMMAND="fdfind --type f --type d --type s -H -E .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-fpath=($fpath "$HOME/.config/zsh/.zfunctions")
+
+# Fig post block. Keep at the bottom of this file.
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
