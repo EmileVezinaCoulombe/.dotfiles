@@ -1,0 +1,7 @@
+os:
+  editPreset: 'nvim'
+  editInTerminal: true
+gui:
+    theme:
+      selectedLineBgColor:
+      - default
