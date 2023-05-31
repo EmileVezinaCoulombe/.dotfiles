@@ -16,6 +16,13 @@ return {
         "isort",
         "autoflake",
         "mypy",
+        "typescript-language-server",
+        "css-lsp",
+        "html-lsp",
+        "eslint-lsp",
+        "prettierd",
+        "csharp-language-server",
+        "csharpier"
       })
     end,
   },
