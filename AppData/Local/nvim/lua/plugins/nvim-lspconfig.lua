@@ -7,12 +7,16 @@ return {
       diagnostics = { virtual_text = false },
       servers = {
         angularls = {},
+        tsserver = {},
+        cssls = {},
+        html = {},
         eslint = {},
         pyright = {
           root_dir = function()
             return require("lazyvim.util").get_root()
           end,
         },
+        csharp_ls = {},
       },
       capabilities = {
         textDocument = {
@@ -42,8 +46,11 @@ return {
     },
     setup = function(plugins, opts)
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
-      require("lspconfig").pyright.setup({ capabilities = capabilities }) --  server = opts
-      require("lspconfig").angularls.setup({ capabilities = capabilities }) --  server = opts
+      require("lspconfig").pyright.setup({ capabilities = capabilities })
+      require("lspconfig").angularls.setup({ capabilities = capabilities })
+      require("lspconfig").cssls.setup({ capabilities = capabilities })
+      require("lspconfig").html.setup({ capabilities = capabilities })
+      require("lspconfig").csharp_ls.setup({ capabilities = capabilities })
     end,
   },
 }
