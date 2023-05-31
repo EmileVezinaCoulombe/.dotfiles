@@ -1,6 +1,13 @@
 return {
   {
     "nvim-telescope/telescope.nvim",
+    dependencies = {
+      "nvim-telescope/telescope-fzf-native.nvim",
+      build = "make",
+      config = function()
+        require("telescope").load_extension("fzf")
+      end,
+    },
     config = function(plugin, opts)
       local new_maker = function(filepath, bufnr, opts)
         opts = opts or {}
