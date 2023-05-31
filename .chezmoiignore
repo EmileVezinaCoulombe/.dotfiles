@@ -1,0 +1,15 @@
+README.md
+{{ if ne .chezmoi.os "windows" }}
+AppData/**
+{{ else }}
+**/atuin
+**/btop
+**/kitty
+**/neofetch
+**/oh-my-zsh
+**/tmux*
+**/zsh
+.profile
+.zprofile
+.zshrc
+{{ end }}
