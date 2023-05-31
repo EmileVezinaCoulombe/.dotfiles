@@ -6,11 +6,22 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
+local hr = tonumber(os.date("%H", os.time()))
+local function getColorScheme()
+  if hr > 6 and hr < 21 then -- day between 6am and 9pm
+    vim.opt.background = "light"
+    return "github_light"
+  else -- night
+    vim.opt.background = "dark"
+    return "kanagawa"
+  end
+end
+
 require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins", opts = {
-      colorscheme = "github_dark",
+      colorscheme = getColorScheme(),
     } },
     { import = "lazyvim.plugins.extras.lang.typescript" },
     { import = "lazyvim.plugins.extras.lang.json" },
@@ -31,7 +42,6 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
-  install = { colorscheme = { "tokyonight", "habamax" } },
   checker = { enabled = false }, -- automatically check for plugin updates
   performance = {
     rtp = {
