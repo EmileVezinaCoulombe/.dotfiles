@@ -13,9 +13,7 @@ augroup("clear_group", { clear = true })
 autocmd("Filetype", {
   pattern = "neo-tree",
   callback = function()
-    if package.loaded["ufo"] then
-      vim.cmd("UfoDetach")
-    end
+    vim.cmd("UfoDetach")
   end,
   group = "clear_group",
   desc = "Disable Ufo for neo-tree",

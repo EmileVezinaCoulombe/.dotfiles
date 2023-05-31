@@ -46,6 +46,11 @@ return {
     },
     setup = function(plugins, opts)
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      -- UFO folding capability
+      capabilities.textDocument.foldingRange = {
+        dynamicRegistration = false,
+        lineFoldingOnly = true,
+      }
       require("lspconfig").pyright.setup({ capabilities = capabilities })
       require("lspconfig").angularls.setup({ capabilities = capabilities })
       require("lspconfig").cssls.setup({ capabilities = capabilities })
