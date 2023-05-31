@@ -3,10 +3,10 @@
   email = {{ .email | quote }}
 [credential "https://github.com"]
   helper = 
-  helper = !{{ .git_gh_program_path | quote }} auth git-credential
+  helper = !gh auth git-credential
 [credential "https://gist.github.com"]
   helper = 
-  helper = !{{ .git_gh_program_path | quote }} auth git-credential
+  helper = !gh auth git-credential
 [alias]
   project = !onefetch
   fame = !python -m gitfame
