@@ -1,7 +1,7 @@
 return {
   {
     "nvim-cmp",
-    dependencies = { "hrsh7th/cmp-emoji" },
+    dependencies = { "hrsh7th/cmp-emoji", "petertriho/cmp-git" },
     ---@param opts cmp.ConfigSchema
     opts = function(_, opts)
       local cmp = require("cmp")
@@ -14,6 +14,7 @@ return {
         { name = "buffer", priority = 500 },
         { name = "path", priority = 250 },
         { name = "emoji", priority = 200 },
+        { name = "git", priority = 200 },
       })
 
       -- Setup supertab
