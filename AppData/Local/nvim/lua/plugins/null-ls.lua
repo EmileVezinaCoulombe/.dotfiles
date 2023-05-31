@@ -3,7 +3,6 @@ return {
     "jose-elias-alvarez/null-ls.nvim",
     opts = function(_, opts)
       local nls = require("null-ls")
-      -- opts.default_timeout = 500000
       opts.sources = vim.list_extend(opts.sources, {
         nls.builtins.diagnostics.markdownlint,
         nls.builtins.diagnostics.selene.with({
@@ -18,6 +17,12 @@ return {
             "--remove-unused-variables",
             "--remove-all-unused-imports",
           },
+        }),
+        nls.builtins.formatting.prettierd,
+        nls.builtins.formatting.csharpier.with({
+          condition = function(utils)
+            return utils.root_has_file({ ".csharpierrc.json" })
+          end,
         }),
         nls.builtins.diagnostics.ruff,
         nls.builtins.diagnostics.mypy.with({
