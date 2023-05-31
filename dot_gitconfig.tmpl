@@ -1,0 +1,52 @@
+[user]
+  name = {{ .git_user_name | quote }}
+  email = {{ .email | quote }}
+[credential "https://github.com"]
+  helper = 
+  helper = !{{ .git_gh_program_path | quote }} auth git-credential
+[credential "https://gist.github.com"]
+  helper = 
+  helper = !{{ .git_gh_program_path | quote }} auth git-credential
+[alias]
+  project = !onefetch
+	fame = !python -m gitfame
+	fza = !git ls-files -m -o --exclude-standard | fzf --print0 -m | xargs -0 -t -o git add
+  plog1-b = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+  plog2-b = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
+  plog3-b = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
+  plog = plog1-b
+  plog1 = plog1-b --all
+  plog2 = plog2-b --all
+  plog3 = plog3-b --all
+[init]
+	templatedir = /home/emile/.git-templates
+	defaultBranch = main
+[color]
+  ui = true
+[core]
+  editor = nvim
+  pager = diff-so-fancy | less --tabs=4 -RFX
+  excludesfile = ~/.config/git/ignore
+[color "diff-highlight"]
+  oldNormal = red bold
+  oldHighlight = yellow bold 52
+  newNormal = green bold
+  newHighlight = cyan bold 22
+[color "diff"]
+  meta = 11
+  frag = magenta bold
+  func = 146 bold
+  commit = cyan bold
+  old = red bold
+  new = green bold
+  whitespace = red reverse
+[diff]
+	submodule = log
+[merge]
+	tool = nvimdiff
+  conflictstyle = diff3
+[mergetool "nvimdiff"]
+	cmd = nvim -d \"$LOCAL\" \"$MERGED\" \"$BASE\" \"$REMOTE\" -c \"wincmd w\" -c \"wincmd J\"
+[mergetool]
+	keepBackup = false
+	prompt = false
