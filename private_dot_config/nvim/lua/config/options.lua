@@ -6,3 +6,8 @@ local opt = vim.opt
 opt.spelllang = { "en", "fr" }
 opt.spell = true
 opt.nrformats = "bin,alpha,hex,octal"
+if vim.fn.has("unnamedplus") then
+  opt.clipboard = "unnamedplus"
+else
+  opt.clipboard = "unnamed"
+end
