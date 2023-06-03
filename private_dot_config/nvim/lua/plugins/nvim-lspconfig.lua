@@ -17,6 +17,7 @@ return {
           end,
         },
         csharp_ls = {},
+        bashls = {},
       },
       capabilities = {
         textDocument = {
@@ -56,6 +57,7 @@ return {
       require("lspconfig").cssls.setup({ capabilities = capabilities })
       require("lspconfig").html.setup({ capabilities = capabilities })
       require("lspconfig").csharp_ls.setup({ capabilities = capabilities })
+      require("lspconfig").bashls.setup({ capabilities = capabilities })
     end,
   },
 }
