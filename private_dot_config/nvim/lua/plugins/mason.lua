@@ -22,7 +22,8 @@ return {
         "eslint-lsp",
         "prettierd",
         "csharp-language-server",
-        "csharpier"
+        "csharpier",
+        "bash-language-server",
       })
     end,
   },
