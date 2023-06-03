@@ -15,7 +15,6 @@ export GITHUB_USERNAME=EmileVezinaCoulombe
 # Software
 export ATUIN_CONFIG_DIR=$XDG_CONFIG_HOME/atuin/
 export PYENV_ROOT="$HOME/.pyenv"
-export NVM_DIR="${HOME}/.nvm"
 
 # Path
 export PATH="/.local/bin/nvim:$PATH"
