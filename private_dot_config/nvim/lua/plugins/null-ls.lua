@@ -4,41 +4,45 @@ return {
     opts = function(_, opts)
       local nls = require("null-ls")
       opts.sources = vim.list_extend(opts.sources, {
+        -- diagnostics
+        nls.builtins.diagnostics.ruff,
         nls.builtins.diagnostics.markdownlint,
+        nls.builtins.diagnostics.luacheck.with({
+          condition = function(utils)
+            return utils.root_has_file({ ".luacheckrc" })
+          end,
+        }),
         nls.builtins.diagnostics.selene.with({
           condition = function(utils)
             return utils.root_has_file({ "selene.toml" })
           end,
         }),
-        nls.builtins.formatting.isort,
-        nls.builtins.formatting.black,
-        nls.builtins.formatting.autoflake.with({
-          extra_args = {
-            "--remove-unused-variables",
-            "--remove-all-unused-imports",
-          },
-        }),
-        nls.builtins.formatting.prettierd,
-        nls.builtins.formatting.csharpier.with({
-          condition = function(utils)
-            return utils.root_has_file({ ".csharpierrc.json" })
-          end,
-        }),
-        nls.builtins.diagnostics.ruff,
         nls.builtins.diagnostics.mypy.with({
           extra_args = {
             "--python-executable",
             require("utils.python_path").venv_python_path,
           },
         }),
+
+        -- formatting
+        nls.builtins.formatting.beautysh,
+        nls.builtins.formatting.isort,
+        nls.builtins.formatting.black,
+        nls.builtins.formatting.prettierd,
+        nls.builtins.formatting.autoflake.with({
+          extra_args = {
+            "--remove-unused-variables",
+            "--remove-all-unused-imports",
+          },
+        }),
+        nls.builtins.formatting.csharpier.with({
+          condition = function(utils)
+            return utils.root_has_file({ ".csharpierrc.json" })
+          end,
+        }),
         nls.builtins.formatting.stylua.with({
           condition = function(utils)
             return utils.root_has_file({ "stylua.toml" })
-          end,
-        }),
-        nls.builtins.diagnostics.luacheck.with({
-          condition = function(utils)
-            return utils.root_has_file({ ".luacheckrc" })
           end,
         }),
       })
