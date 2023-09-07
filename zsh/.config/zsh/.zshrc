@@ -8,6 +8,7 @@ export XDG_DATA_HOME=$HOME/.local/share
 
 # User variable
 export GITHUB_USERNAME=EmileVezinaCoulombe
+export ATUIN_CONFIG_DIR=$XDG_CONFIG_HOME/atuin/
 
 # Enable colors and change prompt:
 autoload -U colors && colors
@@ -69,6 +70,12 @@ else
 fi
 unset __conda_setup
 
+## Atuin
+# https://github.com/ellie/atuin/issues/971
+export ATUIN_NOBIND="true"
+eval "$(atuin init zsh)"
+bindkey '^a' _atuin_search_widget
+
 # Basic auto/tab complete:
 autoload -Uz compinit
 zstyle ':completion:*' menu select
@@ -108,18 +115,6 @@ zle -N zle-line-init
 echo -ne '\e[5 q' # Use beam shape cursor on startup.
 preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
-# Use lf to switch directories and bind it to ctrl-o
-lfcd () {
-    tmp="$(mktemp)"
-    lf -last-dir-path="$tmp" "$@"
-    if [ -f "$tmp" ]; then
-        dir="$(cat "$tmp")"
-        rm -f "$tmp"
-        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
-    fi
-}
-bindkey -s '^o' 'lfcd\n'
-
 # Edit line in vim with ctrl-e:
 autoload edit-command-line; zle -N edit-command-line
 bindkey '^e' edit-command-line
@@ -127,6 +122,7 @@ bindkey '^e' edit-command-line
 # Load zsh-syntax-highlighting; should be last.
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 
+# FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_OPS="--extended"
 export FZF_DEFAULT_COMMAND="fdfind --type f --type d --type s -H -E .git"
