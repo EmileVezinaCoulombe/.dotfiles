@@ -84,6 +84,10 @@ return packer.startup(function(use)
     use({ "hrsh7th/cmp-nvim-lua" })
 
     -- Markdown
+    use({
+        "iamcco/markdown-preview.nvim",
+        run = function() vim.fn["mkdp#util#install"]() end,
+    })
 
     -- Syntax
     use({

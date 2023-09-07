@@ -229,11 +229,9 @@ local mappings = {
     },
     r = {
         name = "Run",
-        p = {
-            f = { "<cmd>TermExec cmd='python expand(\'%:p\')'<cr>", "File" },
-            p = { "<cmd>TermExec cmd='python -m cProfile -o program.prof expand(\'%:p\')'<cr>", "Profile" },
-            v = { "<cmd>TermExec cmd='snakeviz program.prof'<cr>", "View profile" },
-        },
+        f = { "<cmd>TermExec cmd='python expand(\'%:p\')'<cr>", "File" },
+        p = { "<cmd>TermExec cmd='python -m cProfile -o program.prof expand(\'%:p\')'<cr>", "Profile" },
+        v = { "<cmd>TermExec cmd='snakeviz program.prof'<cr>", "View profile" },
     },
     i = {
         name = "Icon Picker",
