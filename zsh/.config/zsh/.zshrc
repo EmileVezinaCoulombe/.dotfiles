@@ -1,132 +1,171 @@
-# Fig pre block. Keep at the top of this file.
-[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
-export ZDOTDIR=$HOME/.config/zsh
-# XDG Paths
-export XDG_CONFIG_HOME=$HOME/.config
-export XDG_CACHE_HOME=$HOME/.cache
-export XDG_DATA_HOME=$HOME/.local/share
+# /etc/zsh/zshrc
+# Used for setting interactive shell configuration and executing commands for all users,
+# will be read when starting as an interactive shell.
 
-# User variable
-export GITHUB_USERNAME=EmileVezinaCoulombe
-export ATUIN_CONFIG_DIR=$XDG_CONFIG_HOME/atuin/
+# $ZDOTDIR/.zshrc
+# Used for setting user's interactive shell configuration and executing commands,
+# will be read when starting as an interactive shell.
+# Set options for the interactive shell there with the setopt and unsetopt commands.
+################################################################################
+# PATH extension
+export PATH="/.local/bin/nvim:$PATH"
+export PATH="$HOME/.emacs.d/bin:$PATH"
+export PATH="$PYENV_ROOT/bin:$PATH"
 
-# Enable colors and change prompt:
-autoload -U colors && colors
+if [ -d "$HOME/bin" ]; then
+    PATH="$HOME/bin:$PATH"
+fi
 
+if [ -d "$HOME/.local/bin" ]; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+if [ -d "$HOME/.local/bin/personal" ]; then
+    PATH="$HOME/.local/bin/personal:$PATH"
+fi
+
+if [ -d "$PYENV_ROOT/bin" ]; then
+    export PATH="$PYENV_ROOT/bin:$PATH"
+fi
+
+################################################################################
+# Source
+source "$ZALIASES"
+source "$ZFUNCTIONS"
+
+################################################################################
 # History
 export HISTSIZE=10000
 export SAVEHIST=10000
-export HISTFILE=~/.cache/zsh/history
+export HISTFILE="$XDG_CACHE_HOME/zsh/history"
 setopt INC_APPEND_HISTORY # Incrementaly append history
 export HISTTIMEFORMAT="[%F %T] "
-setopt EXTENDED_HISTORY # Add Timestamp to history
-setopt HIST_FIND_NO_DUPS # Don't view duplicate when searching <C-R>
+setopt EXTENDED_HISTORY     # Add Timestamp to history
+setopt HIST_FIND_NO_DUPS    # Don't view duplicate when searching <C-R>
 setopt HIST_IGNORE_ALL_DUPS # Don't add duplicate in history
-export PATH="/.local/bin/nvim:$PATH"
-export PATH="$HOME/.emacs.d/bin:$PATH"
 
-# Load aliases and shortcuts if existent.
-source "$ZDOTDIR/zsh-functions"
-source "$ZDOTDIR/zsh-exports"
-source "$ZDOTDIR/zsh-aliases"
-source "$ZDOTDIR/zsh-prompt"
-
+################################################################################
 # Plugins
-## completions
-fpath+="$ZDOTDIR/.zfunctions"
-autoload -Uz compinit
-autoload -Uz compinit
-compinit -d ~/.cache/zsh/zcompdump-$ZSH_VERSION
-zstyle ':completion:*' menu select
-zsh_add_plugin "zsh-users/zsh-autosuggestions"
+[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
+plug "zap-zsh/vim"
+plug "zsh-users/zsh-autosuggestions"
+plug "zap-zsh/supercharge"
+plug "MichaelAquilina/zsh-you-should-use"
+plug "hlissner/zsh-autopair"
 
+plug "zap-zsh/exa"
+plug "zsh-users/zsh-syntax-highlighting"
+
+plug "zap-zsh/fzf"
+plug "wintermi/zsh-rust"
+# plug "wintermi/zsh-golang"
+
+################################################################################
+## Completions
+
+autoload -Uz compinit
+compinit -u
+
+################################################################################
+# Rice 🍚
+# Starship 🚀
+# https://github.com/starship/starship
+eval "$(starship init zsh)"
+# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b ".zsh
+
+################################################################################
 # Apps
 
-## NVM and NPM
+# IDEA
+# HACK: needed after a bug the flatpack don't work
+# bug from https://intellij-support.jetbrains.com/hc/en-us/community/posts/10865358461202-Intellij-cannot-launch-because-process-2-already-running
+if [ -d "$HOME/Applications/idea" ]; then
+    export PATH="$HOME/Applications/idea/bin/:$PATH"
+else
+    echo "Install IDEA: https://www.jetbrains.com/idea/download/download-thanks.html?platform=linux"
+    echo "extract tar in $HOME/Applications/"
+    echo "It shoud contain $HOME/Applications/idea/bin"
+fi
+
+
+# Neovim
+if [ -d "$HOME/neovim" ]; then
+    export PATH="$HOME/neovim/bin:$PATH"
+else
+    echo "Install neovim: https://github.com/neovim/neovim/releases/tag/stable"
+    echo "extract tar in $HOME/neovim"
+fi
+
+# NVM, NPM and NODE.zsh
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+# GVM
+# TODO: bat error
+# [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
+
 ## direnv
 eval "$(direnv hook zsh)"
 
-## luaver
-. ~/.luaver/luaver
-
 ## Pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
-## conda
-__conda_setup="$('/home/emile/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
+# Cargo
+if [ -d "$HOME/.cargo" ]; then
+    . "$HOME/.cargo/env"
 else
-    if [ -f "/home/emile/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/emile/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/emile/anaconda3/bin:$PATH"
-    fi
+    echo "Install cargo: https://www.rust-lang.org/tools/install"
 fi
-unset __conda_setup
 
-## Atuin
-# https://github.com/ellie/atuin/issues/971
-export ATUIN_NOBIND="true"
-eval "$(atuin init zsh)"
-bindkey '^a' _atuin_search_widget
+# Deno
+if [ -d "$HOME/.deno/" ]; then
+    export DENO_INSTALL="$HOME/.deno"
+    export PATH="$DENO_INSTALL/bin:$PATH"
+else
+    echo "Install Deno: https://docs.deno.com/runtime/manual/getting_started/installation"
+fi
 
-# Basic auto/tab complete:
-autoload -Uz compinit
-zstyle ':completion:*' menu select
-zmodload zsh/complist
-compinit
-_comp_options+=(globdots)		# Include hidden files.
+# Luaver
+if [ -d "$HOME/.luaver/" ]; then
+    . "$HOME/.luaver/luaver"
+else
+    echo "Install luaver: https://dhavalkapil.com/luaver/"
+fi
 
-# vi mode
-bindkey -v
-export KEYTIMEOUT=1
+# SDKMAN TO WORK!!!
+if [ -d "$HOME/.sdkman" ]; then
+    export SDKMAN_DIR="$HOME/.sdkman"
+    [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+else
+    echo "Install sdkman: https://sdkman.io/"
+fi
 
-# Use vim keys in tab complete menu:
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
-bindkey -M menuselect 'j' vi-down-line-or-history
-bindkey -v '^?' backward-delete-char
 
-# Change cursor shape for different vi modes.
-function zle-keymap-select {
-  if [[ ${KEYMAP} == vicmd ]] ||
-     [[ $1 = 'block' ]]; then
-    echo -ne '\e[1 q'
-  elif [[ ${KEYMAP} == main ]] ||
-       [[ ${KEYMAP} == viins ]] ||
-       [[ ${KEYMAP} = '' ]] ||
-       [[ $1 = 'beam' ]]; then
-    echo -ne '\e[5 q'
-  fi
-}
-zle -N zle-keymap-select
-zle-line-init() {
-    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-    echo -ne "\e[5 q"
-}
-zle -N zle-line-init
-echo -ne '\e[5 q' # Use beam shape cursor on startup.
-preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
+# NNN
+## More plugins : https://github.com/jarun/nnn/tree/master/plugins#running-commands-as-plugin
+NNN_PLUG_DEFAULT='p:preview-tui;d:dragdrop'
+export NNN_PLUG="$NNN_PLUG_DEFAULT;"
 
-# Edit line in vim with ctrl-e:
-autoload edit-command-line; zle -N edit-command-line
-bindkey '^e' edit-command-line
+export NNN_TRASH=2
 
-# Load zsh-syntax-highlighting; should be last.
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+## OneDark
+## BLK="04" CHR="04" DIR="04" EXE="00" REG="00" HARDLINK="00" SYMLINK="06" MISSING="00" ORPHAN="01" FIFO="0F" SOCK="0F" OTHER="02"
+## Nord
+BLK="0B" CHR="0B" DIR="04" EXE="06" REG="00" HARDLINK="06" SYMLINK="06" MISSING="00" ORPHAN="09" FIFO="06" SOCK="0B" OTHER="06"
+export NNN_FCOLORS="$BLK$CHR$DIR$EXE$REG$HARDLINK$SYMLINK$MISSING$ORPHAN$FIFO$SOCK$OTHER"
+export NNN_FIFO="/tmp/nnn.fifo"
 
-# FZF
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_OPS="--extended"
-export FZF_DEFAULT_COMMAND="fdfind --type f --type d --type s -H -E .git"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+## Bookmarks
+Bookmarks="b:$HOME/.config/nnn/bookmarks"
+Documents="d:$HOME/Documents"
+Downloads="D:$HOME/Downloads/"
+export NNN_BMS="$Bookmarks;$Documents;$Downloads"
 
-# Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+################################################################################
+# Validate install
+source "$ZDOTDIR/zsh-safe-install"
+
+################################################################################
+# Fixes
+export HISTFILE="$XDG_CACHE_HOME/zsh/history"

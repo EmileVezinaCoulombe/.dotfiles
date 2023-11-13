@@ -1,0 +1,28 @@
+declare -A required_apps
+required_apps=(
+"cargo" "https://www.rust-lang.org/learn/get-started"
+"direnv" "https://direnv.net/"
+# "go" "gvm"
+# "gvm" "https://github.com/moovweb/gvm#installing"
+"node" "nvm"
+"npm" "nvm"
+"nvim" "https://github.com/neovim/neovim/wiki/Installing-Neovim"
+"nvm" "https://github.com/nvm-sh/nvm#installing-and-updating"
+"pyenv" "https://github.com/pyenv/pyenv"
+"python3" "pyenv"
+"starship" "https://starship.rs/guide/#%F0%9F%9A%80-installation"
+"tmux" "https://github.com/tmux/tmux/wiki/Installing#installing-tmux"
+"zap" "https://github.com/zap-zsh/zap#install"
+"bat" "https://github.com/sharkdp/bat#installation"
+"fzf" "https://github.com/junegunn/fzf#installation"
+"fd" "https://github.com/sharkdp/fd#installation"
+"rg" "https://github.com/BurntSushi/ripgrep#installation"
+"btop" "https://github.com/aristocratos/btop#installation"
+"exa" "https://github.com/ogham/exa#installation"
+)
+
+for key value in ${(kv)required_apps}; do
+  if ! type "$key" > /dev/null; then
+    echo "Intall $key with: $value"
+  fi
+done

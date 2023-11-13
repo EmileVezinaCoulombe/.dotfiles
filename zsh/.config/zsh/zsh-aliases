@@ -1,3 +1,32 @@
+# Aliases
+################################################################################
+# Temporary
+alias cdqm='cd ~/code/session7/qm/'
+alias cdqmtp='cd ~/code/session7/qm/tp-EmileVezinaCoulombe'
+alias cdqmp='cd ~/code/session7/qm/projet2023-eq05'
+alias jacoco='xdg-open game/target/site/jacoco/index.html'
+
+
+alias cdalgo='cd ~/code/session7/algo/'
+
+alias cdnlp='cd ~/code/session7/nlp/'
+alias cdnlptp='cd ~/code/session7/nlp/tp1_2023/'
+
+alias cdmec='cd ~/Nextcloud/USER-Emile/school/vault/session7/mecanique/'
+
+alias cdnlp='cd ~/code/session7/algo'
+
+################################################################################
+# Dev
+alias venv='. ./venv/bin/activate'
+alias venvinit='python -m venv venv && venv && pip install -U pip && python -m pip install pip-tools && mkdir requirements/ && echo "pip-tools\nrich" > requirements/requirements.in && echo "black" > requirements/dev-requirements.in ; pipsync'
+alias pipsync='pipsyncreq && pipsyncdev'
+alias pipsyncreq='pipcompilerec && pip install -r requirements/requirements.txt'
+alias pipsyncdev='pipcompiledev && pip install -r requirements/dev-requirements.txt'
+alias pipcompilerec='pip-compile --strip-extras --resolver=backtracking --output-file=requirements/requirements.txt requirements/requirements.in'
+alias pipcompiledev='pip-compile --strip-extras --resolver=backtracking --output-file=requirements/dev-requirements.txt requirements/dev-requirements.in'
+
+################################################################################
 # Personal
 alias gtwatcher="cd ~/code/session6/proof-of-concept/watcher && vim"
 alias gtem="cd ~/code/EmileVezinaCoulombe && vim"
@@ -9,9 +38,10 @@ alias wrw='vim ~/Nextcloud/USER-Emile/note/work-buffer.md'
 alias wrp='vim ~/Nextcloud/USER-Emile/note/projects-buffer.md'
 alias tmp='vim ~/tmp.txt'
 
+################################################################################
 # Rename
 alias nano='micro'
-alias vim='lvim'
+alias vim='nvim'
 alias emacs="emacsclient -c -a 'emacs'"
 alias cat='bat'
 alias grep='ripgrep'
@@ -25,15 +55,18 @@ alias json='jsonxf'
 alias nnn='nnn'
 # alias n='n -e'
 
+################################################################################
 # Functions
 alias zsh-update-plugins="find "$ZDOTDIR/plugins" -type d -exec test -e '{}/.git' ';' -print0 | xargs -I {} -0 git -C {} pull -q"
 
+################################################################################
 # Ricing
 alias cava='cava'
 alias pipes='pipe.sh'
 alias clock='tty-clock -cDC 3'
 alias matrix='cmatrix -su 9'
 
+################################################################################
 # Config
 alias cfia='vim ~/.dotfiles/install-all.sh'
 alias cfzh='vim ~/.config/zsh/.zshrc'
@@ -45,27 +78,38 @@ alias cfzp='vim ~/.config/zsh/zsh-prompt'
 alias cfgit='vim ~/.gitconfig'
 alias cfwarpd='vim ~/.config/warpd/config'
 alias cftmux='vim ~/.config/tmux/tmux.conf'
-alias cfzr='source ~/.config/zsh/.zshrc && source ~/.profile' # Reload
+alias cfzr='source ~/.zshenv && source ~/.config/zsh/.zshrc' # Reload zsh
 
 alias cfvim='cdvim && vim'
 alias cflvim='cdlvim && lvim'
 alias cfdf='cddf && vim'
+alias cfbrowser='cd ~/.dotfiles/firefox/.mozilla/firefox/3lg1wsn9.default-release-1692737111800/chrome && nvim userChrome.css'
 
+alias cfraven='cdraven && vim'
+
+################################################################################
 # Tui's
 alias rh='rich'
 
+################################################################################
 # Navigation
 alias nautilus='nohup nautilus . >/dev/null 2>&1 &'
 alias oh='vim ~/.cache/zsh/history'
+
 alias cddf='cd ~/.dotfiles' # cd dot files
+alias cdcode='cd ~/code'
+alias cdraven='cd ~/code/keyboard/zmk-config-raven'
+
 alias cdvim='cd ~/.config/nvim/'
 alias cdlvim='cd ~/.config/lvim/'
 alias cdzsh='cd ~/.config/zsh/'
+
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias cdl='cd -P "$symlinkdir"'
 
+################################################################################
 # Git
 alias g='git'
 alias ga='git add'
@@ -81,6 +125,7 @@ alias gs='git status'
 alias gt='git tag'
 alias gw='git worktree'
 
+################################################################################
 # Colorize
 alias lcat='lolcat'
 alias grep='grep --color=auto'
@@ -90,14 +135,24 @@ alias ls='ls --color=auto'
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 
+################################################################################
 # some more ls aliases
+
+# Make sudo use aliases 💖
+alias sudo='sudo '
+# Redo last command as sudo
+redo() {
+    "$(fc -ln -1)" | sudo -k
+}
+alias S='redo'
+
+# ls
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 alias ld='ls -1 -d */' # list directory
 alias lda='ls -1 -d */ && ls -1 -d .*/' # list directory and dot directory
 alias ldd='ls -1 -d .*/' # list dot directory
-
 
 # confirm before overwriting something
 alias cpi="cp -i"

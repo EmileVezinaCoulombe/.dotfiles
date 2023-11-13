@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
-STOW_FOLDERS="nvim,zsh,kitty,fonts,git,gitui,tmux"
-
+STOW_FOLDERS="atuin,btop,firefox,git,kitty,micro,neofetch,nvim,tmux,VSCodium,wakatime,zsh"
+# TODO place zcompdump else where
 rm "~/.config/zsh/.zcompdump"
 
 if [[ -z $DOTFILES ]]; then

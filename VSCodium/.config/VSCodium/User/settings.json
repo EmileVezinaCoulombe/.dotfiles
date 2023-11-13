@@ -1,0 +1,165 @@
+{
+  // Settings
+  "workbench.settings.editor": "json",
+  "workbench.settings.openDefaultSettings": true,
+  "files.autoSave": "afterDelay",
+  "terminal.integrated.sendKeybindingsToShell": true,
+  "workbench.colorTheme": "Atom One Light",
+  "workbench.iconTheme": "material-icon-theme",
+  // Editor
+  "editor.fontFamily": "FIRA CODE",
+  "editor.fontSize": 15,
+  "editor.fontLigatures": true,
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
+  },
+  //-----------//
+  // VS codium //
+  //-----------//
+  // Layout
+  "workbench.editor.showTabs": "multiple",
+  "workbench.editor.openPositioning": "right",
+  "editor.minimap.enabled": false,
+  "workbench.editor.tabCloseButton": "right",
+  "workbench.sideBar.location": "right",
+  "editor.lineNumbers": "on",
+  // Status bar
+  "git-graph.showStatusBarItem": false,
+  // Colors
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#52e4e4",
+    "activityBar.foreground": "#010409",
+    "activityBar.inactiveForeground": "#555a5f"
+  },
+  "editor.tokenColorCustomizations": {
+    // https://www.hmablogs.com/change-color-of-text-and-syntax-in-vscode-editor/
+    "textMateRules": [
+      {
+        "scope": ["support.type.property-name.json.comments"],
+        "settings": {
+          "foreground": "#D29922"
+        }
+      }
+    ]
+  },
+  // Bracket
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "workbench.productIconTheme": "fluent-icons",
+  //------//
+  // Code //
+  //------//
+  "python.languageServer": "Pylance",
+  "editor.formatOnSave": true,
+  // linting
+  //"sonarlint.ls.javaHome": "/home/emile/.vscode-oss/extensions/sonarsource.sonarlint_managed-jre/jre/jdk-11.0.14.1+1-jre",
+  //--------//
+  // Plugin //
+  //--------//
+  // Comments
+  "todo-tree.highlights.enabled": false,
+  "todohighlight.isCaseSensitive": false,
+  "todohighlight.keywords": [
+    {
+      "text": "TODO:",
+      "color": "yellow",
+      "overviewRulerColor": "#ffab00",
+      "border": "1px solid yellow",
+      "borderRadius": "2px",
+      "backgroundColor": "rgba(0,0,0,.2)"
+    },
+    {
+      "text": "FIXME:",
+      "color": "orange",
+      "overviewRulerColor": "#ffab00",
+      "border": "1px solid orange",
+      "borderRadius": "2px",
+      "backgroundColor": "rgba(0,0,0,.2)"
+    },
+    {
+      "text": "HACK:",
+      "color": "#c72cc7",
+      "overviewRulerColor": "#ffab00",
+      "border": "1px solid #c72cc7",
+      "borderRadius": "2px",
+      "backgroundColor": "rgba(0,0,0,.2)"
+    },
+    {
+      "text": "XXX:",
+      "color": "red",
+      "overviewRulerColor": "#ffab00",
+      "border": "1px solid red",
+      "borderRadius": "2px",
+      "backgroundColor": "rgba(0,0,0,.2)"
+    },
+    {
+      "text": "ISSUE:",
+      "color": "#0099ff",
+      "overviewRulerColor": "#ffab00",
+      "border": "1px solid #0099ff",
+      "borderRadius": "2px",
+      "backgroundColor": "rgba(0,0,0,.2)"
+    },
+    {
+      "text": "BUG:",
+      "color": "green",
+      "overviewRulerColor": "#ffab00",
+      "border": "1px solid green",
+      "borderRadius": "2px",
+      "backgroundColor": "rgba(0,0,0,.2)"
+    }
+  ],
+  "todohighlight.defaultStyle": {
+    "cursor": "pointer",
+    "isWholeLine": false,
+    "color": "yellow",
+    "overviewRulerColor": "#ffab00",
+    "border": "1px solid yellow",
+    "borderRadius": "2px",
+    "backgroundColor": "rgba(0,0,0,.2)"
+  },
+  "redhat.telemetry.enabled": false,
+  "http.systemCertificates": false,
+  // Gitlens
+  "gitlens.codeLens.enabled": false,
+  "gitlens.hovers.enabled": false,
+  "gitlens.currentLine.enabled": false,
+  "gitlens.hovers.currentLine.over": "line",
+  // Sonarlint
+  "sonarlint.ls.javaHome": "/home/emile/.vscode-oss/extensions/sonarsource.sonarlint_managed-jre/jre/jdk-11.0.14.1+1-jre",
+  "window.zoomLevel": 1,
+  "pasteImage.path": "attachment",
+  "cSpell.userWords": [
+    "amsgrad",
+    "autoflake",
+    "chdir",
+    "codecov",
+    "colorlog",
+    "dataclass",
+    "dotenv",
+    "joblib",
+    "mlflow",
+    "mnist",
+    "MULTIRUN",
+    "mypy",
+    "nesterov",
+    "noqa",
+    "notif",
+    "notificator",
+    "omegaconf",
+    "optim",
+    "optuna",
+    "pydocstyle",
+    "pylint",
+    "pytest",
+    "subdir",
+    "venv"
+  ],
+  "git.confirmSync": false,
+  "terminal.integrated.shellIntegration.enabled": false,
+  "jupyter.askForKernelRestart": false
+}

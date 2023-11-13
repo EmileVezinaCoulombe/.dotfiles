@@ -1,8 +1,0 @@
-# .zprofile is for login shells. 
-# It is basically the same as .zlogin except that it's sourced before .zshrc
-# .zprofile is meant as an alternative to .zlogin
-################################################################################
-# Set Prompt 
-
-# Enable colors
-autoload -U colors && colors
