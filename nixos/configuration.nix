@@ -3,12 +3,20 @@
 # nixos-help
 
 { config, pkgs, ... }:
-
 {
   imports =
     [ 
       ./hardware-configuration.nix
     ];
+
+  # Turn on flag for proprietary software
+  nix = {
+    nixPath = [
+        "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
+        "nixos-config=/home/emile/.dotfiles/nixos/configuration.nix" 
+	    "/nix/var/nix/profiles/per-user/root/channels"
+	];
+   };
 
   # Warning unstable features
   nix.settings.experimental-features = ["nix-command" "flakes"];
@@ -79,8 +87,7 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+    jack.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
@@ -90,6 +97,9 @@
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
 
+  # Enable Copy past for boxes vm
+  services.spice-vdagentd.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.emile = {
     isNormalUser = true;
@@ -97,6 +107,19 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       firefox
+      gcc
+      git
+      kitty
+      lazygit
+      neofetch
+      tmux
+      micro
+      neovim 
+      stow
+      zsh
+      btop
+      gh
+      lua
     #  thunderbird
     ];
   };
@@ -107,21 +130,11 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    btop
-    gh
-    git
-    kitty
-    lazygit
-    micro
-    neofetch
-    neovim 
-    stow
-    tmux
     wget
-    zsh
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
+  programs.fzf.fuzzyCompletion = true;
   # started in user sessions.
   # programs.mtr.enable = true;
   # programs.gnupg.agent = {
@@ -144,3 +157,4 @@
   system.stateVersion = "23.05";
 
 }
+
