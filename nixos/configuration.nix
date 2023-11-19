@@ -6,6 +6,7 @@
 {
   imports =
     [ 
+      <home-manager/nixos>
       ./hardware-configuration.nix
     ];
 
@@ -14,6 +15,7 @@
     nixPath = [
         "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
         "nixos-config=/home/emile/.dotfiles/nixos/configuration.nix" 
+        "/home/emile/.dotfiles/nixos"
 	    "/nix/var/nix/profiles/per-user/root/channels"
 	];
    };
@@ -130,6 +132,7 @@
       neovim 
       nnn
       nodejs_20
+      oh-my-zsh
       php
       python3
       ripgrep
@@ -138,21 +141,41 @@
       stow
       tmux
       unzip
+      zplug
       zsh
-      zsh-autosuggestions
-      zsh-autocomplete
-      zsh-autopair
-      zsh-completions
-      zsh-forgit
-      zsh-syntax-highlighting
-      zsh-system-clipboard
-      zsh-vi-mode
-      zsh-you-should-use
-      zsh-z
+      # nix-zsh-completions
+      # zsh-autosuggestions
+      # zsh-autocomplete
+      # zsh-autopair
+      # zsh-completions
+      # zsh-forgit
+      # zsh-syntax-highlighting
+      # zsh-system-clipboard
+      # zsh-vi-mode
+      # zsh-you-should-use
+      # zsh-z
       zulu # java
     #  thunderbird
     ];
   };
+
+    home-manager.users.emile = { pkgs, ... }: {
+
+        home.packages = [ pkgs.zplug ];
+        programs.zsh = {
+            enable = true;
+            zplug = {
+                enable = true;
+                plugins = [
+                    {name="wfxr/forgit";}
+                ];
+            };
+        };
+
+        # The state version is required and should stay at the version you
+        # originally installed.
+        home.stateVersion = "23.05";
+    };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
