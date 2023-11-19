@@ -32,6 +32,3 @@ export GITHUB_EMAIL=emilevezinacoulombe@icloud.com
 
 ################################################################################
 # Software
-export ATUIN_CONFIG_DIR=$XDG_CONFIG_HOME/atuin/
-export PYENV_ROOT="$HOME/.pyenv"
-export GOROOT_BOOTSTRAP=$GOROOT
