@@ -105,21 +105,51 @@
     isNormalUser = true;
     description = "Emile";
     extraGroups = [ "networkmanager" "wheel" ];
+
+    shell = pkgs.zsh;
     packages = with pkgs; [
+      bat
+      btop
+      clang
+      cmake
+      exa
+      fd
       firefox
+      fzf
       gcc
+      gh
       git
+      gnumake
+      go
       kitty
       lazygit
-      neofetch
-      tmux
-      micro
-      neovim 
-      stow
-      zsh
-      btop
-      gh
       lua
+      luajitPackages.luarocks
+      micro
+      neofetch
+      neovim 
+      nnn
+      nodejs_20
+      php
+      python3
+      ripgrep
+      rustup
+      starship # zsh
+      stow
+      tmux
+      unzip
+      zsh
+      zsh-autosuggestions
+      zsh-autocomplete
+      zsh-autopair
+      zsh-completions
+      zsh-forgit
+      zsh-syntax-highlighting
+      zsh-system-clipboard
+      zsh-vi-mode
+      zsh-you-should-use
+      zsh-z
+      zulu # java
     #  thunderbird
     ];
   };
@@ -134,6 +164,7 @@
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
+  programs.zsh.enable = true;
   programs.fzf.fuzzyCompletion = true;
   # started in user sessions.
   # programs.mtr.enable = true;
