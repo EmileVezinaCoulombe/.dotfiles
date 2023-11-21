@@ -45,22 +45,6 @@ setopt HIST_FIND_NO_DUPS    # Don't view duplicate when searching <C-R>
 setopt HIST_IGNORE_ALL_DUPS # Don't add duplicate in history
 
 ################################################################################
-# Plugins
-[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
-plug "zap-zsh/vim"
-plug "zsh-users/zsh-autosuggestions"
-plug "zap-zsh/supercharge"
-plug "MichaelAquilina/zsh-you-should-use"
-plug "hlissner/zsh-autopair"
-
-plug "zap-zsh/exa"
-plug "zsh-users/zsh-syntax-highlighting"
-
-plug "zap-zsh/fzf"
-plug "wintermi/zsh-rust"
-# plug "wintermi/zsh-golang"
-
-################################################################################
 ## Completions
 
 autoload -Uz compinit
@@ -71,76 +55,11 @@ compinit -u
 # Starship 🚀
 # https://github.com/starship/starship
 eval "$(starship init zsh)"
+
 # PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b ".zsh
 
 ################################################################################
 # Apps
-
-# IDEA
-# HACK: needed after a bug the flatpack don't work
-# bug from https://intellij-support.jetbrains.com/hc/en-us/community/posts/10865358461202-Intellij-cannot-launch-because-process-2-already-running
-if [ -d "$HOME/Applications/idea" ]; then
-    export PATH="$HOME/Applications/idea/bin/:$PATH"
-else
-    echo "Install IDEA: https://www.jetbrains.com/idea/download/download-thanks.html?platform=linux"
-    echo "extract tar in $HOME/Applications/"
-    echo "It shoud contain $HOME/Applications/idea/bin"
-fi
-
-
-# Neovim
-if [ -d "$HOME/neovim" ]; then
-    export PATH="$HOME/neovim/bin:$PATH"
-else
-    echo "Install neovim: https://github.com/neovim/neovim/releases/tag/stable"
-    echo "extract tar in $HOME/neovim"
-fi
-
-# NVM, NPM and NODE.zsh
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-
-# GVM
-# TODO: bat error
-# [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
-
-## direnv
-eval "$(direnv hook zsh)"
-
-## Pyenv
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
-# Cargo
-if [ -d "$HOME/.cargo" ]; then
-    . "$HOME/.cargo/env"
-else
-    echo "Install cargo: https://www.rust-lang.org/tools/install"
-fi
-
-# Deno
-if [ -d "$HOME/.deno/" ]; then
-    export DENO_INSTALL="$HOME/.deno"
-    export PATH="$DENO_INSTALL/bin:$PATH"
-else
-    echo "Install Deno: https://docs.deno.com/runtime/manual/getting_started/installation"
-fi
-
-# Luaver
-if [ -d "$HOME/.luaver/" ]; then
-    . "$HOME/.luaver/luaver"
-else
-    echo "Install luaver: https://dhavalkapil.com/luaver/"
-fi
-
-# SDKMAN TO WORK!!!
-if [ -d "$HOME/.sdkman" ]; then
-    export SDKMAN_DIR="$HOME/.sdkman"
-    [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-else
-    echo "Install sdkman: https://sdkman.io/"
-fi
-
 
 # NNN
 ## More plugins : https://github.com/jarun/nnn/tree/master/plugins#running-commands-as-plugin
@@ -161,11 +80,3 @@ Bookmarks="b:$HOME/.config/nnn/bookmarks"
 Documents="d:$HOME/Documents"
 Downloads="D:$HOME/Downloads/"
 export NNN_BMS="$Bookmarks;$Documents;$Downloads"
-
-################################################################################
-# Validate install
-source "$ZDOTDIR/zsh-safe-install"
-
-################################################################################
-# Fixes
-export HISTFILE="$XDG_CACHE_HOME/zsh/history"

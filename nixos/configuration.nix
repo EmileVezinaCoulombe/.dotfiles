@@ -1,14 +1,26 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+# Help
+# man configuration.nix
+# nixos-help
 
 { config, pkgs, ... }:
-
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [ 
       ./hardware-configuration.nix
     ];
+
+  # Turn on flag for proprietary software
+  nix = {
+    nixPath = [
+        "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
+        "nixos-config=/home/emile/.dotfiles/nixos/configuration.nix" 
+        "/home/emile/.dotfiles/nixos"
+	"/nix/var/nix/profiles/per-user/root/channels"
+	];
+   };
+
+  # Warning unstable features
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # Bootloader.
   boot.loader.grub.enable = true;
@@ -59,8 +71,7 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+    jack.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
@@ -68,15 +79,64 @@
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  services.xserver.libinput.enable = true;
+
+  # Enable Copy past for boxes vm
+  services.spice-vdagentd.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.emile = {
     isNormalUser = true;
     description = "emile";
     extraGroups = [ "networkmanager" "wheel" ];
+
+    shell = pkgs.zsh;
     packages = with pkgs; [
+      bat
+      btop
+      clang
+      cmake
+      exa
+      fd
       firefox
+      fzf
+      gcc
+      gh
+      git
+      gnumake
+      go
+      kitty
+      lazygit
+      lua
+      luajitPackages.luarocks
+      micro
+      neofetch
+      neovim 
+      nnn
+      nodejs_20
+      oh-my-zsh
+      php
+      python3
+      ripgrep
+      rustup
+      starship # zsh
+      stow
+      tmux
+      unzip
+      zplug
+      zsh
+      # nix-zsh-completions
+      # zsh-autosuggestions
+      # zsh-autocomplete
+      # zsh-autopair
+      # zsh-completions
+      # zsh-forgit
+      # zsh-syntax-highlighting
+      # zsh-system-clipboard
+      # zsh-vi-mode
+      # zsh-you-should-use
+      # zsh-z
+      zulu # java
     #  thunderbird
     ];
   };
@@ -95,14 +155,13 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
-	git
-	gh
-	stow
+    wget
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
+  programs.zsh.enable = true;
+  programs.fzf.fuzzyCompletion = true;
+
   # started in user sessions.
   # programs.mtr.enable = true;
   # programs.gnupg.agent = {
@@ -113,7 +172,7 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -121,12 +180,9 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
+  # man configuration.nix or on https://nixos.org/nixos/options.html.
+  system.stateVersion = "23.05";
 
 }
+
+
