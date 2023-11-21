@@ -83,6 +83,8 @@
 
   # Enable Copy past for boxes vm
   services.spice-vdagentd.enable = true;
+  # Enable automatic resolution boxes vm
+  services.spice-webdavd.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.emile = {
