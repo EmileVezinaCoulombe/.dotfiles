@@ -5,20 +5,22 @@
 { config, pkgs, ... }:
 {
   imports =
-    [ 
-      <home-manager/nixos>
+    [
       ./hardware-configuration.nix
     ];
 
   # Turn on flag for proprietary software
   nix = {
     nixPath = [
-        "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
-        "nixos-config=/home/emile/.dotfiles/nixos/configuration.nix" 
-        "/home/emile/.dotfiles/nixos"
-	    "/nix/var/nix/profiles/per-user/root/channels"
+      "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
+      "nixos-config=/home/emile/.dotfiles/nixos/configuration.nix" 
+	  "/nix/var/nix/profiles/per-user/root/channels"
+      "/home/emile/.dotfiles/nixos/"
 	];
-   };
+  };
+
+  # Enable Copy past for boxes vm
+  services.spice-vdagentd.enable = true;
 
   # Warning unstable features
   nix.settings.experimental-features = ["nix-command" "flakes"];
@@ -28,15 +30,7 @@
   boot.loader.grub.device = "/dev/vda";
   boot.loader.grub.useOSProber = true;
 
-  # Setup keyfile
-  boot.initrd.secrets = {
-    "/crypto_keyfile.bin" = null;
-  };
-
-  boot.loader.grub.enableCryptodisk=true;
-
-  boot.initrd.luks.devices."luks-42ee82c6-8005-42e9-98ab-4a4c45723dab".keyFile = "/crypto_keyfile.bin";
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "emile-nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -99,13 +93,10 @@
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
 
-  # Enable Copy past for boxes vm
-  services.spice-vdagentd.enable = true;
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.emile = {
     isNormalUser = true;
-    description = "Emile";
+    description = "emile";
     extraGroups = [ "networkmanager" "wheel" ];
 
     shell = pkgs.zsh;
@@ -132,11 +123,12 @@
       neovim 
       nnn
       nodejs_20
-      oh-my-zsh
       php
       python3
       ripgrep
       rustup
+      spice
+      spice-vdagent
       starship # zsh
       stow
       tmux
@@ -159,23 +151,12 @@
     ];
   };
 
-    home-manager.users.emile = { pkgs, ... }: {
-
-        home.packages = [ pkgs.zplug ];
-        programs.zsh = {
-            enable = true;
-            zplug = {
-                enable = true;
-                plugins = [
-                    {name="wfxr/forgit";}
-                ];
-            };
-        };
-
-        # The state version is required and should stay at the version you
-        # originally installed.
-        home.stateVersion = "23.05";
-    };
+  # Enable automatic login for the user emile
+  services.xserver.displayManager.autoLogin.enable = true;
+  services.xserver.displayManager.autoLogin.user = "emile";
+  # Workaroud for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
+  systemd.services."getty@tty1".enable = false;
+  systemd.services."autovt@tty1".enable = false;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -211,4 +192,3 @@
   system.stateVersion = "23.05";
 
 }
-
