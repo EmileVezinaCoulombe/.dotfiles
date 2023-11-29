@@ -13,50 +13,32 @@
   nix = {
     nixPath = [
       "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
-      "nixos-config=/home/emile/.dotfiles/nixos/configuration.nix" 
-	  "/nix/var/nix/profiles/per-user/root/channels"
+      "nixos-config=/home/emile/.dotfiles/nixos/configuration.nix"
+      "/nix/var/nix/profiles/per-user/root/channels"
       "/home/emile/.dotfiles/nixos/"
-	];
+    ];
   };
 
   # Enable Copy past for boxes vm
-  services.spice-vdagentd.enable = true;
+  # services.spice-vdagentd.enable = true;
 
   # Warning unstable features
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/vda";
-  boot.loader.grub.useOSProber = true;
-
-  networking.hostName = "emile-nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Enable networking
-  networking.networkmanager.enable = true;
+  networking.hostName = "emile-nixos"; # Define your hostname.
+  networking.networkmanager.enable = true; # Enable networking
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Set your time zone.
-  time.timeZone = "America/New_York";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_US.UTF-8";
-    LC_IDENTIFICATION = "en_US.UTF-8";
-    LC_MEASUREMENT = "en_US.UTF-8";
-    LC_MONETARY = "en_US.UTF-8";
-    LC_NAME = "en_US.UTF-8";
-    LC_NUMERIC = "en_US.UTF-8";
-    LC_PAPER = "en_US.UTF-8";
-    LC_TELEPHONE = "en_US.UTF-8";
-    LC_TIME = "en_US.UTF-8";
-  };
+  time.timeZone = "America/Toronto";
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -67,9 +49,15 @@
 
   # Configure keymap in X11
   services.xserver = {
-    layout = "us";
-    xkbVariant = "altgr-intl";
+    layout = "fr";
+    xkbVariant = "us";
   };
+
+  # Configure console keymap
+  console.keyMap = "fr";
+
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_CA.UTF-8";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -151,20 +139,12 @@
     ];
   };
 
-  # Enable automatic login for the user emile
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "emile";
-  # Workaroud for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
-  systemd.services."getty@tty1".enable = false;
-  systemd.services."autovt@tty1".enable = false;
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    wget
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -187,6 +167,45 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  # NVIDIA GPU
+  # Enable OpenGL
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+  };
+
+  # Load nvidia driver for Xorg and Wayland
+  services.xserver.videoDrivers = ["nvidia"];
+
+  hardware.nvidia = {
+
+    # Modesetting is required.
+    modesetting.enable = true;
+
+    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
+    powerManagement.enable = false;
+    # Fine-grained power management. Turns off GPU when not in use.
+    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
+    powerManagement.finegrained = false;
+
+    # Use the NVidia open source kernel module (not to be confused with the
+    # independent third-party "nouveau" open source driver).
+    # Support is limited to the Turing and later architectures. Full list of 
+    # supported GPUs is at: 
+    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
+    # Only available from driver 515.43.04+
+    # Currently alpha-quality/buggy, so false is currently the recommended setting.
+    open = false;
+
+    # Enable the Nvidia settings menu,
+        # accessible via `nvidia-settings`.
+    nvidiaSettings = true;
+
+    # Optionally, you may need to select the appropriate driver version for your specific GPU.
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
 
   # man configuration.nix or on https://nixos.org/nixos/options.html.
   system.stateVersion = "23.05";

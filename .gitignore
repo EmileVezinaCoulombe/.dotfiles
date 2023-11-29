@@ -5,3 +5,4 @@ nvim/.config/nvim/plugin/packer_compiled.lua
 zsh/.config/zsh/.zsh_history
 zsh/.config/zsh/.zcompdump
 nixos/hardware-configuration.nix
+nixos/hardware-configuration.nix
