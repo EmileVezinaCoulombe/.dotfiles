@@ -3,6 +3,7 @@
 # nixos-help
 
 { config, pkgs, ... }:
+
 {
   imports =
     [
@@ -20,6 +21,9 @@
   };
 
   # Enable Copy past for boxes vm
+  virtualisation.libvirtd.enable = true;
+  programs.dconf.enable = true;
+
   # services.spice-vdagentd.enable = true;
 
   # Warning unstable features
@@ -108,11 +112,12 @@
       luajitPackages.luarocks
       micro
       neofetch
-      neovim 
+      neovim
       nnn
       nodejs_20
       php
       python3
+      virt-manager
       ripgrep
       rustup
       spice
