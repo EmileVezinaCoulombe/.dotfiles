@@ -1,0 +1,14 @@
+/* In about:config
+ * Change to true :
+ * toolkit.legacyUserProfileCustomizations.stylesheets
+ * layers.acceleration.force-enabled
+ * gfx.webrender.all
+ * svg.context-properties.content.enabled
+*/
+
+#TabsToolbar {
+  visibility: collapse;
+}
+#tabbrowser-tabs {
+    visibility: collapse;
+}
