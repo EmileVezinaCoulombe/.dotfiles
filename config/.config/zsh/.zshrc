@@ -45,6 +45,22 @@ setopt HIST_FIND_NO_DUPS    # Don't view duplicate when searching <C-R>
 setopt HIST_IGNORE_ALL_DUPS # Don't add duplicate in history
 
 ################################################################################
+# Plugins
+[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
+plug "zap-zsh/vim"
+plug "zsh-users/zsh-autosuggestions"
+plug "zap-zsh/supercharge"
+plug "MichaelAquilina/zsh-you-should-use"
+plug "hlissner/zsh-autopair"
+
+plug "zap-zsh/exa"
+plug "zsh-users/zsh-syntax-highlighting"
+
+plug "zap-zsh/fzf"
+plug "wintermi/zsh-rust"
+# plug "wintermi/zsh-golang"
+
+################################################################################
 ## Completions
 
 autoload -Uz compinit
@@ -60,6 +76,54 @@ eval "$(starship init zsh)"
 
 ################################################################################
 # Apps
+
+# IDEA
+# HACK: needed after a bug the flatpack don't work
+# bug from https://intellij-support.jetbrains.com/hc/en-us/community/posts/10865358461202-Intellij-cannot-launch-because-process-2-already-running
+if [ -d "$HOME/Applications/idea" ]; then
+    export PATH="$HOME/Applications/idea/bin/:$PATH"
+else
+    echo "Install IDEA: https://www.jetbrains.com/idea/download/download-thanks.html?platform=linux"
+    echo "extract tar in $HOME/Applications/"
+    echo "It shoud contain $HOME/Applications/idea/bin"
+fi
+
+
+# Neovim
+export PATH="$HOME/neovim/bin:$PATH"
+
+# NVM, NPM and NODE.zsh
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+## direnv
+eval "$(direnv hook zsh)"
+
+## Pyenv
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+# Cargo
+if [ -d "$HOME/.cargo" ]; then
+    . "$HOME/.cargo/env"
+fi
+
+# Deno
+if [ -d "$HOME/.deno/" ]; then
+    export DENO_INSTALL="$HOME/.deno"
+    export PATH="$DENO_INSTALL/bin:$PATH"
+fi
+
+# Luaver
+if [ -d "$HOME/.luaver/" ]; then
+    . "$HOME/.luaver/luaver"
+fi
+
+# SDKMAN
+if [ -d "$HOME/.sdkman" ]; then
+    export SDKMAN_DIR="$HOME/.sdkman"
+    [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+fi
 
 # NNN
 ## More plugins : https://github.com/jarun/nnn/tree/master/plugins#running-commands-as-plugin

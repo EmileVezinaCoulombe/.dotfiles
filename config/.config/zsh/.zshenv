@@ -32,3 +32,4 @@ export GITHUB_EMAIL=emilevezinacoulombe@icloud.com
 
 ################################################################################
 # Software
+export PYENV_ROOT="$HOME/.pyenv"
