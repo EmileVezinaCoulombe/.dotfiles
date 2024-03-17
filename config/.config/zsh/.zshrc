@@ -72,22 +72,8 @@ compinit -u
 # https://github.com/starship/starship
 eval "$(starship init zsh)"
 
-# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b ".zsh
-
 ################################################################################
 # Apps
-
-# IDEA
-# HACK: needed after a bug the flatpack don't work
-# bug from https://intellij-support.jetbrains.com/hc/en-us/community/posts/10865358461202-Intellij-cannot-launch-because-process-2-already-running
-if [ -d "$HOME/Applications/idea" ]; then
-    export PATH="$HOME/Applications/idea/bin/:$PATH"
-else
-    echo "Install IDEA: https://www.jetbrains.com/idea/download/download-thanks.html?platform=linux"
-    echo "extract tar in $HOME/Applications/"
-    echo "It shoud contain $HOME/Applications/idea/bin"
-fi
-
 
 # Neovim
 export PATH="$HOME/neovim/bin:$PATH"
@@ -123,6 +109,12 @@ fi
 if [ -d "$HOME/.sdkman" ]; then
     export SDKMAN_DIR="$HOME/.sdkman"
     [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+fi
+
+# MOJO
+if [ -d "$HOME/.modular" ]; then
+   export MODULAR_HOME="$HOME/.modular"
+   export PATH="$MODULAR_HOME/pkg/packages.modular.com_mojo/bin:$PATH"
 fi
 
 # NNN
