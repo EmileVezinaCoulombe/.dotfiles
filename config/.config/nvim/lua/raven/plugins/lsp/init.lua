@@ -28,43 +28,6 @@ return {
             vim.g.lsp_zero_extend_lspconfig = 0
         end,
     },
-    -- snippets
-    {
-        "L3MON4D3/LuaSnip",
-        build = "make install_jsregexp",
-        dependencies = {
-            "rafamadriz/friendly-snippets",
-            config = function()
-                require("luasnip.loaders.from_vscode").lazy_load()
-            end,
-        },
-        opts = { history = true, delete_check_events = "TextChanged" },
-        keys = {
-            {
-                "<tab>",
-                function()
-                    return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
-                end,
-                expr = true,
-                silent = true,
-                mode = "i",
-            },
-            {
-                "<tab>",
-                function()
-                    require("luasnip").jump(1)
-                end,
-                mode = "s",
-            },
-            {
-                "<s-tab>",
-                function()
-                    require("luasnip").jump(-1)
-                end,
-                mode = { "i", "s" },
-            },
-        },
-    }, -- auto completion
     {
         "hrsh7th/nvim-cmp",
         version = false, -- last release is way too old
@@ -214,6 +177,8 @@ return {
                     "ruff_lsp",
                     "pylsp",
                     "jdtls",
+                    "tailwindcss",
+                    "typst_lsp",
 
                     -- "stylua",
                     -- "shfmt",
@@ -253,6 +218,67 @@ return {
                         local ruff_opts = lsp_zero.default_setup()
                         require("lspconfig").ruff_lsp.setup({})
                     end,
+                    tailwindcss = function()
+                        local tailwindcss_opts = lsp_zero.default_setup()
+                        require("lspconfig").tailwindcss.setup({
+                            filetypes = {
+                                "css",
+                                "scss",
+                                "sass",
+                                "postcss",
+                                "html",
+                                "javascript",
+                                "javascriptreact",
+                                "typescript",
+                                "typescriptreact",
+                                "svelte",
+                                "vue",
+                                "rust",
+                                "rs",
+                            },
+                            init_options = {
+                                userLanguages = {
+                                    rust = "html",
+                                },
+                            },
+                        })
+                    end,
+                    rust_analyzer = function()
+                        local rust_opts = lsp_zero.default_setup()
+                        require("lspconfig").rust_analyzer.setup({
+                            -- Other Configs ...
+                            settings = {
+                                ["rust-analyzer"] = {
+                                    procMacro = {
+                                        ignored = {
+                                            leptos_macro = {
+                                                -- optional: --
+                                                "component",
+                                                "server",
+                                            },
+                                        },
+                                    },
+                                    cargo = {
+                                        -- features = { "ssr", "csr" },
+                                        -- allFeatures = true,
+                                        -- extraEnv = {
+                                        --     RUSTFLAGS = {
+                                        --         "--cfg rust_analyzer",
+                                        --     },
+                                        -- },
+                                    },
+                                    checkOnSave = {
+                                        allFeatures = true,
+                                        command = "clippy",
+                                        extraArgs = { "--no-deps" },
+                                    },
+                                    rustfmt = {
+                                        overrideCommand = { "leptosfmt", "--stdin", "--rustfmt" },
+                                    },
+                                },
+                            },
+                        })
+                    end,
                     tsserver = function()
                         require("lspconfig").tsserver.setup({
                             single_file_support = false,
@@ -260,6 +286,20 @@ return {
                                 client.server_capabilities.documentFormattingProvider = false
                                 client.server_capabilities.documentFormattingRangeProvider = false
                             end,
+                        })
+                    end,
+                    typst_lsp = function()
+                        vim.filetype.add({ extension = {typ = "typst"}})
+
+                        local root_dir = require("raven.utils").get_root()
+                        local nvim_lsp = require("lspconfig")
+                        nvim_lsp.typst_lsp.setup({
+                            settings = {
+                                exportPdf = "onSave",
+                                serverPath = root_dir,
+                            },
+                            filetypes= {"typst", "typ"},
+                            root_dir= nvim_lsp.util.root_pattern("main.typ", ".git"),
                         })
                     end,
                 },

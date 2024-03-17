@@ -1,15 +1,24 @@
 -- Options are automatically loaded before lazy.nvim startup
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- :help options
+
+
+vim.filetype.add({
+    extension = {
+        typst = 'typ',
+    }
+})
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+vim.g.netrw_browse_split = 0
+vim.g.netrw_banner = 0
+vim.g.netrw_winsize = 25
 
 local options = {
     autowrite = true, -- Enable auto write
     clipboard = "unnamedplus", -- Sync with system clipboard
     completeopt = "menu,menuone,noselect", -- mostly just for cmp
-    conceallevel = 0, -- so that `` is visible in markdown files
-    confirm = true, -- Confirm to save changes before exiting modified buffer
     cursorline = true, -- Enable highlighting of the current line
     expandtab = true, -- Use spaces instead of tabs
     formatoptions = "jcroqlnt", -- tcqj
@@ -19,16 +28,11 @@ local options = {
     laststatus = 0,
     list = true, -- Show some invisible characters (tabs...
     mouse = "a", -- Enable mouse mode
-    pumblend = 10, -- Popup blend
-    pumheight = 10, -- Maximum number of entries in a popup
     relativenumber = true, -- Relative line numbers
-    sessionoptions = {"buffers", "curdir", "tabpages", "winsize"},
     shiftround = true, -- Round indent
-    showmode = true, -- Show mode since we have a statusline
     splitbelow = true, -- Put new windows below current
     splitright = true, -- Put new windows right of current
     wildmode = "longest:full,full", -- Command-line completion mode
-    winminwidth = 5, -- Minimum window width
     spelllang = "en,fr",
     spell = true,
     nrformats = "bin,alpha,hex,octal",
@@ -36,7 +40,6 @@ local options = {
     foldenable = false,
     foldmethod = "indent",
     foldlevel = 99,
-    backup = false, -- creates a backup file
     fileencoding = "utf-8", -- the encoding written to a file
     hlsearch = true, -- highlight all matches on previous search pattern
     ignorecase = true, -- ignore case in search patterns
@@ -52,6 +55,7 @@ local options = {
     writebackup = false, -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
     shiftwidth = 4, -- Size of an indentation
     tabstop = 4, -- insert n spaces for a table
+    softtabstop = 4,
     number = true, -- set numbered lines
     numberwidth = 4, -- set number column width to 2 {default 4}
     signcolumn = "yes", -- always show the sign column, otherwise it would shift the text each time

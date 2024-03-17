@@ -1,4 +1,3 @@
--- Keymaps are automatically loaded on the VeryLazy event
 -- Modes
 --   normal_mode = "n",
 --   insert_mode = "i",
@@ -59,15 +58,6 @@ map("n", "]b", "<cmd>bnext<cr>", { desc = "Next buffer" })
 -- Clear search with <esc >
 map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
 
--- Clear search, diff update and redraw
--- taken from runtime/lua/_editor.lua
-map(
-    "n",
-    "<leader>ur",
-    "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
-    { desc = "Redraw / clear hlsearch / diff update" }
-)
-
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 map("n", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
 map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
@@ -105,22 +95,9 @@ map("n", "<leader>us", function() Util.toggle("spell") end,
 map("n", "<leader>uw", function() Util.toggle("wrap") end,
     {desc = "Toggle Word Wrap"})
 map("n", "<leader>ud", Util.toggle_diagnostics, {desc = "Toggle Diagnostics"})
-local conceallevel = vim.o.conceallevel > 0 and vim.o.conceallevel or 3
-map("n", "<leader>uc",
-    function() Util.toggle("conceallevel", false, {0, conceallevel}) end,
-    {desc = "Toggle Conceal"})
-if vim.lsp.inlay_hint then
-    map("n", "<leader>uh", function() vim.lsp.inlay_hint(0, nil) end,
-        {desc = "Toggle Inlay Hints"})
-end
 
 -- quit
 map("n", "<leader>q", "<cmd>qa<cr>", {desc = "Quit all"})
-
--- highlights under cursor
-if vim.fn.has("nvim-0.9.0") == 1 then
-    map("n", "<leader>ui", vim.show_pos, {desc = "Inspect Pos"})
-end
 
 -- windows
 map("n", "<leader>ww", "<C-W>p", {desc = "Other window", remap = true})

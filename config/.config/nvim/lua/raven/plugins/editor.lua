@@ -1,159 +1,96 @@
-local Util = require("raven.utils")
-
 return {
-    { "echasnovski/mini.nvim", version = false },
-    -- search/replace in multiple files
     {
-        "nvim-pack/nvim-spectre",
-        cmd = "Spectre",
-        opts = { open_cmd = "noswapfile vnew" },
-        keys = {
-            {
-                "<leader>sr",
-                function()
-                    require("spectre").open()
-                end,
-                desc = "Replace in files (Spectre)",
-            },
-        },
-    },
-    {
-        "folke/todo-comments.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        opts = {
-            keywords = {
-                FIX = {
-                    alt = { "FIXME", "BUG", "FIXIT", "ISSUE" },
-                },
-                TODO = { alt = { "todo" } },
-                HACK = {},
-                WARN = {},
-                PERF = {},
-                NOTE = {},
-                TEST = {},
-            },
-        },
-    },
-    -- fuzzy finder
-    {
-        "nvim-telescope/telescope.nvim",
+        "nvim-neo-tree/neo-tree.nvim",
+        branch = "v3.x",
         dependencies = {
-            -- { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-            { "nvim-lua/plenary.nvim" },
+        "nvim-lua/plenary.nvim",
+        "nvim-tree/nvim-web-devicons",
+        "MunifTanjim/nui.nvim",
+        "3rd/image.nvim",
         },
-        tag = "0.1.3",
-        cmd = "Telescope",
-        config = function(_, opts)
-            local telescope = require("telescope")
-            telescope.setup(opts)
-        end,
+        config = {
+        },
         keys = {
             {
-                "<leader>,",
-                "<cmd>Telescope buffers show_all_buffers=true<cr>",
-                desc = "Switch Buffer",
-            },
+                "<leader>e",
+                "<cmd>Neotree toggle reveal position=right<cr>",
+                desc = "Tree"
+
+            }
+        }
+    },
+    {
+        "vim-apm",
+        dir = "~/personal/vim-apm",
+        keys = {
             {
-                "<leader>s:",
-                "<cmd>Telescope command_history<cr>",
-                desc = "Command History",
-            },
-            { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
-            {
-                "<leader><leader>",
-                "<cmd>Telescope find_files<cr>",
-                desc = "Find Files (root dir)",
-            },
-            {
-                "<leader>ff",
-                "<cmd>Telescope find_files<cr>",
-                desc = "Find Files (root dir)",
-            },
-            { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent file" },
-            { "<leader>gc", "<cmd>Telescope git_commits<cr>", desc = "commits search" },
-            { "<leader>gs", "<cmd>Telescope git_status<cr>", desc = "status search" },
-            -- search
-            { '<leader>s"', "<cmd>Telescope registers<cr>", desc = "Registers" },
-            {
-                "<leader>sa",
-                "<cmd>Telescope autocommands<cr>",
-                desc = "Auto Commands",
-            },
-            {
-                "<leader>sb",
-                "<cmd>Telescope current_buffer_fuzzy_find<cr>",
-                desc = "Buffer",
-            },
-            { "<leader>sc", "<cmd>Telescope commands<cr>", desc = "Commands" },
-            {
-                "<leader>sC",
-                "<cmd>Telescope command_history<cr>",
-                desc = "Command History",
-            },
-            {
-                "<leader>sd",
-                "<cmd>Telescope diagnostics bufnr=0<cr>",
-                desc = "Document diagnostics",
-            },
-            {
-                "<leader>sD",
-                "<cmd>Telescope diagnostics<cr>",
-                desc = "Workspace diagnostics",
-            },
-            {
-                "<leader>sg",
+                "<leader>um",
                 function()
-                    require("telescope.builtin").live_grep({ additional_args = { "-j1" } })
+                    require("vim-apm"):toggle_monitor()
                 end,
-                desc = "Grep",
-            },
-            { "<leader>sh", "<cmd>Telescope help_tags<cr>", desc = "Help Pages" },
-            {
-                "<leader>sH",
-                "<cmd>Telescope highlights<cr>",
-                desc = "Search Highlight Groups",
-            },
-            { "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = "Key Maps" },
-            { "<leader>sM", "<cmd>Telescope man_pages<cr>", desc = "Man Pages" },
-            { "<leader>sm", "<cmd>Telescope marks<cr>", desc = "Jump to Mark" },
-            { "<leader>so", "<cmd>Telescope vim_options<cr>", desc = "Options" },
-            { "<leader>sR", "<cmd>Telescope resume<cr>", desc = "Resume last search" },
-            {
-                "<leader>sw",
-                function()
-                    require("telescope.builtin").grep_string({ word_match = "-w" })
-                end,
-                desc = "Word",
-            },
-            {
-                "<leader>uC",
-                function()
-                    require("telescope.builtin").colorscheme({ enable_preview = true })
-                end,
-                desc = "Colorscheme with preview",
-            },
-            {
-                "<leader>ss",
-                "<cmd>Telescope lsp_document_symbols<cr>",
-                desc = "Goto Symbol",
-            },
-            {
-                "<leader>sS",
-                "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
-                desc = "Goto Symbol (Workspace)",
-            },
-        },
-        opts = {
-            defaults = {
-                prompt_prefix = " ",
-                selection_caret = " ",
-            },
-            extension = {
+                desc = "vim apm",
             },
         },
     },
-    -- which-key helps you remember key bindings by showing a popup
-    -- with the active keybindings of the command you started typing.
+    {
+        "mbbill/undotree",
+        keys = {
+            { "<leader>uu", "<cmd>UndotreeToggle", desc = "Undo tree toggle" },
+        },
+    },
+    { "echasnovski/mini.nvim", version = false },
+    {
+        "Pocco81/auto-save.nvim",
+        lazy = false,
+        keys = { { "<leader>S", ":ASToggle<CR>", desc = "Toggle auto save" } },
+        config = function(_, opts)
+            require("auto-save").setup(opts)
+        end,
+        opts = {
+            enabled = true,
+            execution_message = {
+                message = function() -- message to print on save
+                    return ""
+                end,
+                dim = 0, -- dim the color of `message`
+                cleaning_interval = 0, -- (milliseconds) automatically clean MsgArea after displaying `message`. See :h MsgArea
+            },
+            trigger_events = { "InsertLeave" }, -- vim events that trigger auto-save. See :h events
+        },
+    },
+    {
+        "HakonHarnes/img-clip.nvim",
+        event = "BufEnter",
+        opts = {},
+        keys = {
+            { "<leader>p", "<cmd>PasteImage<cr>", desc = "Paste clipboard image" },
+        },
+    },
+    {
+        "christoomey/vim-tmux-navigator",
+        lazy = false,
+    },
+    {
+        -- Temporary while the pr is merged
+        -- "toppair/peek.nvim",
+        "Saimo/peek.nvim",
+        build = "deno task --quiet build:fast",
+        keys = {
+            {
+                "<leader>up",
+                function()
+                    local peek = require("peek")
+                    if peek.is_open() then
+                        peek.close()
+                    else
+                        peek.open()
+                    end
+                end,
+                desc = "Peek (Markdown Preview)",
+            },
+        },
+        opts = { theme = "light", app = "browser" },
+    },
     {
         "folke/which-key.nvim",
         event = "VeryLazy",
@@ -187,9 +124,7 @@ return {
             wk.setup(opts)
             wk.register(opts.defaults)
         end,
-    }, -- gitsigns highlights text that has changed since the list
-    -- git commit, and also lets you interactively stage & unstage
-    -- hunks in a commit.
+    },
     {
         "lewis6991/gitsigns.nvim",
         event = { "BufReadPre", "BufNewFile" },
@@ -228,7 +163,7 @@ return {
                 desc = "Diff This ~",
             },
         },
-    }, -- better diagnostics list and others
+    },
     {
         "folke/trouble.nvim",
         cmd = { "TroubleToggle", "Trouble" },
@@ -288,6 +223,28 @@ return {
                 end,
                 desc = "Next trouble/quickfix item",
             },
+        },
+    },
+    {
+        "laytan/cloak.nvim",
+        opts = {
+            enabled = true,
+            cloak_character = "*",
+            cloak_length = 10,
+            -- The applied highlight group (colors) on the cloaking, see `:h highlight`.
+            highlight_group = "Comment",
+            patterns = {
+                {
+                    file_pattern = {
+                        ".env*",
+                    },
+                    -- Match an equals sign and any character after it.
+                    cloak_pattern = { "=.+", "-.+" },
+                },
+            },
+        },
+        keys = {
+            { "<leader>uh", "<cmd>CloakToggle", desc = "Cloak toggle" },
         },
     },
 }

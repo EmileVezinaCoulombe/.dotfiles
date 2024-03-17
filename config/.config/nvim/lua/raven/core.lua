@@ -1,8 +1,5 @@
----@type RavenConfig
-local M = {}
-
 ---@class RavenConfig
-local defaults = {
+local M = {
     -- colorscheme can be a string like `catppuccin` or a function that will load the colorscheme
     ---@type integer
     light_start_hour = 5,
@@ -16,29 +13,12 @@ local defaults = {
         { import = "raven.plugins" },
         { import = "raven.plugins.coding" },
         { import = "raven.plugins.dap" },
-        { import = "raven.plugins.editor" },
         { import = "raven.plugins.formatting" },
         { import = "raven.plugins.lang" },
         { import = "raven.plugins.linting.eslint" },
         { import = "raven.plugins.test" },
-        { import = "raven.plugins.ui" },
-        { import = "raven.plugins.util" },
     },
     checker = { enabled = false }, -- automatically check for plugin updates
-    performance = {
-        rtp = {
-            -- disable some rtp plugins
-            disabled_plugins = {
-                "gzip", -- "matchit",
-                -- "matchparen",
-                -- "netrwPlugin",
-                "tarPlugin",
-                "tohtml",
-                "tutor",
-                "zipPlugin",
-            },
-        },
-    },
     -- icons used by other plugins
     icons = {
         dap = {
@@ -96,80 +76,43 @@ local defaults = {
 }
 
 function M.setup()
-    -- load options before lazy init
-    M.load("options")
-    require("lazy").setup({ spec = defaults.spec })
-    M.load("autocmds")
-    M.load("keymaps")
-    M.load("options")
-    M.load_colorscheme()
-end
 
----@param name "autocmds" | "options" | "keymaps"
-function M.load(name)
-    name = "raven.config." .. name
-    local Util = require("lazy.core.util")
-    local function _load(mod)
-        Util.try(function()
-            require(mod)
-        end, {
-            msg = "Failed loading " .. mod,
-            on_error = function(msg)
-                local info = require("lazy.core.cache").find(mod)
-                if info == nil or (type(info) == "table" and #info == 0) then
-                    return
-                end
-                Util.error(msg)
-            end,
-        })
-    end
-    _load(name)
+    require("raven.config.options")
+
+    require("lazy").setup({ spec = M.spec })
+    M.load_colorscheme()
+
+    require("raven.config.autocmds")
+    require("raven.config.keymaps")
+    require("raven.config.options")
 end
 
 function M.load_colorscheme()
-    local timer = vim.loop.new_timer()
-    require("lazy.core.util").try(function()
-        local function set_colorscheme(force)
-            local is_light_set = M.light_colorscheme == vim.g.colors_name
-            local is_dark_set = M.dark_colorscheme == vim.g.colors_name
-            if force or is_light_set or is_dark_set then
-                local hr = tonumber(os.date("%H", os.time()))
-                local background = "dark"
-                local colorscheme = M.dark_colorscheme
-                if hr > M.light_start_hour and hr < M.light_stop_hour then
-                    background = "light"
-                    colorscheme = M.light_colorscheme
-                end
-                vim.opt.background = background
-                if type(colorscheme) == "function" then
-                    colorscheme()
-                else
-                    vim.cmd.colorscheme(colorscheme)
-                end
+    local function watch_colorscheme()
+        local function update_colorscheme(background, colorscheme)
+            vim.opt.background = background
+            if type(colorscheme) == "function" then
+                colorscheme()
+            else
+                vim.cmd.colorscheme(colorscheme)
             end
         end
-        set_colorscheme(true)
-        if timer then
-            local no_timout = 0
-            local ten_seconds = 10000
-            timer:start(no_timout, ten_seconds, vim.schedule_wrap(set_colorscheme))
-        end
-    end, {
-        msg = "Could not load your colorscheme",
-        on_error = function(msg)
-            require("lazy.core.util").error(msg)
-            vim.cmd.colorscheme("habamax")
-            if timer then
-                vim.loop.timer_stop(timer)
-            end
-        end,
-    })
-end
 
-setmetatable(M, {
-    __index = function(_, key)
-        return defaults[key]
-    end,
-})
+        local hr = tonumber(os.date("%H", os.time()))
+        local is_light_time = hr >= M.light_start_hour and hr < M.light_stop_hour
+
+
+        if M.light_colorscheme ~= vim.g.colors_name and is_light_time then
+            update_colorscheme("light", M.light_colorscheme)
+        end
+
+        if M.dark_colorscheme ~= vim.g.colors_name and not is_light_time then
+            update_colorscheme("dark", M.dark_colorscheme)
+        end
+    end
+
+    watch_colorscheme()
+    vim.loop.new_timer():start(0, 10000, vim.schedule_wrap(watch_colorscheme))
+end
 
 return M
