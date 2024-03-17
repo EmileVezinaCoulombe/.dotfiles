@@ -1,20 +1,12 @@
 # Aliases
 ################################################################################
 # Temporary
-alias cdqm='cd ~/code/session7/qm/'
-alias cdqmtp='cd ~/code/session7/qm/tp-EmileVezinaCoulombe'
-alias cdqmp='cd ~/code/session7/qm/projet2023-eq05'
-alias jacoco='xdg-open game/target/site/jacoco/index.html'
+SESSION_NAME="session8"
+alias cdn='cd ~/Nextcloud/USER-Emile/school/vault/$SESSION_NAME'
+alias cdc='cd ~/code/$SESSION_NAME'
 
-
-alias cdalgo='cd ~/code/session7/algo/'
-
-alias cdnlp='cd ~/code/session7/nlp/'
-alias cdnlptp='cd ~/code/session7/nlp/tp1_2023/'
-
-alias cdmec='cd ~/Nextcloud/USER-Emile/school/vault/session7/mecanique/'
-
-alias cdnlp='cd ~/code/session7/algo'
+alias cdalgo='cdc && cd algo/'
+alias ltsa='nohup java -jar /home/emile/Nextcloud/USER-Emile/school/vault/session8/spec/ltsatool/ltsa.jar >/dev/null 2>&1 &'
 
 ################################################################################
 # Dev

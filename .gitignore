@@ -6,3 +6,6 @@ zsh/.config/zsh/.zsh_history
 zsh/.config/zsh/.zcompdump
 nixos/hardware-configuration.nix
 nixos/hardware-configuration.nix
+
+config/.config/zsh/.zcompdump
+config/.config/zsh/.zsh_history
