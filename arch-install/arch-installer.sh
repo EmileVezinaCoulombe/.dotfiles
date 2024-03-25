@@ -1,130 +1,204 @@
 #!/usr/bin/env bash
 
+# sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+# locale-gen
+#timedatectl --no-ask-password set-ntp 1
+#localectl --no-ask-password set-locale LANG="en_US.UTF-8" LC_TIME="en_US.UTF-8"
+#ln -s "/usr/share/zoneinfo/${TIME_ZONE}" "/etc/localtime"
+
+###############################################################################
+# Set variables
+AUR_HELPER="paru"
+KEYMAP="us"
+FS="btrfs"
+
+PACMAN_PKGS=$(pwd)"/pkgs-files/pacman-pkgs.txt"
+AUR_PKGS=$(pwd)"/pkgs-files/aur-pkgs.txt"
+TIME_ZONE="$(curl --fail https://ipapi.co/timezone)"
+
+###############################################################################
+# Requirements
+pacman -S gum
+
+###############################################################################
+# Colors
+COLOR1="#1793d1"
+COLOR2="#ffa69e"
+COLOR3="#faf3dd"
+COLOR4="#b8f2e6"
+COLOR5="#2b303a"
+
+COLOR_TEXT=$COLOR1
+COLOR_TEXT_2=$COLOR4
+COLOR_BORDER=$COLOR4
+COLOR_WARNING=$COLOR2
+
+###############################################################################
+# Utiles
 logo() {
-	echo -ne "
-    ╭────────────────────────────────╮
-    │🅐 🅡 🅒 🅗  ____  ____  _    _     │
-    │        (  - \(_  _)( \/\/ )    │
-    │         ) _ <  )(   )    (     │
-    │        (____/ (__) (__/\__)    │
-    ╰────────────────────────────────╯
+
+	LOGO="
+🅐 🅡 🅒 🅗  ____  ____  _    _
+        (  - \(_  _)( \/\/ )
+         ) _ <  )(   )    (
+        (____/ (__) (__/\__)
 "
+	gum style "${LOGO:1:-1}" --foreground $COLOR_TEXT --border-foreground $COLOR_BORDER --margin "2 2" --padding "0 1" --border rounded --align center
+}
+
+log_error() {
+    gum log "$1" -l "error" --time "ansic"
+}
+
+section() {
+        gum style "$1" --bold --foreground $COLOR_TEXT --border-foreground $COLOR_BORDER --margin "2 2" --padding "1 10" --border rounded --align center
+}
+
+sub_section() {
+        gum style "▌ $1" --foreground $COLOR_TEXT --background $COLOR5 --border-foreground $COLOR_BORDER --margin "2 2" --padding "0 1" --align center
+}
+
+warning_section() {
+    gum style "$1" --border double --foreground $COLOR_WARNING --margin "1 1" --padding "0 1"
+}
+
+get_input() {
+    local INPUT
+    INPUT=$(gum input --prompt "$1" --placeholder "$2" --prompt.foreground $COLOR_TEXT_2)
+
+    if (gum confirm --default "Keep $1 $INPUT")
+    then
+        echo "$INPUT"
+    else
+        get_input "$1" "$2"
+    fi
+}
+
+get_password() {
+    local PASSWORD_I
+    PASSWORD_I=$(gum input --prompt "Type your Password > " --placeholder "password" --password  --prompt.foreground $COLOR_WARNING)
+
+    local PASSWORD_I_RETYPED
+    PASSWORD_I_RETYPED=$(gum input --prompt "Retype your Password > " --placeholder "password" --password  --prompt.foreground $COLOR_WARNING)
+
+	if [[ "$PASSWORD_I" != "$PASSWORD_I_RETYPED" ]]; then
+        warning_section "Passwords didn't match"
+		get_password
+	fi
+
+    local PROMPT_RETYPE_PASSWORD_I
+    if (gum confirm --default "Look at your password")
+    then
+        PROMPT_RETYPE_PASSWORD_I="Keep your Password : $PASSWORD_I"
+    else
+        PROMPT_RETYPE_PASSWORD_I="Keep your password"
+    fi
+
+    if (gum confirm --default "$PROMPT_RETYPE_PASSWORD_I")
+    then
+        echo "$PASSWORD_I"
+    else
+        get_password
+    fi
+}
+
+confirm_pkgs_file() {
+    sub_section "Confirming install file $1"
+    if ( gum confirm --default "Verify pkgs file before install" )
+    then
+        gum pager < "$1"
+
+        if ( gum confirm --default "Editing the file" )
+        then
+            $EDITOR "$1"
+        fi
+    fi
+}
+
+install_pacman_pkgs() {
+    confirm_pkgs_file "$PACMAN_PKGS"
+    sudo pacman -S --noconfirm --needed - < "$PACMAN_PKGS"
+}
+
+install_aur_pkgs() {
+    pacman -S --noconfirm --needed $AUR_HELPER
+    confirm_pkgs_file "$AUR_HELPER"
+    $AUR_HELPER -S --noconfirm --needed - < "$AUR_PKGS"
+}
+
+get_disk() {
+    DISKS_OPTIONS=$(lsblk -n --output TYPE,KNAME,SIZE)
+    IFS=$'\n' DISKS_OPTIONS_SORTED=($(echo "$DISKS_OPTIONS" | awk '$1 == "disk" {print $0}' | sort -h -r -k 3))
+
+    gum choose "${DISKS_OPTIONS_SORTED[@]}"
+}
+
+confirm_continue_installation() {
+    CONFIRM="
+                                
+       THE NEXT SECTION WILL NUKE ALL DATA ON THE DISK    
+                                
+
+                    Do you want to proced?
+"
+
+    if (gum confirm --default "$CONFIRM"); then
+        gum style "You chose to live dangerously. I like it. Proceeding   ..." --underline --margin "0 1" --foreground $COLOR_TEXT
+    else
+        log_error "User Aborded"
+        exit
+    fi
+}
+
+get_swap_size() {
+    IFS=' ' read -r -A DISK <<< "$1"
+    DISK_SIZE="${DISK[3]}"
+    IFS="." read -r -A DISK_SIZE_INT <<< "$DISK_SIZE"
+    DISK_SIZE_INT="${DISK_SIZE_INT[1]}"
+    SWAP_SIZE=$(gum filter $(seq 1 $((DISK_SIZE_INT / 4))) --placeholder "Swap size")
 }
 
 ###############################################################################
 # Set user
+section "Setup user"
 
-get_password() {
-	read -rs -p "Please enter password: " PASSWORD1
-	echo -ne "\n"
-	read -rs -p "Please re-enter password: " PASSWORD2
-	echo -ne "\n"
-	if [[ "$PASSWORD1" == "$PASSWORD2" ]]; then
-		RESULT="$PASSWORD1"
-	else
-		echo -ne "ERROR! Passwords do not match. \n"
-		get_password
-	fi
-}
+sub_section "Setup username"
+USERNAME_I=$(get_input "Username > " "name")
 
-# Set user name info
-read -p "What's your litle user name: " USERNAME
+sub_section "Setup Password"
+PASSWORD_I=$(get_password)
 
-get_password
-PASSWORD="$RESULT"
-
-read -rep "Now send me your hostname: " NAME_OF_MACHINE
+sub_section "Setup Hostname"
+HOSTNAME_I=$(get_input "Hostname > " "name")
 
 ###############################################################################
-# Set variables
-CWD="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
-USER_DOTFILES_PATH="/home/$USERNAME/.dotfiles/"
-USER_CWD="/home/$USERNAME/.dotfiles/arch-installer/"
-PACMAN_PKGS="pacman-pkgs.txt"
-AUR_PKGS="aur-pkgs.txt"
+# 1.5 Set keymaps & font
+section "Setup Language & set locale"
+localectl --no-ask-password set-keymap "${KEYMAP}"
 
-TIME_ZONE="$(curl --fail https://ipapi.co/timezone)"
-AUR_HELPER="paru"
-
-###############################################################################
-# Keyboard mapping.
-KEYMAP=us
-
-###############################################################################
-# File systems
-
-
-###############################################################################
-# TODO
-
-timedatectl set-ntp true
-
-pacman -S --noconfirm archlinux-keyring
-pacman -S --noconfirm --needed pacman-contrib ttf-jetbrains-mono reflector rsync grub
-
+pacman -S --noconfirm --needed ttf-jetbrains-mono
 setfont ttf-jetbrains-mono
 
-###############################################################################
-# ISO
-
-echo "
-
-╭────────────────────────────────╮
-│  Setting up                    │  
-│  '$ISO_COUNTRY' $ISO_COUNTRY   │
-│  mirrors for faster downloads  │
-╰────────────────────────────────╯
-
-"
-
-ISO_COUNTRY=$(curl -4 ifconfig.co/country-iso)
-
-# Enable Parallel Downloads
-sed -i 's/^#ParallelDownloads/ParallelDownloads/' "/etc/pacman.conf"
-
-# Make backup
-cp "/etc/pacman.d/mirrorlist" "/etc/pacman.d/mirrorlist.backup"
-
-reflector -a 48 -c "$ISO_COUNTRY" -f 5 -l 20 --sort rate --save "/etc/pacman.d/mirrorlist"
+# 1.8 Update the system clock
+sub_section "Update timezone"
+timedatectl --no-ask-password set-timezone "${TIME_ZONE}"
 
 ###############################################################################
-# Disk selection
-echo "
+# 1.9 Partition the disks
 
-                          
-       THIS WILL NUKE ALL DATA ON THE DISK    
-                           
+section "Partition the disks"
+confirm_continue_installation
 
-"
-echo -ne "    Do you want to proceed? (y/n): \n   "
-read choice
+sub_section "Disk selection"
+DISK=$(get_disk)
 
-case "$choice" in
-y | Y | yes | Yes)
-	logo
-	echo -e "You chose to live dangerously. I like it. Proceeding   ... \n"
-	;;
-n | N | no | No)
-	echo "You chose no. Exiting..."
-	exit
-	;;
-*)
-	echo "Invalid choice. Please enter 'y' or 'n'."
-	;;
-esac
+SWAP_SIZE=$(get_swap_size "$DISK")
 
-# options=($(lsblk -n --output TYPE,KNAME,SIZE | awk '$1=="disk"{print "/dev/"$2"|"$3}'))
-# disk=${options[$?]%|*}
-disk=$(lsblk -n --output KNAME,SIZE -t disk | awk '{print "/dev/"$1"|"$2}' | tail -n 1)
-echo "Disk : ${disk%|*}"
-echo "Size : ${disk#*|}"
-DISK="${disk%|*}"
+# TODO: cleanup the rest
 
-MOUNT_OPTIONS "noatime,compress=zstd,ssd,commit=120"
-mkdir /mnt &>/dev/null # Hiding error message if any
-pacman -S --noconfirm --needed gptfdisk btrfs-progs glibc
+sub_section "Format the partitions"
+mkdir /mnt
 
-umount -A --recursive /mnt # make sure everything is unmounted before we start
 # disk prep
 sgdisk -Z "${DISK}"         # zap all on disk
 sgdisk -a 2048 -o "${DISK}" # new gpt disk 2048 alignment
@@ -138,42 +212,31 @@ if [[ ! -d "/sys/firmware/efi" ]]; then                                  # Check
 fi
 partprobe "${DISK}" # reread partition table to ensure it is correct
 
-###############################################################################
-# Filesystems
 
-echo "
-
-╭────────────────────────╮
-│  Creating Filesystems  │
-╰────────────────────────╯
-
-"
 
 if [[ "${DISK}" =~ "nvme" ]]; then
+    sub_section "Partitioning nvme"
 	partition2=${DISK}p2
 	partition3=${DISK}p3
 else
+    sub_section "Partitioning ssd / hard drive"
 	partition2=${DISK}2
 	partition3=${DISK}3
 fi
 
-if [[ "${FS}" == "ext4" ]]; then
-	mkfs.vfat -F32 -n "EFIBOOT" "${partition2}"
-	mkfs.ext4 -L ROOT "${partition3}"
-	mount -t ext4 "${partition3}" "/mnt"
+if [[ "${FS}" == "btrfs" ]]; then
+    sub_section "File system Btrfs"
+	# mkfs.vfat -F32 -n "EFIBOOT" "${partition2}"
+	# mkfs.ext4 -L ROOT "${partition3}"
+	# mount -t ext4 "${partition3}" "/mnt"
 fi
 
 # mount target
 mkdir -p /mnt/boot/efi
 mount -t vfat -L EFIBOOT /mnt/boot/
 
-echo "
 
-╭──────────────────────╮
-│  Arch on Main Drive  │
-╰──────────────────────╯
-
-"
+section "Mounting Arch on Main Drive"
 
 pacstrap /mnt base base-devel linux linux-firmware vim nano sudo archlinux-keyring wget libnewt --noconfirm --needed
 echo "keyserver hkp://keyserver.ubuntu.com" >>/mnt/etc/pacman.d/gnupg/gpg.conf
@@ -186,46 +249,51 @@ echo "
 "
 cat /mnt/etc/fstab
 
-echo "
 
-╭───────────────────────╮
-│  GRUB install & check │
-╰───────────────────────╯
+###############################################################################
 
-"
 
-if [[ ! -d "/sys/firmware/efi" ]]; then
-	grub-install --boot-directory=/mnt/boot "${DISK}"
-else
-	pacstrap /mnt efibootmgr --noconfirm --needed
-fi
+timedatectl set-ntp true
 
-echo -ne "
--------------------------------------------------------------------------
-                    Network Setup 
--------------------------------------------------------------------------
-"
+# Keyring
+pacman -S --noconfirm --needed archlinux-keyring
+
+# 
+pacman -S --noconfirm --needed pacman-contrib
+
+# Mirrors
+pacman -S --noconfirm --needed reflector
+
+# Sync Utile
+pacman -S --noconfirm --needed rsync
+pacman -S --noconfirm --needed curl
+
+# Greeter
+pacman -S --noconfirm --needed grub
+
+
+###############################################################################
+# ISO
+section "ISO"
+
+ISO_COUNTRY=$(curl -4 ifconfig.co/country-iso)
+sub_section "Setting up mirrors '$ISO_COUNTRY' $ISO_COUNTRY"
+
+# Enable Parallel Downloads
+sed -i 's/^#ParallelDownloads/ParallelDownloads/' "/etc/pacman.conf"
+
+# Make backup
+cp "/etc/pacman.d/mirrorlist" "/etc/pacman.d/mirrorlist.backup"
+
+reflector -a 48 -c "$ISO_COUNTRY" -f 5 -l 20 --sort rate --save "/etc/pacman.d/mirrorlist"
+
+section "Network Setup"
+
 pacman -S --noconfirm --needed networkmanager dhclient
 systemctl enable --now NetworkManager
 
-echo -ne "
--------------------------------------------------------------------------
-                    Setting up mirrors for optimal download 
--------------------------------------------------------------------------
-"
-pacman -S --noconfirm --needed pacman-contrib curl
-pacman -S --noconfirm --needed reflector rsync grub arch-install-scripts git
-cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
-
+section "MAKEFLAGS & COMPRESSXZ"
 nc=$(grep -c ^processor /proc/cpuinfo)
-
-echo -ne "
--------------------------------------------------------------------------
-                    You have '$nc' cores. And
-			changing the makeflags for '$nc' cores. Aswell as
-				changing the compression settings.
--------------------------------------------------------------------------
-"
 
 TOTAL_MEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
 if [[ $TOTAL_MEM -gt 8000000 ]]; then
@@ -233,185 +301,83 @@ if [[ $TOTAL_MEM -gt 8000000 ]]; then
 	sed -i "s/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T $nc -z -)/g" /etc/makepkg.conf
 fi
 
-echo -ne "
--------------------------------------------------------------------------
-                    Setup Language to US and set locale
--------------------------------------------------------------------------
-"
-sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
-locale-gen
-timedatectl --no-ask-password set-timezone "${TIME_ZONE}"
-timedatectl --no-ask-password set-ntp 1
-localectl --no-ask-password set-locale LANG="en_US.UTF-8" LC_TIME="en_US.UTF-8"
-ln -s "/usr/share/zoneinfo/${TIME_ZONE}" "/etc/localtime"
-# Set keymaps
-localectl --no-ask-password set-keymap "${KEYMAP}"
-
-# Add sudo no password rights
+section "Set temp user"
 sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
 sed -i 's/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
 
-#Add parallel downloading
+section "Set parallel downloading"
 sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
 
-#Enable multilib
+section "Enable multilib"
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 pacman -Sy --noconfirm --needed
 
-echo -ne "
--------------------------------------------------------------------------
-                    Installing Base System
--------------------------------------------------------------------------
-"
-# sed $INSTALL_TYPE is using install type to check for MINIMAL installation, if it's true, stop
-# stop the script and move on, not installing any more packages below that line
+section "Pacman pkgs install from $PACMAN_PKGS"
+install_pacman_pkgs
 
-while IFS= read line; do
-	echo "INSTALLING: ${line}"
-	sudo pacman -S --noconfirm --needed "${line}"
-done <"$PACMAN_PKGS"
-
-echo -ne "
--------------------------------------------------------------------------
-                    Installing Microcode
--------------------------------------------------------------------------
-"
-# determine processor type and install microcode
+section "Installing ucode"
 proc_type=$(lscpu)
 if grep -E "GenuineIntel" <<<"${proc_type}"; then
-	echo "Installing Intel microcode"
 	pacman -S --noconfirm --needed intel-ucode
-	proc_ucode=intel-ucode.img
 elif grep -E "AuthenticAMD" <<<"${proc_type}"; then
-	echo "Installing AMD microcode"
 	pacman -S --noconfirm --needed amd-ucode
-	proc_ucode=amd-ucode.img
 fi
 
-echo -ne "
--------------------------------------------------------------------------
-                    Installing Graphics Drivers
--------------------------------------------------------------------------
-"
+section "Installing Graphics drivers"
 # Graphics Drivers find and install
 gpu_type=$(lspci)
 if grep -E "NVIDIA|GeForce" <<<"${gpu_type}"; then
-	pacman -S --noconfirm --needed nvidia
-	nvidia-xconfig
+	pacman -S --noconfirm --needed nvidia nvidia-xconfig
 elif lspci | grep 'VGA' | grep -E "Radeon|AMD"; then
 	pacman -S --noconfirm --needed xf86-video-amdgpu
-elif grep -E "Integrated Graphics Controller" <<<"${gpu_type}"; then
+else
 	pacman -S --noconfirm --needed libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-intel-driver libva-utils lib32-mesa
-elif grep -E "Intel Corporation UHD" <<<"${gpu_type}"; then
-	pacman -S --needed --noconfirm libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-intel-driver libva-utils lib32-mesa
 fi
 
-echo -ne "
--------------------------------------------------------------------------
-                    Adding User
--------------------------------------------------------------------------
-"
+section "Adding User"
 if [ "$(whoami)" = "root" ]; then
 	groupadd libvirt
-	useradd -m -G wheel,libvirt -s "/bin/bash" "$USERNAME "
-	echo "$USERNAME created, home directory created, added to wheel and libvirt group, default shell set to /bin/bash"
+	useradd -m -G wheel,libvirt -s "/bin/bash" "$USERNAME_I "
+	echo "$USERNAME_I created, home directory created, added to wheel and libvirt group, default shell set to /bin/bash"
 
-	# use chpasswd to enter $USERNAME:$password
-	echo "$USERNAME:$PASSWORD" | chpasswd
-	echo "$USERNAME password set"
+	# use chpasswd to enter $USERNAME_I:$password
+	echo "$USERNAME_I:$PASSWORD_I" | chpasswd
+	echo "$USERNAME_I password set"
 
-	cp -R "$HOME/dotfiles" "$USER_DOTFILES_PATH"
-	chown -R "$USERNAME: /home/$USERNAME/"
-	echo "Dotfiles copied to home directory"
+	chown -R "$USERNAME_I: /home/$USERNAME_I/"
 
-	# enter $NAME_OF_MACHINE to /etc/hostname
-	echo "$NAME_OF_MACHINE" >/etc/hostname
+	# enter $HOSTNAME_I to /etc/hostname
+	echo "$HOSTNAME_I" >/etc/hostname
 else
-	echo "You are already a user proceed with aur installs"
+    log_error "Not executed as root"
 fi
 
-echo -ne "
--------------------------------------------------------------------------
-                    Installing Aur Packages
--------------------------------------------------------------------------
-"
+section "Installing Aur Packages"
+install_aur_pkgs
+# cd "$HOME"
+# mkdir "/home/$USERNAME_I/.cache"
+# touch "/home/$USERNAME_I/.cache/zshhistory"
 
-cd "$HOME"
-mkdir "/home/$USERNAME/.cache"
-touch "/home/$USERNAME/.cache/zshhistory"
-
-cd "$HOME"
-git clone "https://aur.archlinux.org/$AUR_HELPER.git"
-cd "$HOME/$AUR_HELPER"
-makepkg -si --noconfirm
-cd "$HOME"
-
-while IFS= read line; do
-	echo "INSTALLING: ${line}"
-	$AUR_HELPER -S --noconfirm --needed "${line}"
-done <"$AUR_PKGS"
 
 export PATH=$PATH:~/.local/bin
 
-echo -ne "
--------------------------------------------------------------------------
-Final Setup and Configurations
-GRUB EFI Bootloader Install & Check
--------------------------------------------------------------------------
-"
-
-if [[ -d "/sys/firmware/efi" ]]; then
-	grub-install --efi-directory=/boot "${DISK}"
-fi
-
-echo -ne "
--------------------------------------------------------------------------
-               Creating (and Theming) Grub Boot Menu
--------------------------------------------------------------------------
-"
-# set kernel parameter for decrypting the drive
-if [[ "${FS}" == "luks" ]]; then
-	sed -i "s%GRUB_CMDLINE_LINUX_DEFAULT=\"%GRUB_CMDLINE_LINUX_DEFAULT=\"cryptdevice=UUID=${ENCRYPTED_PARTITION_UUID}:ROOT root=/dev/mapper/ROOT %g" /etc/default/grub
-fi
-# set kernel parameter for adding splash screen
-sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="[^"]*/& splash /' /etc/default/grub
-
-echo -ne "
--------------------------------------------------------------------------
-               Enabling (and Theming) Login Display Manager
--------------------------------------------------------------------------
-"
-
+section "Enabling Login Display Manager"
 systemctl enable gdm.service
 
-echo -ne "
--------------------------------------------------------------------------
-                    Enabling Essential Services
--------------------------------------------------------------------------
-"
+section "Enabling systemctl Services"
 
 systemctl enable cups.service
-echo "  Cups enabled"
 ntpd -qg
 systemctl enable ntpd.service
-echo "  NTP enabled"
 systemctl disable dhcpcd.service
-echo "  DHCP disabled"
 systemctl stop dhcpcd.service
-echo "  DHCP stopped"
 systemctl enable NetworkManager.service
-echo "  NetworkManager enabled"
 systemctl enable bluetooth
-echo "  Bluetooth enabled"
 systemctl enable avahi-daemon.service
-echo "  Avahi enabled"
 
-echo -ne "
--------------------------------------------------------------------------
-                    Cleaning
--------------------------------------------------------------------------
-"
-# Remove no password sudo rights
+section "Cleanup"
+
+# Remove temp user
 sed -i 's/^%wheel ALL=(ALL) NOPASSWD: ALL/# %wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
 sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
 # Add sudo rights
@@ -419,4 +385,10 @@ sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
 # Replace in the same state
-cd "$(pwd)"
+cd "$(pwd)" || exit
+
+
+INSTALL_COMPLETE=$(gum style "Installation complete!
+you are on" --foreground $COLOR_TEXT --align center --underline --bold)
+LOGO_COMPLETE=$(logo)
+gum join --align center --vertical "$INSTALL_COMPLETE" "$LOGO_COMPLETE"

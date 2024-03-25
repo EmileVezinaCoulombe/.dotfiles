@@ -94,9 +94,6 @@ usbutils
 virt-manager
 virt-viewer
 which
-wine-gecko
-wine-mono
-winetricks
 xdg-user-dirs
 xorg
 xorg-apps
