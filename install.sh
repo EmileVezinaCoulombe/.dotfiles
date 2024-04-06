@@ -1,5 +1,5 @@
-#!/usr/bin/env zsh
-STOW_FOLDERS="btop,firefox,git,kitty,micro,neofetch,nvim,tmux,VSCodium,wakatime,zsh"
+#!/usr/bin/env bash
+STOW_FOLDERS="config,firefox,git,wallpaper"
 STOW_FOLDERS=$STOW_FOLDERS
 
 # TODO: rm
@@ -13,7 +13,6 @@ pushd $DOTFILES
 for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g")
 do
     echo "stow $folder"
-    stow -D $folder
-    stow $folder
+    stow --restow $folder
 done
 popd
