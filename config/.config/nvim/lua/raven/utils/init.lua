@@ -40,9 +40,10 @@ end
 function M.reduce_path_to_root_patern(path)
     local dir = path and vim.fs.dirname(path) or vim.loop.cwd()
     ---@type string?
-    local root_path = vim.fs.find(M.root_patterns, { path = dir, upward = true })[1]
-    local root_dir = root_path and vim.fs.dirname(root_path) or vim.loop.cwd()
+    -- local root_path = vim.fs.find(M.root_patterns, { path = dir, upward = true })[1]
+    -- local root_dir = root_path and vim.fs.dirname(root_path) or vim.loop.cwd()
 
+    local root_dir = dir
     ---@cast root_dir string
     return root_dir
 end

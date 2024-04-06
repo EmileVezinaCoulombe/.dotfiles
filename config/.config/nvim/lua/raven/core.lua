@@ -84,6 +84,8 @@ function M.setup()
 
     require("raven.config.autocmds")
     require("raven.config.keymaps")
+
+    -- TODO: 2 times ?
     require("raven.config.options")
 end
 

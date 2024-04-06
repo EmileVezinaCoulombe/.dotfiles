@@ -42,22 +42,12 @@ return {
             { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
             {
                 "<leader><leader>",
-                "<cmd>Telescope find_files<cr>",
+                "<cmd>Telescope find_files hidden=true<cr>",
                 desc = "Find Files (root dir)",
             },
             {
                 "<leader>ff",
-                "<cmd>Telescope find_files<cr>",
-                desc = "Find Files (root dir)",
-            },
-            { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent file" },
-            { "<leader>gc", "<cmd>Telescope git_commits<cr>", desc = "commits search" },
-            { "<leader>gs", "<cmd>Telescope git_status<cr>", desc = "status search" },
-            -- search
-            { '<leader>s"', "<cmd>Telescope registers<cr>", desc = "Registers" },
-            {
-                "<leader>sa",
-                "<cmd>Telescope autocommands<cr>",
+                "<cmd>Telescope find_files hidden=true no_ignore=true<cr>",
                 desc = "Auto Commands",
             },
             {
