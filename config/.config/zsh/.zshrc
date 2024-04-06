@@ -67,6 +67,10 @@ autoload -Uz compinit
 compinit -u
 
 ################################################################################
+# Key bindings
+bindkey -s "^E" "env | gum filter --placeholder='Env variable...' \n"
+
+################################################################################
 # Rice 🍚
 # Starship 🚀
 # https://github.com/starship/starship
@@ -79,8 +83,19 @@ eval "$(starship init zsh)"
 export PATH="$HOME/neovim/bin:$PATH"
 
 # NVM, NPM and NODE.zsh
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+export NVM_DIR
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+## Go
+if [ -d "/usr/local/go" ]; then
+    PATH=$PATH:/usr/local/go/bin
+    PATH=${PATH}:$(go env GOPATH)/bin
+    export PATH
+fi
+
+## Zoxide
+eval "$(zoxide init zsh)"
 
 ## direnv
 eval "$(direnv hook zsh)"

@@ -2,11 +2,12 @@
 ################################################################################
 # Temporary
 SESSION_NAME="session8"
-alias cdn='cd ~/Nextcloud/USER-Emile/school/vault/$SESSION_NAME'
+alias cdn='cd ~/Nextcloud/USER-Emile/vault/$SESSION_NAME'
 alias cdc='cd ~/code/$SESSION_NAME'
 
 alias cdalgo='cdc && cd algo/'
-alias ltsa='nohup java -jar /home/emile/Nextcloud/USER-Emile/school/vault/session8/spec/ltsatool/ltsa.jar >/dev/null 2>&1 &'
+alias ltsa='nohup java -jar /home/emile/Nextcloud/USER-Emile/vault/session8/spec/ltsatool/ltsa.jar >/dev/null 2>&1 &'
+alias perfect='nohup /opt/escher/verificationstudio7/bin/verificationstudio >/dev/null 2>&1 &'
 
 ################################################################################
 # Dev
@@ -32,6 +33,7 @@ alias tmp='vim ~/tmp.txt'
 
 ################################################################################
 # Rename
+alias cd='z'
 alias nano='micro'
 alias vim='nvim'
 alias emacs="emacsclient -c -a 'emacs'"
@@ -49,7 +51,6 @@ alias nnn='nnn'
 
 ################################################################################
 # Functions
-alias zsh-update-plugins="find "$ZDOTDIR/plugins" -type d -exec test -e '{}/.git' ';' -print0 | xargs -I {} -0 git -C {} pull -q"
 
 ################################################################################
 # Ricing
