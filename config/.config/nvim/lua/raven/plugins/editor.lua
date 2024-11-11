@@ -1,27 +1,40 @@
 return {
     {
         "nvim-neo-tree/neo-tree.nvim",
-        branch = "v3.x",
         dependencies = {
-        "nvim-lua/plenary.nvim",
-        "nvim-tree/nvim-web-devicons",
-        "MunifTanjim/nui.nvim",
-        "3rd/image.nvim",
+            "nvim-lua/plenary.nvim",
+            "nvim-tree/nvim-web-devicons",
+            "MunifTanjim/nui.nvim",
         },
-        config = {
+        opts = {
+            filesystem = {
+                filtered_items = {
+                    hide_dotfiles = false,
+                    hide_gitignored = false,
+                    hide_by_name = {
+                        "node_modules",
+                    },
+                    always_show = {
+                        ".gitignored",
+                    },
+                },
+            },
         },
         keys = {
             {
                 "<leader>e",
-                "<cmd>Neotree toggle reveal position=right<cr>",
-                desc = "Tree"
-
-            }
-        }
+                "<cmd>Neotree toggle reveal position=right reveal_force_cwd<cr>",
+                desc = "Tree",
+            },
+        },
     },
     {
-        "vim-apm",
-        dir = "~/personal/vim-apm",
+        "ThePrimeagen/vim-apm",
+        opts = {},
+        config = function(_, opts)
+            local apm = require("vim-apm")
+            apm:setup(opts)
+        end,
         keys = {
             {
                 "<leader>um",
@@ -35,28 +48,45 @@ return {
     {
         "mbbill/undotree",
         keys = {
-            { "<leader>uu", "<cmd>UndotreeToggle", desc = "Undo tree toggle" },
+            { "<leader>su", "<cmd>UndotreeToggle<cr>", desc = "Undo tree toggle" },
+        },
+    },
+    {
+        "gbprod/yanky.nvim",
+        opts = function()
+            return {
+                highlight = { timer = 100 },
+            }
+        end,
+        keys = {
+            {
+                "<leader>sy",
+                function()
+                    require("telescope").extensions.yank_history.yank_history({})
+                end,
+                desc = "Open Yank History",
+            },
         },
     },
     { "echasnovski/mini.nvim", version = false },
     {
-        "Pocco81/auto-save.nvim",
-        lazy = false,
-        keys = { { "<leader>S", ":ASToggle<CR>", desc = "Toggle auto save" } },
-        config = function(_, opts)
-            require("auto-save").setup(opts)
-        end,
+        "0x00-ketsu/autosave.nvim",
+        event = { "InsertLeave", "TextChanged" },
         opts = {
-            enabled = true,
-            execution_message = {
-                message = function() -- message to print on save
-                    return ""
-                end,
-                dim = 0, -- dim the color of `message`
-                cleaning_interval = 0, -- (milliseconds) automatically clean MsgArea after displaying `message`. See :h MsgArea
+            prompt_message = function()
+                return ""
+            end,
+            conditions = {
+                exists = true,
+                modifiable = true,
+                filename_is_not = {},
+                filetype_is_not = { "lua", "java" },
             },
-            trigger_events = { "InsertLeave" }, -- vim events that trigger auto-save. See :h events
         },
+        config = function(_, opts)
+            require("autosave").setup(opts)
+        end,
+        keys = { { "<leader>S", ":ASToggle<CR>", desc = "Toggle auto save" } },
     },
     {
         "HakonHarnes/img-clip.nvim",
@@ -67,29 +97,46 @@ return {
         },
     },
     {
-        "christoomey/vim-tmux-navigator",
-        lazy = false,
-    },
-    {
-        -- Temporary while the pr is merged
-        -- "toppair/peek.nvim",
-        "Saimo/peek.nvim",
-        build = "deno task --quiet build:fast",
+        "iamcco/markdown-preview.nvim",
+        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+        build = function()
+            vim.fn["mkdp#util#install"]()
+        end,
         keys = {
             {
                 "<leader>up",
-                function()
-                    local peek = require("peek")
-                    if peek.is_open() then
-                        peek.close()
-                    else
-                        peek.open()
-                    end
-                end,
-                desc = "Peek (Markdown Preview)",
+                ft = "markdown",
+                "<cmd>MarkdownPreviewToggle<cr>",
+                desc = "Markdown Preview",
             },
         },
-        opts = { theme = "light", app = "browser" },
+        config = function()
+            vim.cmd([[do FileType]])
+        end,
+    },
+    {
+        "OXY2DEV/markview.nvim",
+        enabled = false,
+        lazy = false, -- Recommended
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-tree/nvim-web-devicons",
+        },
+        opts = {
+            modes = { "n", "i", "no", "c" },
+            hybrid_modes = { "i" },
+
+            -- This is nice to have
+            callbacks = {
+                on_enable = function(_, win)
+                    vim.wo[win].conceallevel = 2
+                    vim.wo[win].concealcursor = "nc"
+                end,
+            },
+        },
+        keys = {
+            { "<leader>uv", "<cmd>Markview toggle<cr>" },
+        },
     },
     {
         "folke/which-key.nvim",
@@ -139,14 +186,14 @@ return {
             },
         },
         keys = {
-            { "]h", "<cmd>Gitsigns next_hunk<cr>", desc = "Next Hunk" },
-            { "[h", "<cmd>Gitsigns prev_hunk<cr>", desc = "Prev Hunk" },
-            { "<leader>ghs", "<cmd>Gitsigns stage_hunk<CR>", desc = "Stage Hunk" },
-            { "<leader>ghr", "<cmd>Gitsigns reset_hunk<CR>", desc = "Reset Hunk" },
-            { "<leader>ghS", "<cmd>Gitsigns stage_buffer<cr>", desc = "Stage Buffer" },
+            { "]h",          "<cmd>Gitsigns next_hunk<cr>",       desc = "Next Hunk" },
+            { "[h",          "<cmd>Gitsigns prev_hunk<cr>",       desc = "Prev Hunk" },
+            { "<leader>ghs", "<cmd>Gitsigns stage_hunk<CR>",      desc = "Stage Hunk" },
+            { "<leader>ghr", "<cmd>Gitsigns reset_hunk<CR>",      desc = "Reset Hunk" },
+            { "<leader>ghS", "<cmd>Gitsigns stage_buffer<cr>",    desc = "Stage Buffer" },
             { "<leader>ghu", "<cmd>Gitsigns undo_stage_hunk<cr>", desc = "Undo Stage Hunk" },
-            { "<leader>ghR", "<cmd>Gitsigns reset_buffer<cr>", desc = "Reset Buffer" },
-            { "<leader>ghp", "<cmd>Gitsigns preview_hunk<cr>", desc = "Preview Hunk" },
+            { "<leader>ghR", "<cmd>Gitsigns reset_buffer<cr>",    desc = "Reset Buffer" },
+            { "<leader>ghp", "<cmd>Gitsigns preview_hunk<cr>",    desc = "Preview Hunk" },
             {
                 "<leader>ghb",
                 function()
@@ -166,62 +213,38 @@ return {
     },
     {
         "folke/trouble.nvim",
-        cmd = { "TroubleToggle", "Trouble" },
-        opts = { use_diagnostic_signs = true },
+        cmd = "Trouble",
+        opts = {},
         keys = {
             {
                 "<leader>xx",
-                "<cmd>TroubleToggle document_diagnostics<cr>",
-                desc = "Document Diagnostics (Trouble)",
+                "<cmd>Trouble diagnostics toggle<cr>",
+                desc = "Diagnostics (Trouble)",
             },
             {
                 "<leader>xX",
-                "<cmd>TroubleToggle workspace_diagnostics<cr>",
-                desc = "Workspace Diagnostics (Trouble)",
+                "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+                desc = "Buffer Diagnostics (Trouble)",
+            },
+            {
+                "<leader>cs",
+                "<cmd>Trouble symbols toggle focus=false<cr>",
+                desc = "Symbols (Trouble)",
+            },
+            {
+                "<leader>ct",
+                "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+                desc = "LSP Definitions / references / ... (Trouble)",
             },
             {
                 "<leader>xL",
-                "<cmd>TroubleToggle loclist<cr>",
+                "<cmd>Trouble loclist toggle<cr>",
                 desc = "Location List (Trouble)",
             },
             {
                 "<leader>xQ",
-                "<cmd>TroubleToggle quickfix<cr>",
+                "<cmd>Trouble qflist toggle<cr>",
                 desc = "Quickfix List (Trouble)",
-            },
-            {
-                "[q",
-                function()
-                    if require("trouble").is_open() then
-                        require("trouble").previous({
-                            skip_groups = true,
-                            jump = true,
-                        })
-                    else
-                        local ok, err = pcall(vim.cmd.cprev)
-                        if not ok then
-                            vim.notify(err, vim.log.levels.ERROR)
-                        end
-                    end
-                end,
-                desc = "Previous trouble/quickfix item",
-            },
-            {
-                "]q",
-                function()
-                    if require("trouble").is_open() then
-                        require("trouble").next({
-                            skip_groups = true,
-                            jump = true,
-                        })
-                    else
-                        local ok, err = pcall(vim.cmd.cnext)
-                        if not ok then
-                            vim.notify(err, vim.log.levels.ERROR)
-                        end
-                    end
-                end,
-                desc = "Next trouble/quickfix item",
             },
         },
     },
@@ -244,7 +267,101 @@ return {
             },
         },
         keys = {
-            { "<leader>uh", "<cmd>CloakToggle", desc = "Cloak toggle" },
+            { "<leader>uh", "<cmd>CloakToggle<cr>", desc = "Cloak toggle" },
+        },
+    },
+    {
+        "epwalsh/obsidian.nvim",
+        version = "*",
+        lazy = true,
+        ft = "markdown",
+        event = {
+            -- refer to `:h file-pattern` for more examples
+            "BufReadPre "
+            .. vim.fn.expand("~")
+            .. "/OneDrive/vault/*.md",
+            "BufNewFile " .. vim.fn.expand("~") .. "/OneDrive/vault/*.md",
+        },
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "hrsh7th/nvim-cmp",
+            {
+                "folke/which-key.nvim",
+                opts = {
+                    defaults = {
+                        ["<leader>o"] = { name = "+Obsidian" },
+                    },
+                },
+            },
+        },
+        opts = {
+            workspaces = {
+                {
+                    name = "personal",
+                    path = "~/OneDrive/vault",
+                },
+            },
+            templates = {
+                folder = "template",
+                date_format = "%d-%m-%Y",
+                time_format = "%H:%M",
+            },
+            mappings = {
+                ["gf"] = {
+                    action = function()
+                        return require("obsidian").util.gf_passthrough()
+                    end,
+                    opts = { noremap = false, expr = true, buffer = true },
+                },
+                -- Toggle check-boxes.
+                ["<leader>ch"] = {
+                    action = function()
+                        return require("obsidian").util.toggle_checkbox()
+                    end,
+                    opts = { buffer = true },
+                },
+                -- Smart action depending on context, either follow link or toggle checkbox.
+                ["<cr>"] = {
+                    action = function()
+                        return require("obsidian").util.smart_action()
+                    end,
+                    opts = { buffer = true, expr = true },
+                },
+            },
+        },
+        keys = {
+            { "gX",         "<cmd>ObsidianOpen<cr>",            desc = "Go to Obsidian" },
+            { "<leader>oN", "<cmd>ObsidianNew<cr>",             desc = "New file" },
+            { "<leader>on", "<cmd>ObsidianNewFromTemplate<cr>", desc = "New file from template" },
+            {
+                "<leader>on",
+                mode = { "v" },
+                "<cmd>ObsidianLinkNew<cr>",
+                desc = "New file with link",
+            },
+            {
+                "<leader>oe",
+                mode = { "v" },
+                "<cmd>ObsidianExtractNote<cr>",
+                desc = "Extract to a new file",
+            },
+            { "gf",                "<cmd>ObsidianFollowLink<cr>",     desc = "Go to file" },
+            { "<leader>o<leader>", "<cmd>ObsidianQuickSwitch<cr>",    desc = "Search file" },
+            { "<leader>og",        "<cmd>ObsidianSearch<cr>",         desc = "Search Grep" },
+            { "gr",                "<cmd>ObsidianBacklinks<cr>",      desc = "References" },
+            { "<leader>ot",        "<cmd>ObsidianTags<cr>",           desc = "Search tags" },
+            { "<leader>oi",        "<cmd>ObsidianTemplate<cr>",       desc = "Insert Template" },
+            { "<leader>ol",        "<cmd>ObsidianLinks<cr>",          desc = "Serch links" },
+            { "<leader>ow",        "<cmd>ObsidianWorkspace<cr>",      desc = "Workspaces" },
+            -- { "<leader>p",         "<cmd>ObsidianPasteImg<cr>",       desc = "Paste clipboard image" },
+            { "<leader>cr",        "<cmd>ObsidianRename<cr>",         desc = "Rename" },
+            { "<leader>od",        "<cmd>ObsidianToggleCheckbox<cr>", desc = "Done" },
+            { "<leader>oh",        "<cmd>ObsidianTOC<cr>",            desc = "TOC header" },
+            -- { "",                  "<cmd>ObsidianLink<cr>",           desc = "" },
+            -- { "",                  "<cmd>ObsidianToday<cr>",          desc = "" },
+            -- { "",                  "<cmd>ObsidianTomorrow<cr>",       desc = "" },
+            -- { "",                  "<cmd>ObsidianYesterday<cr>",      desc = "" },
+            -- { "",                  "<cmd>ObsidianDailies<cr>",        desc = "" },
         },
     },
 }

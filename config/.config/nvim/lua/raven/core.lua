@@ -5,22 +5,41 @@ local M = {
     light_start_hour = 5,
     ---@type integer
     light_stop_hour = 19,
-    ---@type string|fun()
-    light_colorscheme = "github_light",
-    ---@type string|fun()
-    dark_colorscheme = "kanagawa",
+    ---@type table
+    day_colorscheme = {
+        ---@type string|fun()
+        name = "catppuccin-macchiato",
+        ---@type boolean
+        is_light = false,
+    },
+
+    ---@type table
+    night_colorscheme = {
+        ---@type string|fun()
+        name = "kanagawa",
+        ---@type boolean
+        is_light = false,
+    },
+
     spec = {
         { import = "raven.plugins" },
         { import = "raven.plugins.coding" },
-        { import = "raven.plugins.dap" },
-        { import = "raven.plugins.formatting" },
-        { import = "raven.plugins.lang" },
-        { import = "raven.plugins.linting.eslint" },
         { import = "raven.plugins.test" },
+        change_detection = {
+            enabled = true,
+            notify = false,
+        },
+        checker = { enabled = false },
     },
-    checker = { enabled = false }, -- automatically check for plugin updates
-    -- icons used by other plugins
+
     icons = {
+        telescope = {
+            prompt_prefix = " ",
+            selection_caret = " ",
+        },
+        indent = {
+            char = "│",
+        },
         dap = {
             Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
             Breakpoint = " ",
@@ -76,7 +95,6 @@ local M = {
 }
 
 function M.setup()
-
     require("raven.config.options")
 
     require("lazy").setup({ spec = M.spec })
@@ -90,9 +108,16 @@ function M.setup()
 end
 
 function M.load_colorscheme()
-    local function watch_colorscheme()
-        local function update_colorscheme(background, colorscheme)
-            vim.opt.background = background
+    local function watch_colorscheme(is_init)
+        local function update_colorscheme(is_light, colorscheme)
+            if is_light then
+                vim.opt.background = "light"
+                vim.cmd("set background=light")
+            else
+                vim.opt.background = "dark"
+                vim.cmd("set background=dark")
+            end
+
             if type(colorscheme) == "function" then
                 colorscheme()
             else
@@ -103,18 +128,25 @@ function M.load_colorscheme()
         local hr = tonumber(os.date("%H", os.time()))
         local is_light_time = hr >= M.light_start_hour and hr < M.light_stop_hour
 
+        if is_init or vim.g.colors_name == M.day_colorscheme.name or vim.g.colors_name == M.night_colorscheme.name then
+            if M.day_colorscheme.name ~= vim.g.colors_name and is_light_time then
+                update_colorscheme(M.day_colorscheme.is_light, M.day_colorscheme.name)
+            end
 
-        if M.light_colorscheme ~= vim.g.colors_name and is_light_time then
-            update_colorscheme("light", M.light_colorscheme)
-        end
-
-        if M.dark_colorscheme ~= vim.g.colors_name and not is_light_time then
-            update_colorscheme("dark", M.dark_colorscheme)
+            if M.night_colorscheme.name ~= vim.g.colors_name and not is_light_time then
+                update_colorscheme(M.night_colorscheme.is_light, M.night_colorscheme.name)
+            end
         end
     end
 
-    watch_colorscheme()
-    vim.loop.new_timer():start(0, 10000, vim.schedule_wrap(watch_colorscheme))
+    watch_colorscheme(true)
+    vim.loop.new_timer():start(
+        0,
+        10000,
+        vim.schedule_wrap(function()
+            watch_colorscheme(false)
+        end)
+    )
 end
 
 return M

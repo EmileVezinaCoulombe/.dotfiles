@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-STOW_FOLDERS="btop,firefox,git,kitty,micro,neofetch,nvim,tmux,VSCodium,wakatime,zsh"
+STOW_FOLDERS="btop,firefox,git,kitty,micro,neofetch,nvim,tmux,VSCodium,wakatime,zsh,git"
 STOW_FOLDERS=$STOW_FOLDERS
 
 # TODO: rm

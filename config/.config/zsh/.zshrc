@@ -128,8 +128,8 @@ fi
 
 # MOJO
 if [ -d "$HOME/.modular" ]; then
-   export MODULAR_HOME="$HOME/.modular"
-   export PATH="$MODULAR_HOME/pkg/packages.modular.com_mojo/bin:$PATH"
+    export MODULAR_HOME="$HOME/.modular"
+    export PATH="$MODULAR_HOME/pkg/packages.modular.com_mojo/bin:$PATH"
 fi
 
 # NNN
@@ -138,6 +138,21 @@ NNN_PLUG_DEFAULT='p:preview-tui;d:dragdrop'
 export NNN_PLUG="$NNN_PLUG_DEFAULT;"
 
 export NNN_TRASH=2
+
+# pnpm
+export PNPM_HOME="/home/emile/.local/share/pnpm"
+case ":$PATH:" in
+*":$PNPM_HOME:"*) ;;
+*) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# NG Angular
+command_exists() {
+    command -v "$1" &>/dev/null
+}
+if command_exists "ng"; then
+    source <(ng completion script)
+fi
 
 ## OneDark
 ## BLK="04" CHR="04" DIR="04" EXE="00" REG="00" HARDLINK="00" SYMLINK="06" MISSING="00" ORPHAN="01" FIFO="0F" SOCK="0F" OTHER="02"
