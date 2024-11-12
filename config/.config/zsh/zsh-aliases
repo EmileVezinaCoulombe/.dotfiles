@@ -108,7 +108,6 @@ alias gaa='git add --all'
 alias gap='git add -p'
 
 # Commit
-alias gc='git commit'
 alias gcr='git commit --amend'
 # Commit
 alias gc='git cc'                       # Interactive conventional commit

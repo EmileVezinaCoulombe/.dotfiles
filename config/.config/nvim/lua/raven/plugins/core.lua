@@ -81,11 +81,24 @@ return {
                 "<leader>sg",
                 function()
                     require("telescope.builtin").live_grep({
+                        hidden = true,
+                        additional_args = { "-j1" },
+                        glob_pattern = { "**/*", "!.git", "!**/*.png", "!**/*.jpeg", "!**/*.jpg", "!**/*.pdf" },
+                    })
+                end,
+                desc = "Grep",
+            },
+            {
+                "<leader>sG",
+                function()
+                    require("telescope.builtin").live_grep({
+                        hidden = true,
+                        no_ignore = true,
                         additional_args = { "-j1" },
                         glob_pattern = { "!.git", "!**/*.png", "!**/*.jpeg", "!**/*.jpg", "!**/*.pdf" },
                     })
                 end,
-                desc = "Grep",
+                desc = "Grep more",
             },
             { "<leader>sh", "<cmd>Telescope help_tags<cr>",   desc = "Help Pages" },
             {
